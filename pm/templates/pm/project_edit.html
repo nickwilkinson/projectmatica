@@ -1,0 +1,22 @@
+{% extends 'pm/base.html' %}
+
+{% block content %}
+
+	<div class="container">
+		<div class="page-header" id="banner">
+			<div class="row">
+				<div class="col-md-12">
+					<h1>Edit project <a href="https://projects.artefactual.com/projects/{{form.redmine_project_url.value}}" target="_blank">#{{ form.redmine_project_id.value }}</a></h1>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<form method="POST" class="form-horizontal pm_form">{%csrf_token%}
+			{{ form.as_p }}
+			<button type="submit" class="save btn btn-default">Save</button>
+		</form>
+	</div>
+
+{% endblock %}

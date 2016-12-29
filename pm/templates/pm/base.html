@@ -1,0 +1,120 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <link rel="shortcut icon" href="{% static 'pm/favicon.ico' %}" type="image/x-icon">
+	  <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+
+    <title>Projectmatica</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="{% static 'pm/css/bootstrap.min.css' %}" />
+
+  	<!-- Include Font Awesome -->
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+  	<!-- Custom CSS -->
+  	<link rel="stylesheet" type="text/css" href="{% static 'pm/css/style.css' %}" />
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+  </head>
+  <body>
+
+	<div class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<a href="{% url 'project_list' %}" class="navbar-brand"><img id="pm_logo" src="{% static 'pm/img/pm-logo_web.png' %}" alt="Projectmatica logo" height="40"></a>
+      </div>
+
+			<div class="navbar-collapse collapse" id="navbar-main">
+				<ul class="nav navbar-nav navbar-right nav-pills">
+
+          {% if show_menu %}
+            <li><a href="{% url 'project_list' %}" class="current_page">Projects</a></li>
+            {% if user.is_superuser %}
+              <li><a href="/admin/pm/project/" target="_blank">Admin</a></li>
+            {% endif %}
+            {% if user.is_authenticated %}
+              <li><a href="{% url 'logout' %}">logout ({{ user.username }})</a></li>
+            {% else %}
+              <li><a href="{% url 'login' %}">Login</a></li>
+            {% endif %}
+          {% endif %}
+<!-- 	<li class="dropdown">
+      <a href="#" class="dropdown-toggle " data-toggle="dropdown" role="button" aria-expanded="false">Assignments <span class="caret"></span></a>
+      <ul id="dropdown_menu" class="dropdown-menu" role="menu">
+        <li><a href="assignments.php?s=hb">Holly</a></li>
+        <li><a href="assignments.php?s=jgc">Jes&#250;s</a></li>
+        <li><a href="assignments.php?s=mc">Mike C</a></li>
+        <li><a href="assignments.php?s=mg">Mike G</a></li>
+        <li><a href="assignments.php?s=jrm">Radda</a></li>
+        <li class="divider"></li>
+        <li><a href="assignments.php?s=dh">Dave H</a></li>
+        <li><a href="assignments.php?s=ha">Hector</a></li>
+        <li><a href="assignments.php?s=sc">Santi</a></li>
+        <li class="divider"></li>
+        <li><a href="assignments.php?s=dg">Dan</a></li>
+        <li><a href="assignments.php?s=sr">Sarah R</a></li>
+        <li><a href="assignments.php?s=sa">Sara A</a></li>
+        <li class="divider"></li>
+    		<li><a href="assignments.php?s=nw">Nick</a></li>
+        <li class="divider"></li>
+        <li><a href="assignments.php?s=dj">David J</a></li>
+        <li><a href="assignments.php?s=js">Justin</a></li>
+        <li class="divider"></li>
+        <li><a href="assignments.php?s=em">Evelyn</a></li>
+      </ul>
+    </li>
+    <li><a href="" class="">Historical data</a></li>
+    <li><a href="/admin/pm/" class="">Admin <span id="admin_badge" class="badge"></span></a></li>
+    </ul>
+ -->
+         </div>
+      </div>
+    </div>
+
+    {% block content %}
+    {% endblock %}
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    {% if autocomplete %}
+    <script>
+      $( function() {
+        var availableTags = {{ client_list|safe }};
+        $( "#id_client_name" ).autocomplete({
+          source: availableTags
+        });
+      });
+    </script>
+    {% endif %}
+
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{% static 'pm/js/bootstrap.min.js' %}"></script>
+
+    <!-- From http://sunnywalker.github.io/jQuery.FilterTable/   -->
+    <script src="{% static 'pm/js/jquery.filtertable.min.js' %}"></script>
+    <script>
+      // table filtering
+      $('table').filterTable({
+        inputSelector: '#search_input',
+        placeholder: 'search projects'
+      });
+    </script>
+  </body>
+</html>

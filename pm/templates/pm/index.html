@@ -1,0 +1,72 @@
+{% extends 'pm/base.html' %}
+
+{% block content %}
+
+	<div class="container">
+		<div class="page-header" id="banner">
+			<div class="row">
+				<div class="col-md-12">
+					<h1>Projects</h1>
+					<p>Work we've spent time on in the last couple of weeks.</p>
+					<div class="form-group">
+						<input id="search_input" type="text" placeholder="filter projects" class="form-control">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<!-- 	Projects list -->
+	<div class="container">
+
+		<table id="projects_table" class="table table-striped table-hover">
+			<thead>
+				<tr>
+					<th>Project name</th>
+					<th class="text-right">Spent in last 14 days</th>
+					<th class="text-right">Overall budget</th>
+					<th class="text-right">Deadline</th>
+				</tr>
+			</thead>
+			<tbody>
+		        {% for entry in sorted_all_projects_details %}
+			        {% if entry.1.project_id is null %}
+				        <tr>
+			                <td>
+							{% if user.is_superuser %}
+							<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+							{% endif %}
+			                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
+			                {% if entry.1.client != "none" %}
+			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
+			                {% else %}
+			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
+			                {% endif %}
+			          			<td class="text-right">{{entry.1.recent_hours}} hrs</td>
+			          			{% if entry.1.budget != 0 %}
+			          				<td class="text-right {{entry.1.budget_status}}">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
+			          			{% else %}
+			          				<td class="text-right">{{entry.1.total_hours}} hrs total spent</td>
+			          			{% endif %}
+			          			<td class="text-right {{entry.1.deadline_status}}">{{ entry.1.deadline }}</td>
+						</tr>
+					{% endif %}
+		        {% endfor %}
+        	</tbody>
+		</table>
+
+    <br/>
+
+    {% if user.is_superuser %}
+	    <h3>Uncategorized projects</h3>
+	    {% for entry in sorted_all_projects_details %}
+	      {% if entry.1.project_id is not null %}
+	        <li>id #{{entry.1.project_id}} -- <a href="{% url 'project_new' pid=entry.1.project_id %}">define project</a></li>
+	      {% endif %}
+	    {% endfor %}
+	    <br/>
+	{% endif %}
+
+  </div>
+
+{% endblock %}

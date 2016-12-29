@@ -1,0 +1,35 @@
+{% extends 'pm/base.html' %}
+
+{% block content %}
+
+<div id="login_container">
+
+	{% if form.errors %}
+		<p>Your username and password didn't match. Please try again.</p>
+	{% endif %}
+
+	<form method="post" action="{% url 'login' %}" class="form-horizontal">
+	  {% csrf_token %}
+	  <fieldset>
+	    <legend>Login</legend>
+	    <div class="form-group">
+	      <!-- <label for="inputEmail" class="col-lg-2 control-label">username</label> -->
+	      {{ form.username.label_tag }}
+	        <!-- <input type="text" class="form-control" id="inputEmail" placeholder="username"> -->
+	        {{ form.username }}
+	    </div>
+	    <div class="form-group">
+	      <!-- <label for="inputPassword" class="col-lg-2 control-label">password</label> -->
+		    {{ form.password.label_tag }}
+	        <!-- <input type="password" class="form-control" id="inputPassword" placeholder="Password"> -->
+	        {{ form.password }}
+	    </div>
+		<div class="form-group">
+			<button type="submit" value="login" class="btn btn-primary">Submit</button>
+			<input type="hidden" name="next" value="{{ next }}" />
+		</div>
+	  </fieldset>
+	</form>
+
+</div>
+{% endblock %}

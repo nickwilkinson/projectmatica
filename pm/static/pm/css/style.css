@@ -1,0 +1,101 @@
+html {overflow-y: scroll;}
+
+body { background-color: #2b3e50; color: #ebebeb; }
+
+.navbar-fixed-top {-moz-box-shadow: 0px 3px 20px 0px #262626; -webkit-box-shadow: 0px 3px 20px 0px #262626; box-shadow:0px 3px 20px 0px #262626;}
+
+#navbar-main li {font-size: 13px;}
+#navbar-main .badge {margin-top: -3px; color: white; background-color: rgb(223, 105, 26); padding:5px;}
+#navbar-main .current_page {font-weight: bold;}
+
+#pm_logo {height: 40px; margin: 0px; margin-top: -8px;}
+
+h1 {margin: 30px 0 20px 0;}
+h2 {margin: 0 0 25px 0;}
+
+/*Login form*/
+#login_container {width:400px; margin:0 auto; margin-top:150px; display: block; position:relative;}
+#login_container label {display: inline-block; margin-left:50px; font-size: 1em; margin-top: 3px;}
+#login_container input {width: 213px; display: inline-block; float:right; margin:0; margin-right:50px;}
+#login_container .form-group {margin-bottom: 25px;}
+#login_container button {position:relative; display: block; width: 100px; margin: 0 auto;}
+#login_container p {text-align: center; color: orange; margin-bottom: 30px;}
+
+.label {margin-left: 10px;}
+.label-non-billable { background-color: #7F66FF;}
+
+#search_input {margin-top:-55px; display:inline; position:absolute; right:15px; width: 200px;}
+
+th { height: 55px; width: 25px; }
+td { height: 50px; width: 25px; }
+
+#projects_table th {font-size: 1.1em;}
+#projects_table td {vertical-align: middle; font-size: 1.3em;}
+#projects_table tr.project_group_break {border-bottom: 2px solid black;}
+#projects_table a.edit_project i {margin-right:10px; margin-left:-25px;}
+
+/* Project Edit form */
+.redmine_url {font-weight: bold;}
+.pm_form label {font-weight: bold; }
+.pm_form input, .pm_form select {width: 400px; position:absolute; left: 250px; color: black;}
+.pm_form input[readonly] {color:white; background:none; border: none;}
+.pm_form ul.errorlist {position:absolute; left: 625px; list-style: none; color:red; margin-top:2px;}
+.pm_form button {width: 100px; margin-top:10px;}
+.pm_form {margin-bottom: 30px;}
+
+/* Project Edit form autocomplete*/
+ .ui-autocomplete {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    float: left;
+    display: none;
+    min-width: 160px;   
+    padding: 4px 0;
+    margin: 0 0 10px 25px;
+    list-style: none;
+    background-color: #3D4A59;
+    border-color: #ccc;
+    border-color: rgba(0, 0, 0, 0.2);
+    border-style: solid;
+    border-width: 1px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding;
+    background-clip: padding-box;
+    *border-right-width: 2px;
+    *border-bottom-width: 2px;
+}
+
+.ui-menu-item {margin-top: 5px;}
+
+.ui-menu-item > a.ui-corner-all {
+    display: block;
+    padding: 3px 15px;
+    clear: both;
+    font-weight: normal;
+    line-height: 18px;
+    color: #555555;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+.ui-state-hover, .ui-state-active {
+    color: #ffffff;
+    text-decoration: none;
+    background-color: #384351;
+    border-radius: 0px;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    background-image: none;
+}
+
+.ui-helper-hidden-accessible {
+	display: none;
+}
