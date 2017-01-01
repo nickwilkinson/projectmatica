@@ -99,3 +99,8 @@ td { height: 50px; width: 25px; }
 .ui-helper-hidden-accessible {
 	display: none;
 }
+
+/* Hide LastPass form button thingy */
+input[type="text"], input[type="password"] {
+    background-position: 150% 50% !important;
+}

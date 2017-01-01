@@ -4,6 +4,8 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from django.conf import settings
+
+# 'Redmine' is a dependency --> pip install python-redmine
 from redmine import Redmine
 from datetime import datetime, date, timedelta
 import time
@@ -17,7 +19,7 @@ from django.shortcuts import redirect
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required, user_passes_test
 
-# 'requests' is a dependency that needs to be installed
+# 'requests' is a dependency --> pip install requests
 # http://stackoverflow.com/questions/17309288/importerror-no-module-named-requests
 import requests
 
