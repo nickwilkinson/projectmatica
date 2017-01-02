@@ -96,7 +96,7 @@
     {% if autocomplete %}
     <script>
       $( function() {
-        var availableTags = {{ client_list|escape|safe }};
+        var availableTags = {{ client_list }};
         $( "#id_client_name" ).autocomplete({
           source: availableTags
         });
