@@ -96,7 +96,7 @@
     {% if autocomplete %}
     <script>
       $( function() {
-        var availableTags = {{ client_list }};
+        var availableTags = ['{{ client_list|join:"',' " }}'];
         $( "#id_client_name" ).autocomplete({
           source: availableTags
         });
