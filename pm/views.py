@@ -66,7 +66,8 @@ def project_list(request):
 			"identifier": entry.redmine_project_url,
 			"total_hours": math.ceil(entry.total_hours_spent),
 			"recent_hours": entry.recent_hours_spent,
-			"tm_cap": entry.tm_cap
+			"tm_cap": entry.tm_cap,
+			"category": entry.category.category_name
 		}
 		defined_projects_details[entry.redmine_project_id] = project_details
 
@@ -122,6 +123,10 @@ def project_list(request):
 				all_projects_details[entry]["tm_status"] = '<span class="label label-info">Time and Materials</span>'
 			else:
 				all_projects_details[entry]["tm_status"] = ''
+
+			# Set Non-billable indicator
+			if all_projects_details[entry]["category"] == "Non-billable":
+				all_projects_details[entry]["category_type"] = '<span class="label label-primary">Non-billable</span>'
 
 		elif entry not in other_pm_project_ids:
 			all_projects_details[entry] = {"project_id": entry, "deadline": ''}

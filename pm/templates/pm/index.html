@@ -38,9 +38,9 @@
 							{% endif %}
 			                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
 			                {% if entry.1.client != "none" %}
-			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
+			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
 			                {% else %}
-			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
+			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
 			                {% endif %}
 			          			<td class="text-right">{{entry.1.recent_hours}} hrs</td>
 			          			{% if entry.1.budget != 0 %}
