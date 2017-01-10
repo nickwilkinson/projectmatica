@@ -67,6 +67,14 @@
 	    <br/>
 	{% endif %}
 
+    {% if user.is_superuser %}
+	    <h3>Inactive projects</h3>
+	    {% for entry in displayed_inactive_projects %}
+	        <li>{{ entry.client }}: {{entry.project_desc}} -- deadline: {{entry.deadline}} | <a href="{% url 'project_edit' pid=entry.redmine_project_id %}">edit</a></li>
+	    {% endfor %}
+	    <br/>
+	{% endif %}
+
   </div>
 
 {% endblock %}
