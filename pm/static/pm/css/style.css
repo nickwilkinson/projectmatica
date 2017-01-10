@@ -39,10 +39,10 @@ td { height: 50px; width: 25px; }
 
 /* Project Edit form */
 .redmine_url {font-weight: bold;}
-.pm_form label {font-weight: bold; }
-.pm_form input, .pm_form select {width: 400px; position:absolute; left: 250px; color: black;}
+.pm_form label {font-weight: bold; width: 150px;}
+.pm_form input, .pm_form select {width: 400px; color: black;}
 .pm_form input[readonly] {color:white; background:none; border: none;}
-.pm_form ul.errorlist {position:absolute; left: 625px; list-style: none; color:red; margin-top:2px;}
+.pm_form ul.errorlist {/*position:absolute; left: 625px;*/ list-style: none; color:red; margin-top:2px;}
 .pm_form button {width: 100px; margin-top:10px;}
 .pm_form {margin-bottom: 30px;}
 
