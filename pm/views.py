@@ -64,7 +64,7 @@ def project_list(request):
 			"project_desc": entry.project_desc,
 			"budget": entry.budget,
 			"identifier": entry.redmine_project_url,
-			"total_hours": int(math.ceil(entry.total_hours_spent)),
+			"total_hours": math.ceil(entry.total_hours_spent),
 			"recent_hours": entry.recent_hours_spent,
 			"tm_cap": entry.tm_cap,
 			"category": entry.category.category_name
