@@ -98,7 +98,7 @@ def project_list(request):
 			# Calculate remaining hours for projects with a budget
 			if all_projects_details[entry]["budget"] != 0:
 				remaining_hours = all_projects_details[entry]["budget"] - all_projects_details[entry]["total_hours"]
-				all_projects_details[entry]["remaining_hours"] = remaining_hours
+				all_projects_details[entry]["remaining_hours"] = int(remaining_hours)
 
 				remaining_budget_pct = remaining_hours / all_projects_details[entry]["total_hours"]
 
