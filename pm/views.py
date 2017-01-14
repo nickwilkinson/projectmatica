@@ -200,6 +200,7 @@ def project_new(request, pid):
 		form.fields['redmine_project_url'].widget.attrs['readonly'] = True
 		form.fields['redmine_project_name'].widget.attrs['readonly'] = True
 		form.fields['deadline'].widget.attrs['placeholder'] = 'yyyy-mm-dd'
+		form.fields['start_date'].widget.attrs['placeholder'] = 'yyyy-mm-dd'
 		form.fields['completed_on'].widget.attrs['placeholder'] = 'yyyy-mm-dd'
 
 	context = {
@@ -236,6 +237,7 @@ def project_edit(request, pid):
 		form.fields['redmine_project_url'].widget.attrs['readonly'] = True
 		form.fields['redmine_project_name'].widget.attrs['readonly'] = True
 		form.fields['deadline'].widget.attrs['placeholder'] = 'yyyy-mm-dd'
+		form.fields['start_date'].widget.attrs['placeholder'] = 'yyyy-mm-dd'
 		form.fields['completed_on'].widget.attrs['placeholder'] = 'yyyy-mm-dd'
 
 	context = {

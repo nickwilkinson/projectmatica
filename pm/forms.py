@@ -16,6 +16,7 @@ class ProjectForm(forms.ModelForm):
 			'deadline',
 			'analysis_pct',
 			'admin_pct',
+			'start_date',
 			'completed_on',
 			'product',
 			'category')

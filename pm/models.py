@@ -28,6 +28,7 @@ class Project(models.Model):
 	deadline = models.DateField(blank=True, null=True)
 	analysis_pct = models.DecimalField('Analysis %', max_digits=3, decimal_places=2, default=0.00)
 	admin_pct = models.DecimalField('Admin %', max_digits=3, decimal_places=2, default=0.00)
+	start_date = models.DateField('Start date', blank=True, null=True)
 	completed_on = models.DateField('Completion date', blank=True, null=True)
 	total_hours_spent = models.DecimalField('Total hours spent', max_digits=8, decimal_places=2, default=0.00)
 	recent_hours_spent = models.DecimalField('Recent hours spent', max_digits=8, decimal_places=2, default=0.00)

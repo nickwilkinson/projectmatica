@@ -21,6 +21,7 @@ class ProjectAdmin(admin.ModelAdmin):
 		(None,					{'fields': ['deadline']}),
 		(None,					{'fields': ['analysis_pct']}),
 		(None,					{'fields': ['admin_pct']}),
+		(None,					{'fields': ['start_date']}),
 		(None,					{'fields': ['completed_on']}),
 		(None,					{'fields': ['total_hours_spent']}),
 		(None,					{'fields': ['recent_hours_spent']}),
