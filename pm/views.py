@@ -106,7 +106,7 @@ def project_list(request):
 					all_projects_details[entry]["remaining_hours"] = int(remaining_hours)
 				else:
 					tmp_total = all_projects_details[entry]["total_hours"] - all_projects_details[entry]["total_admin_hours"] - all_projects_details[entry]["total_analysis_hours"]
-					remaining_hours = all_projects_details[entry]["budget"] - (tmp_total + (all_projects_details[entry]["total_admin_hours"] * all_projects_details[entry]["admin_pct"]) + (all_projects_details[entry]["total_analysis_hours"] * all_projects_details[entry]["analysis_pct"]))
+					remaining_hours = all_projects_details[entry]["budget"] - (tmp_total + (float(all_projects_details[entry]["total_admin_hours"]) * float(all_projects_details[entry]["admin_pct"])) + (float(all_projects_details[entry]["total_analysis_hours"]) * float(all_projects_details[entry]["analysis_pct"])))
 					all_projects_details[entry]["remaining_hours"] = int(remaining_hours)
 
 				remaining_budget_pct = remaining_hours / all_projects_details[entry]["total_hours"]
