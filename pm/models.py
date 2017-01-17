@@ -31,6 +31,8 @@ class Project(models.Model):
 	start_date = models.DateField('Start date', blank=True, null=True)
 	completed_on = models.DateField('Completion date', blank=True, null=True)
 	total_hours_spent = models.DecimalField('Total hours spent', max_digits=8, decimal_places=2, default=0.00)
+	total_admin_hours_spent = models.DecimalField('Total admin hours spent', max_digits=8, decimal_places=2, default=0.00)
+	total_analysis_hours_spent = models.DecimalField('Total analysis hours spent', max_digits=8, decimal_places=2, default=0.00)
 	recent_hours_spent = models.DecimalField('Recent hours spent', max_digits=8, decimal_places=2, default=0.00)
 	product = models.ForeignKey(Product, on_delete=models.CASCADE, default=4) #defauls to "None" product
 	category = models.ForeignKey(Category, on_delete=models.CASCADE, default=9) #defauls to "Uncategorized"

@@ -63,6 +63,8 @@ def project_list(request):
 			"deadline": entry.deadline,
 			"project_desc": entry.project_desc,
 			"budget": entry.budget,
+			"analysis_pct": entry.analysis_pct,
+			"admin_pct": entry.admin_pct,
 			"identifier": entry.redmine_project_url,
 			"total_hours": math.ceil(entry.total_hours_spent),
 			"recent_hours": entry.recent_hours_spent,
@@ -97,8 +99,10 @@ def project_list(request):
 			
 			# Calculate remaining hours for projects with a budget
 			if all_projects_details[entry]["budget"] != 0:
-				remaining_hours = all_projects_details[entry]["budget"] - all_projects_details[entry]["total_hours"]
-				all_projects_details[entry]["remaining_hours"] = int(remaining_hours)
+				if (all_projects_details[entry]["admin_pct"] == 0) and (all_projects_details[entry]["analysis_pct"] == 0):
+					remaining_hours = all_projects_details[entry]["budget"] - all_projects_details[entry]["total_hours"]
+					all_projects_details[entry]["remaining_hours"] = int(remaining_hours)
+
 
 				remaining_budget_pct = remaining_hours / all_projects_details[entry]["total_hours"]
 

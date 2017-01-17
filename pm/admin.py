@@ -9,7 +9,7 @@ class ProductAdmin(admin.ModelAdmin):
 	extra = 1
 
 class ProjectAdmin(admin.ModelAdmin):
-	readonly_fields = ('redmine_project_url','redmine_project_id','redmine_project_name','total_hours_spent','recent_hours_spent')
+	readonly_fields = ('redmine_project_url','redmine_project_id','redmine_project_name','total_hours_spent','recent_hours_spent', 'total_admin_hours_spent', 'total_analysis_hours_spent')
 	fieldsets = [
 		(None,					{'fields': ['redmine_project_url']}),
 		(None,					{'fields': ['redmine_project_id']}),
@@ -24,6 +24,8 @@ class ProjectAdmin(admin.ModelAdmin):
 		(None,					{'fields': ['start_date']}),
 		(None,					{'fields': ['completed_on']}),
 		(None,					{'fields': ['total_hours_spent']}),
+		(None,					{'fields': ['total_admin_hours_spent']}),
+		(None,					{'fields': ['total_analysis_hours_spent']}),
 		(None,					{'fields': ['recent_hours_spent']}),
 		(None,					{'fields': ['product']}),
 		(None,					{'fields': ['category']}),

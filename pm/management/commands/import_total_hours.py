@@ -65,11 +65,19 @@ class Command(BaseCommand):
 		for project_id in projects_to_update:
 			project_time_entries = redmine.time_entry.filter(project_id=project_id)
 			total_project_hours = 0
+			total_admin_hours = 0
+			total_analysis_hours = 0
 			for entry in project_time_entries:
 				total_project_hours += entry.hours
+				if entry.activity.name == "Administration":
+					total_admin_hours += entry.hours
+				if entry.activity.name == "Analysis/Design":
+					total_analysis_hours += entry.hours
 			
 			pm_project = Project.objects.get(redmine_project_id=project_id)
 			pm_project.total_hours_spent = total_project_hours
+			pm_project.total_admin_hours_spent = total_admin_hours
+			pm_project.total_analysis_hours_spent = total_analysis_hours
 			pm_project.recent_hours_spent = recent_project_hours[project_id]
 			pm_project.save()
 			temp.append([project_id,total_project_hours,recent_project_hours[project_id]])
