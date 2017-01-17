@@ -67,6 +67,8 @@ def project_list(request):
 			"admin_pct": entry.admin_pct,
 			"identifier": entry.redmine_project_url,
 			"total_hours": math.ceil(entry.total_hours_spent),
+			"total_admin_hours": math.ceil(entry.total_admin_hours_spent),
+			"total_analysis_hours": math.ceil(entry.total_analysis_hours_spent),
 			"recent_hours": entry.recent_hours_spent,
 			"tm_cap": entry.tm_cap,
 			"category": entry.category.category_name
@@ -99,10 +101,13 @@ def project_list(request):
 			
 			# Calculate remaining hours for projects with a budget
 			if all_projects_details[entry]["budget"] != 0:
-				if (all_projects_details[entry]["admin_pct"] == 0) and (all_projects_details[entry]["analysis_pct"] == 0):
+				if (all_projects_details[entry]["admin_pct"] == 0.0) and (all_projects_details[entry]["analysis_pct"] == 0.0):
 					remaining_hours = all_projects_details[entry]["budget"] - all_projects_details[entry]["total_hours"]
 					all_projects_details[entry]["remaining_hours"] = int(remaining_hours)
-
+				else:
+					tmp_total = all_projects_details[entry]["total_hours"] - all_projects_details[entry]["total_admin_hours"] - all_projects_details[entry]["total_analysis_hours"]
+					remaining_hours = all_projects_details[entry]["budget"] - (tmp_total + (all_projects_details[entry]["total_admin_hours"] * all_projects_details[entry]["admin_pct"]) + (all_projects_details[entry]["total_analysis_hours"] * all_projects_details[entry]["analysis_pct"]))
+					all_projects_details[entry]["remaining_hours"] = int(remaining_hours)
 
 				remaining_budget_pct = remaining_hours / all_projects_details[entry]["total_hours"]
 
