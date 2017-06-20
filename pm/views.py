@@ -51,7 +51,7 @@ def project_list(request):
 		recent_project_ids.append(entry.redmine_project_id)
 
 	# Get a list of all defined projects from the Projectmatica db that:
-	#  - are categorized as Billable or Non-billable
+	#  - are categorized as Billable or Non-billable (don't get list of non-billable projects, yet!)
 	#  - don't have a completed_on date
 	# defined_projects = Project.objects.filter(category__category_name__in = ['Billable', 'Non-billable']).exclude(completed_on__isnull=False)
 	defined_projects = Project.objects.filter(category__category_name__in = ['Billable']).exclude(completed_on__isnull=False)
