@@ -138,7 +138,8 @@ def project_list(request):
 			# if all_projects_details[entry]["category"] == "Non-billable":
 			# 	all_projects_details[entry]["category_type"] = '<span class="label label-primary">Non-billable</span>'
 
-		# elif entry not in other_pm_project_ids:
+		# Add list of Uncategorized projects
+		elif entry not in other_pm_project_ids:
 			all_projects_details[entry] = {"project_id": entry, "deadline": ''}
 
 	sorted_all_projects_details = sorted(all_projects_details.items(), key=lambda v: (v[1]['deadline'] == '', v[1]['deadline'] is None, v[1]['deadline']))
