@@ -28,7 +28,8 @@ class Command(BaseCommand):
 		recent_project_ids = list(recent_project_hours.keys())
 
 		# Delete any existig recent time entries from RecentWork table
-		existing_recent_time_entries = RecentWork.objects.all().delete
+		#existing_recent_time_entries = RecentWork.objects.all().delete
+		RecentWork.objects.all().delete()
 
 		# Add project_ids to RecentWork table from the Redmine query
 		for entry in recent_project_ids:
