@@ -139,31 +139,31 @@ def project_list(request):
 			# 	all_projects_details[entry]["category_type"] = '<span class="label label-primary">Non-billable</span>'
 
 		# elif entry not in other_pm_project_ids:
-		# 	all_projects_details[entry] = {"project_id": entry, "deadline": ''}
+			all_projects_details[entry] = {"project_id": entry, "deadline": ''}
 
 	sorted_all_projects_details = sorted(all_projects_details.items(), key=lambda v: (v[1]['deadline'] == '', v[1]['deadline'] is None, v[1]['deadline']))
 
 
 	# Build a list of inactivate projects
-	# all_billable_projects = Project.objects.filter(category__category_name__in = ['Billable']).exclude(completed_on__isnull=False)
-	# displayed_inactive_projects = []
-	# inactive_project_details = dict()
-	# for entry in all_billable_projects:
-	# 	if entry.redmine_project_id not in recent_project_ids:
-	# 		inactive_project_details = {
-	# 			"redmine_project_id": entry.redmine_project_id,
-	# 			"client": entry.client_name,
-	# 			"deadline": entry.deadline,
-	# 			"project_desc": entry.project_desc,
-	# 			"identifier": entry.redmine_project_url
-	# 		}
-	# 		displayed_inactive_projects.append(inactive_project_details)
+	all_billable_projects = Project.objects.filter(category__category_name__in = ['Billable']).exclude(completed_on__isnull=False)
+	displayed_inactive_projects = []
+	inactive_project_details = dict()
+	for entry in all_billable_projects:
+		if entry.redmine_project_id not in recent_project_ids:
+			inactive_project_details = {
+				"redmine_project_id": entry.redmine_project_id,
+				"client": entry.client_name,
+				"deadline": entry.deadline,
+				"project_desc": entry.project_desc,
+				"identifier": entry.redmine_project_url
+			}
+			displayed_inactive_projects.append(inactive_project_details)
 
 
 	context = {
 		"show_menu" : True,
-		"sorted_all_projects_details": sorted_all_projects_details
-		# "displayed_inactive_projects": displayed_inactive_projects
+		"sorted_all_projects_details": sorted_all_projects_details,
+		"displayed_inactive_projects": displayed_inactive_projects
 	}
 
 	return render(request, 'pm/index.html', context)
