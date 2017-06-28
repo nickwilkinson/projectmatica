@@ -72,7 +72,8 @@ def project_list(request):
 			"total_analysis_hours": math.ceil(entry.total_analysis_hours_spent),
 			"recent_hours": entry.recent_hours_spent,
 			"tm_cap": entry.tm_cap,
-			"category": entry.category.category_name
+			"category": entry.category.category_name,
+			"product": entry.product.product_name
 		}
 		defined_projects_details[entry.redmine_project_id] = project_details
 
