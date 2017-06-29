@@ -94,7 +94,10 @@ def project_list(request):
 		if project_id in all_pm_project_ids:
 			other_pm_project_ids.remove(project_id)
 
+	
 	# Build a list of projects for display on the dashboard
+	product_count = [0, 0, 0]
+
 	all_projects_details = dict()
 	for entry in recent_project_ids:
 		if entry in defined_project_ids:
@@ -135,6 +138,14 @@ def project_list(request):
 			else:
 				all_projects_details[entry]["tm_status"] = ''
 
+			# Determine if there are any projects for each product
+			if all_projects_details[entry]["product"] == 'AtoM':
+				product_count[0] = 1
+			elif all_projects_details[entry]["product"] == 'Archivematica':
+				product_count[1] = 1
+			elif all_projects_details[entry]["product"] == 'Binder':
+				product_count[2] = 1
+
 			# Set Non-billable indicator
 			# if all_projects_details[entry]["category"] == "Non-billable":
 			# 	all_projects_details[entry]["category_type"] = '<span class="label label-primary">Non-billable</span>'
@@ -144,7 +155,6 @@ def project_list(request):
 			all_projects_details[entry] = {"project_id": entry, "deadline": ''}
 
 	sorted_all_projects_details = sorted(all_projects_details.items(), key=lambda v: (v[1]['deadline'] == '', v[1]['deadline'] is None, v[1]['deadline']))
-
 
 	# Build a list of inactivate projects
 	all_billable_projects = Project.objects.filter(category__category_name__in = ['Billable']).exclude(completed_on__isnull=False)
@@ -165,7 +175,8 @@ def project_list(request):
 	context = {
 		"show_menu" : True,
 		"sorted_all_projects_details": sorted_all_projects_details,
-		"displayed_inactive_projects": displayed_inactive_projects
+		"displayed_inactive_projects": displayed_inactive_projects,
+		"product_count": product_count
 	}
 
 	return render(request, 'pm/index.html', context)

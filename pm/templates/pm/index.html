@@ -99,6 +99,7 @@
 
 
 		<h2 class="product">Binder</h2>
+		{% if product_count.2 > 0 %}
 		<table id="projects_table" class="table table-striped table-hover">
 			<thead>
 				<tr>
@@ -136,6 +137,9 @@
 		        {% endfor %}
         	</tbody>
 		</table>
+		{% else %}
+		<p class="no_projects">No current projects</p>
+		{% endif %}
     
     <br/>
 

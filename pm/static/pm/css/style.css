@@ -40,6 +40,7 @@ td { height: 50px; width: 25px; }
 #projects_table td {vertical-align: middle; font-size: 1.3em;}
 #projects_table tr.project_group_break {border-bottom: 2px solid black;}
 #projects_table a.edit_project i {margin-right:10px; margin-left:-25px;}
+p.no_projects {margin-top: 20px; font-size: 1.25em;}
 
 /* Project Edit form */
 .redmine_url {font-weight: bold;}
