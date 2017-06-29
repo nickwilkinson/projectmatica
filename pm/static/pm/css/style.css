@@ -35,7 +35,7 @@ h2.product {margin: 10px 0 -10px 0; font-weight: 400;}
 th { height: 55px; width: 25px; }
 td { height: 50px; width: 25px; }
 
-#projects_table {margin-bottom:50px;}
+.table_wrapper {margin-bottom:60px;}
 #projects_table th {font-size: 1.1em;}
 #projects_table td {vertical-align: middle; font-size: 1.3em;}
 #projects_table tr.project_group_break {border-bottom: 2px solid black;}
