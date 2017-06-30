@@ -95,8 +95,8 @@ def project_list(request):
 			other_pm_project_ids.remove(project_id)
 
 	
-	# Build a list of projects for display on the dashboard
-	product_count = [0, 0, 0]
+	# Build a list of projects for display on the dashboard [AtoM, AArchivematica, Binder, Combo]
+	product_count = [0, 0, 0, 0]
 
 	all_projects_details = dict()
 	for entry in recent_project_ids:
@@ -145,6 +145,8 @@ def project_list(request):
 				product_count[1] = 1
 			elif all_projects_details[entry]["product"] == 'Binder':
 				product_count[2] = 1
+			elif all_projects_details[entry]["product"] == 'Combo':
+				product_count[3] = 1
 
 			# Set Non-billable indicator
 			# if all_projects_details[entry]["category"] == "Non-billable":

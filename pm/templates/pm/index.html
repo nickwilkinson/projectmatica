@@ -19,9 +19,9 @@
 <!-- 	Projects list -->
 	<div class="container">
 
+		{% if product_count.0 > 0 %}
 		<div class="table_wrapper">
 		<h2 class="product">AtoM</h2>
-		{% if product_count.0 > 0 %}
 		<table id="projects_table" class="table table-striped table-hover">
 			<thead>
 				<tr>
@@ -59,14 +59,12 @@
 		        {% endfor %}
         	</tbody>
 		</table>
-		{% else %}
-		<p class="no_projects">No current projects</p>
-		{% endif %}
 		</div>
+		{% endif %}
 
+		{% if product_count.1 > 0 %}
 		<div class="table_wrapper">
 		<h2 class="product">Archivematica</h2>
-		{% if product_count.1 > 0 %}
 		<table id="projects_table" class="table table-striped table-hover">
 			<thead>
 				<tr>
@@ -104,14 +102,13 @@
 		        {% endfor %}
         	</tbody>
 		</table>
-		{% else %}
-		<p class="no_projects">No current projects</p>
-		{% endif %}
 		</div>
+		{% endif %}
 
+		
+		{% if product_count.3 > 0 %}
 		<div class="table_wrapper">
-		<h2 class="product">Binder</h2>
-		{% if product_count.2 > 0 %}
+		<h2 class="product">Mixed projects</h2>
 		<table id="projects_table" class="table table-striped table-hover">
 			<thead>
 				<tr>
@@ -149,10 +146,53 @@
 		        {% endfor %}
         	</tbody>
 		</table>
-		{% else %}
-		<p class="no_projects">No current projects</p>
-		{% endif %}
     	</div>
+    	{% endif %}
+
+
+		{% if product_count.2 > 0 %}
+		<div class="table_wrapper">
+		<h2 class="product">Binder</h2>
+		<table id="projects_table" class="table table-striped table-hover">
+			<thead>
+				<tr>
+					<th>Project name</th>
+					<th class="text-right">Spent in last 14 days</th>
+					<th class="text-right">Overall budget</th>
+					<th class="text-right">Deadline</th>
+				</tr>
+			</thead>
+			<tbody>
+		        {% for entry in sorted_all_projects_details %}
+			        {% if entry.1.project_id is null %}
+				        {% if entry.1.product == "Binder" %}
+				        <tr>
+			                <td>
+							{% if user.is_superuser %}
+							<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+							{% endif %}
+			                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
+			                {% if entry.1.client != "none" %}
+			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
+			                {% else %}
+			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
+			                {% endif %}
+			          			<td class="text-right">{{entry.1.recent_hours}} hrs</td>
+			          			{% if entry.1.budget != 0 %}
+			          				<td class="text-right {{entry.1.budget_status}}">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
+			          			{% else %}
+			          				<td class="text-right">{{entry.1.total_hours}} hrs total spent</td>
+			          			{% endif %}
+			          			<td class="text-right {{entry.1.deadline_status}}">{{ entry.1.deadline }}</td>
+						</tr>
+						{% endif %}
+					{% endif %}
+		        {% endfor %}
+        	</tbody>
+		</table>
+    	</div>
+    	{% endif %}
+
     <br/>
 
     {% if user.is_superuser %}
