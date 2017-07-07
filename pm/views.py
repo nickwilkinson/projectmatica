@@ -51,10 +51,10 @@ def project_list(request):
 		recent_project_ids.append(entry.redmine_project_id)
 
 	# Get a list of all defined projects from the Projectmatica db that:
-	#  - are categorized as Billable or Non-billable (don't get list of non-billable projects, yet!)
+	#  - are categorized as Billable or Non-billable
 	#  - don't have a completed_on date
-	# defined_projects = Project.objects.filter(category__category_name__in = ['Billable', 'Non-billable']).exclude(completed_on__isnull=False)
-	defined_projects = Project.objects.filter(category__category_name__in = ['Billable']).exclude(completed_on__isnull=False)
+	defined_projects = Project.objects.filter(category__category_name__in = ['Billable', 'Non-billable']).exclude(completed_on__isnull=False)
+	# defined_projects = Project.objects.filter(category__category_name__in = ['Billable']).exclude(completed_on__isnull=False)
 
 	defined_projects_details = dict()
 	project_details = dict()
@@ -97,6 +97,7 @@ def project_list(request):
 	
 	# Build a list of projects for display on the dashboard [AtoM, AArchivematica, Binder, Combo]
 	product_count = [0, 0, 0, 0]
+	non_billable_count = [0, 0, 0, 0]
 
 	all_projects_details = dict()
 	for entry in recent_project_ids:
@@ -149,8 +150,18 @@ def project_list(request):
 				product_count[3] = 1
 
 			# Set Non-billable indicator
-			# if all_projects_details[entry]["category"] == "Non-billable":
-			# 	all_projects_details[entry]["category_type"] = '<span class="label label-primary">Non-billable</span>'
+			if all_projects_details[entry]["category"] == "Non-billable":
+				all_projects_details[entry]["category_type"] = '<span class="label label-primary">Non-billable</span>'
+				# set counter for each product type
+				if all_projects_details[entry]["product"] == 'AtoM':
+					non_billable_count[0] = 1
+				elif all_projects_details[entry]["product"] == 'Archivematica':
+					non_billable_count[1] = 1
+				elif all_projects_details[entry]["product"] == 'Binder':
+					non_billable_count[2] = 1
+				elif all_projects_details[entry]["product"] == 'Combo':
+					non_billable_count[3] = 1
+
 
 		# Add list of Uncategorized projects
 		elif entry not in other_pm_project_ids:
@@ -178,7 +189,8 @@ def project_list(request):
 		"show_menu" : True,
 		"sorted_all_projects_details": sorted_all_projects_details,
 		"displayed_inactive_projects": displayed_inactive_projects,
-		"product_count": product_count
+		"product_count": product_count,
+		"non_billable_count": non_billable_count
 	}
 
 	return render(request, 'pm/index.html', context)

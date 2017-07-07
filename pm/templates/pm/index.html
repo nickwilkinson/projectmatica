@@ -34,7 +34,7 @@
 			<tbody>
 		        {% for entry in sorted_all_projects_details %}
 			        {% if entry.1.project_id is null %}
-				        {% if entry.1.product == "AtoM" %}
+				        {% if entry.1.product == "AtoM" and entry.1.category != "Non-billable" %}
 				        <tr>
 			                <td>
 							{% if user.is_superuser %}
@@ -57,6 +57,36 @@
 						{% endif %}
 					{% endif %}
 		        {% endfor %}
+		        {% if non_billable_count.0 > 0 %}
+		        <tr class="non-billable-header non-billable">
+		        	<td colspan="4">Non-billable projects</td>
+	        	</tr>
+		        {% for entry in sorted_all_projects_details %}
+			        {% if entry.1.project_id is null %}
+				        {% if entry.1.product == "AtoM" and entry.1.category == "Non-billable" %}
+				        <tr class="non-billable">
+			                <td>
+							{% if user.is_superuser %}
+							<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+							{% endif %}
+			                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
+			                {% if entry.1.client != "none" %}
+			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
+			                {% else %}
+			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
+			                {% endif %}
+			          			<td class="text-right">{{entry.1.recent_hours}} hrs</td>
+			          			{% if entry.1.budget != 0 %}
+			          				<td class="text-right {{entry.1.budget_status}}">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
+			          			{% else %}
+			          				<td class="text-right">{{entry.1.total_hours}} hrs total spent</td>
+			          			{% endif %}
+			          			<td class="text-right {{entry.1.deadline_status}}">{{ entry.1.deadline }}</td>
+						</tr>
+						{% endif %}
+					{% endif %}
+		        {% endfor %}
+		        {% endif %}	        	        	
         	</tbody>
 		</table>
 		</div>
@@ -77,7 +107,7 @@
 			<tbody>
 		        {% for entry in sorted_all_projects_details %}
 			        {% if entry.1.project_id is null %}
-				        {% if entry.1.product == "Archivematica" %}
+				        {% if entry.1.product == "Archivematica" and entry.1.category != "Non-billable" %}
 				        <tr>
 			                <td>
 							{% if user.is_superuser %}
@@ -100,6 +130,36 @@
 						{% endif %}
 					{% endif %}
 		        {% endfor %}
+		        {% if non_billable_count.1 > 0 %}
+		        <tr class="non-billable-header non-billable">
+		        	<td colspan="4">Non-billable projects</td>
+	        	</tr>
+		        {% for entry in sorted_all_projects_details %}
+			        {% if entry.1.project_id is null %}
+				        {% if entry.1.product == "Archivematica" and entry.1.category == "Non-billable" %}
+				        <tr class="non-billable">
+			                <td>
+							{% if user.is_superuser %}
+							<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+							{% endif %}
+			                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
+			                {% if entry.1.client != "none" %}
+			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
+			                {% else %}
+			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
+			                {% endif %}
+			          			<td class="text-right">{{entry.1.recent_hours}} hrs</td>
+			          			{% if entry.1.budget != 0 %}
+			          				<td class="text-right {{entry.1.budget_status}}">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
+			          			{% else %}
+			          				<td class="text-right">{{entry.1.total_hours}} hrs total spent</td>
+			          			{% endif %}
+			          			<td class="text-right {{entry.1.deadline_status}}">{{ entry.1.deadline }}</td>
+						</tr>
+						{% endif %}
+					{% endif %}
+		        {% endfor %}
+		        {% endif %}
         	</tbody>
 		</table>
 		</div>
@@ -121,7 +181,7 @@
 			<tbody>
 		        {% for entry in sorted_all_projects_details %}
 			        {% if entry.1.project_id is null %}
-				        {% if entry.1.product == "Combo" %}
+				        {% if entry.1.product == "Combo" and entry.1.category != "Non-billable" %}
 				        <tr>
 			                <td>
 							{% if user.is_superuser %}
@@ -144,6 +204,36 @@
 						{% endif %}
 					{% endif %}
 		        {% endfor %}
+		        {% if non_billable_count.2 > 0 %}
+		        <tr class="non-billable-header non-billable">
+		        	<td colspan="4">Non-billable projects</td>
+	        	</tr>
+		        {% for entry in sorted_all_projects_details %}
+			        {% if entry.1.project_id is null %}
+				        {% if entry.1.product == "Combo" and entry.1.category == "Non-billable" %}
+				        <tr class="non-billable">
+			                <td>
+							{% if user.is_superuser %}
+							<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+							{% endif %}
+			                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
+			                {% if entry.1.client != "none" %}
+			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
+			                {% else %}
+			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
+			                {% endif %}
+			          			<td class="text-right">{{entry.1.recent_hours}} hrs</td>
+			          			{% if entry.1.budget != 0 %}
+			          				<td class="text-right {{entry.1.budget_status}}">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
+			          			{% else %}
+			          				<td class="text-right">{{entry.1.total_hours}} hrs total spent</td>
+			          			{% endif %}
+			          			<td class="text-right {{entry.1.deadline_status}}">{{ entry.1.deadline }}</td>
+						</tr>
+						{% endif %}
+					{% endif %}
+		        {% endfor %}
+		        {% endif %}        	
         	</tbody>
 		</table>
     	</div>
@@ -165,7 +255,7 @@
 			<tbody>
 		        {% for entry in sorted_all_projects_details %}
 			        {% if entry.1.project_id is null %}
-				        {% if entry.1.product == "Binder" %}
+				        {% if entry.1.product == "Binder" and entry.1.category != "Non-billable" %}
 				        <tr>
 			                <td>
 							{% if user.is_superuser %}
@@ -188,6 +278,36 @@
 						{% endif %}
 					{% endif %}
 		        {% endfor %}
+		        {% if non_billable_count.2 > 0 %}
+		        <tr class="non-billable-header non-billable">
+		        	<td colspan="4">Non-billable projects</td>
+	        	</tr>
+		        {% for entry in sorted_all_projects_details %}
+			        {% if entry.1.project_id is null %}
+				        {% if entry.1.product == "Binder" and entry.1.category == "Non-billable" %}
+				        <tr class="non-billable">
+			                <td>
+							{% if user.is_superuser %}
+							<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+							{% endif %}
+			                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
+			                {% if entry.1.client != "none" %}
+			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
+			                {% else %}
+			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
+			                {% endif %}
+			          			<td class="text-right">{{entry.1.recent_hours}} hrs</td>
+			          			{% if entry.1.budget != 0 %}
+			          				<td class="text-right {{entry.1.budget_status}}">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
+			          			{% else %}
+			          				<td class="text-right">{{entry.1.total_hours}} hrs total spent</td>
+			          			{% endif %}
+			          			<td class="text-right {{entry.1.deadline_status}}">{{ entry.1.deadline }}</td>
+						</tr>
+						{% endif %}
+					{% endif %}
+		        {% endfor %}
+		        {% endif %}        	
         	</tbody>
 		</table>
     	</div>

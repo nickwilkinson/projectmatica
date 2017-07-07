@@ -39,6 +39,9 @@ td { height: 50px; width: 25px; }
 #projects_table th {font-size: 1.1em;}
 #projects_table td {vertical-align: middle; font-size: 1.3em;}
 #projects_table tr.project_group_break {border-bottom: 2px solid black;}
+#projects_table tr.non-billable {border-left: 3px solid rgb(215,81,0);}
+#projects_table tr.non-billable-header {background-color: rgb(43,62,80); font-weight: bold;}
+#projects_table tr.non-billable-header td {border-top: 3px solid rgb(223,105,26);}
 #projects_table a.edit_project i {margin-right:10px; margin-left:-25px;}
 p.no_projects {margin-top: 20px; font-size: 1.25em;}
 
