@@ -151,7 +151,7 @@ def project_list(request):
 
 			# Set Non-billable indicator
 			if all_projects_details[entry]["category"] == "Non-billable":
-				all_projects_details[entry]["category_type"] = '<span class="label label-primary">Non-billable</span>'
+				#all_projects_details[entry]["category_type"] = '<span class="label label-primary">Non-billable</span>'
 				# set counter for each product type
 				if all_projects_details[entry]["product"] == 'AtoM':
 					non_billable_count[0] = 1
