@@ -95,7 +95,7 @@ def project_list(request):
 			other_pm_project_ids.remove(project_id)
 
 	
-	# Build a list of projects for display on the dashboard [AtoM, AArchivematica, Binder, Combo]
+	# Build a list of projects for display on the dashboard [AtoM, Archivematica, Binder, Combo]
 	product_count = [0, 0, 0, 0]
 	non_billable_count = [0, 0, 0, 0]
 
