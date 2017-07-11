@@ -36,7 +36,7 @@
 			        {% if entry.1.project_id is null %}
 				        {% if entry.1.product == "AtoM" and entry.1.category != "Non-billable" %}
 				        <tr>
-			                <td>
+			                <td class="first-column">
 							{% if user.is_superuser %}
 							<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 							{% endif %}
@@ -46,13 +46,13 @@
 			                {% else %}
 			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
 			                {% endif %}
-			          			<td class="text-right">{{entry.1.recent_hours}} hrs</td>
+			          			<td class="text-right recent-hrs-column">{{entry.1.recent_hours}} hrs</td>
 			          			{% if entry.1.budget != 0 %}
-			          				<td class="text-right {{entry.1.budget_status}}">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
+			          				<td class="text-right budget-column {{entry.1.budget_status}}">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
 			          			{% else %}
-			          				<td class="text-right">{{entry.1.total_hours}} hrs total spent</td>
+			          				<td class="text-right budget-column">{{entry.1.total_hours}} hrs total spent</td>
 			          			{% endif %}
-			          			<td class="text-right {{entry.1.deadline_status}}">{{ entry.1.deadline }}</td>
+			          			<td class="text-right deadline-column {{entry.1.deadline_status}}">{{ entry.1.deadline }}</td>
 						</tr>
 						{% endif %}
 					{% endif %}
@@ -75,13 +75,13 @@
 			                {% else %}
 			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
 			                {% endif %}
-			          			<td class="text-right">{{entry.1.recent_hours}} hrs</td>
+			          			<td class="text-right recent-hrs-column">{{entry.1.recent_hours}} hrs</td>
 			          			{% if entry.1.budget != 0 %}
-			          				<td class="text-right {{entry.1.budget_status}}">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
+			          				<td class="text-right budget-column{{entry.1.budget_status}}">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
 			          			{% else %}
-			          				<td class="text-right">{{entry.1.total_hours}} hrs total spent</td>
+			          				<td class="text-right budget-column">{{entry.1.total_hours}} hrs total spent</td>
 			          			{% endif %}
-			          			<td class="text-right {{entry.1.deadline_status}}">{{ entry.1.deadline }}</td>
+			          			<td class="text-right deadline-column {{entry.1.deadline_status}}">{{ entry.1.deadline }}</td>
 						</tr>
 						{% endif %}
 					{% endif %}
@@ -119,13 +119,13 @@
 			                {% else %}
 			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
 			                {% endif %}
-			          			<td class="text-right">{{entry.1.recent_hours}} hrs</td>
+			          			<td class="text-right recent-hrs-column">{{entry.1.recent_hours}} hrs</td>
 			          			{% if entry.1.budget != 0 %}
-			          				<td class="text-right {{entry.1.budget_status}}">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
+			          				<td class="text-right budget-column{{entry.1.budget_status}}">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
 			          			{% else %}
-			          				<td class="text-right">{{entry.1.total_hours}} hrs total spent</td>
+			          				<td class="text-right budget-column">{{entry.1.total_hours}} hrs total spent</td>
 			          			{% endif %}
-			          			<td class="text-right {{entry.1.deadline_status}}">{{ entry.1.deadline }}</td>
+			          			<td class="text-right deadline-column {{entry.1.deadline_status}}">{{ entry.1.deadline }}</td>
 						</tr>
 						{% endif %}
 					{% endif %}
@@ -148,13 +148,13 @@
 			                {% else %}
 			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
 			                {% endif %}
-			          			<td class="text-right">{{entry.1.recent_hours}} hrs</td>
+			          			<td class="text-right recent-hrs-column">{{entry.1.recent_hours}} hrs</td>
 			          			{% if entry.1.budget != 0 %}
-			          				<td class="text-right {{entry.1.budget_status}}">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
+			          				<td class="text-right budget-column{{entry.1.budget_status}}">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
 			          			{% else %}
-			          				<td class="text-right">{{entry.1.total_hours}} hrs total spent</td>
+			          				<td class="text-right budget-column">{{entry.1.total_hours}} hrs total spent</td>
 			          			{% endif %}
-			          			<td class="text-right {{entry.1.deadline_status}}">{{ entry.1.deadline }}</td>
+			          			<td class="text-right deadline-column {{entry.1.deadline_status}}">{{ entry.1.deadline }}</td>
 						</tr>
 						{% endif %}
 					{% endif %}
@@ -197,13 +197,13 @@
 			                {% else %}
 			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
 			                {% endif %}
-			          			<td class="text-right">{{entry.1.recent_hours}} hrs</td>
+			          			<td class="text-right recent-hrs-column">{{entry.1.recent_hours}} hrs</td>
 			          			{% if entry.1.budget != 0 %}
-			          				<td class="text-right {{entry.1.budget_status}}">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
+			          				<td class="text-right budget-column{{entry.1.budget_status}}">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
 			          			{% else %}
-			          				<td class="text-right">{{entry.1.total_hours}} hrs total spent</td>
+			          				<td class="text-right budget-column">{{entry.1.total_hours}} hrs total spent</td>
 			          			{% endif %}
-			          			<td class="text-right {{entry.1.deadline_status}}">{{ entry.1.deadline }}</td>
+			          			<td class="text-right deadline-column {{entry.1.deadline_status}}">{{ entry.1.deadline }}</td>
 						</tr>
 						{% endif %}
 					{% endif %}
@@ -226,13 +226,13 @@
 			                {% else %}
 			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
 			                {% endif %}
-			          			<td class="text-right">{{entry.1.recent_hours}} hrs</td>
+			          			<td class="text-right recent-hrs-column">{{entry.1.recent_hours}} hrs</td>
 			          			{% if entry.1.budget != 0 %}
-			          				<td class="text-right {{entry.1.budget_status}}">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
+			          				<td class="text-right budget-column{{entry.1.budget_status}}">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
 			          			{% else %}
-			          				<td class="text-right">{{entry.1.total_hours}} hrs total spent</td>
+			          				<td class="text-right budget-column">{{entry.1.total_hours}} hrs total spent</td>
 			          			{% endif %}
-			          			<td class="text-right {{entry.1.deadline_status}}">{{ entry.1.deadline }}</td>
+			          			<td class="text-right deadline-column {{entry.1.deadline_status}}">{{ entry.1.deadline }}</td>
 						</tr>
 						{% endif %}
 					{% endif %}
@@ -271,13 +271,13 @@
 			                {% else %}
 			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
 			                {% endif %}
-			          			<td class="text-right">{{entry.1.recent_hours}} hrs</td>
+			          			<td class="text-right recent-hrs-column">{{entry.1.recent_hours}} hrs</td>
 			          			{% if entry.1.budget != 0 %}
-			          				<td class="text-right {{entry.1.budget_status}}">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
+			          				<td class="text-right budget-column{{entry.1.budget_status}}">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
 			          			{% else %}
-			          				<td class="text-right">{{entry.1.total_hours}} hrs total spent</td>
+			          				<td class="text-right budget-column">{{entry.1.total_hours}} hrs total spent</td>
 			          			{% endif %}
-			          			<td class="text-right {{entry.1.deadline_status}}">{{ entry.1.deadline }}</td>
+			          			<td class="text-right deadline-column {{entry.1.deadline_status}}">{{ entry.1.deadline }}</td>
 						</tr>
 						{% endif %}
 					{% endif %}
@@ -300,13 +300,13 @@
 			                {% else %}
 			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
 			                {% endif %}
-			          			<td class="text-right">{{entry.1.recent_hours}} hrs</td>
+			          			<td class="text-right recent-hrs-column">{{entry.1.recent_hours}} hrs</td>
 			          			{% if entry.1.budget != 0 %}
-			          				<td class="text-right {{entry.1.budget_status}}">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
+			          				<td class="text-right budget-column{{entry.1.budget_status}}">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
 			          			{% else %}
-			          				<td class="text-right">{{entry.1.total_hours}} hrs total spent</td>
+			          				<td class="text-right budget-column">{{entry.1.total_hours}} hrs total spent</td>
 			          			{% endif %}
-			          			<td class="text-right {{entry.1.deadline_status}}">{{ entry.1.deadline }}</td>
+			          			<td class="text-right deadline-column {{entry.1.deadline_status}}">{{ entry.1.deadline }}</td>
 						</tr>
 						{% endif %}
 					{% endif %}
