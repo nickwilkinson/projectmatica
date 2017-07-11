@@ -117,11 +117,11 @@ def project_list(request):
 
 				remaining_budget_pct = all_projects_details[entry]["remaining_hours"] / all_projects_details[entry]["budget"]
 
-				# all_projects_details[entry]["budget_status"] = remaining_budget_pct
-				if remaining_budget_pct <= 0.5:
-					all_projects_details[entry]["budget_status"] = 'text-warning'
-				if all_projects_details[entry]["remaining_hours"] <= 0:
-					all_projects_details[entry]["budget_status"] = 'text-danger'
+				all_projects_details[entry]["budget_status"] = remaining_budget_pct
+				# if remaining_budget_pct <= 0.5:
+				# 	all_projects_details[entry]["budget_status"] = 'text-warning'
+				# if all_projects_details[entry]["remaining_hours"] <= 0:
+				# 	all_projects_details[entry]["budget_status"] = 'text-danger'
 
 				# if remaining_budget_pct <= 0:
 				# 	all_projects_details[entry]["budget_status"] = 'text-danger'
