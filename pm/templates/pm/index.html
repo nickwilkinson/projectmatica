@@ -199,7 +199,7 @@
 			                {% endif %}
 			          			<td class="text-right recent-hrs-column">{{entry.1.recent_hours}} hrs</td>
 			          			{% if entry.1.budget != 0 %}
-			          				<td class="text-right budget-column{{entry.1.budget_status}}">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
+			          				<td class="text-right budget-column {{entry.1.budget_status}}">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
 			          			{% else %}
 			          				<td class="text-right budget-column">{{entry.1.total_hours}} hrs total spent</td>
 			          			{% endif %}
@@ -228,7 +228,7 @@
 			                {% endif %}
 			          			<td class="text-right recent-hrs-column">{{entry.1.recent_hours}} hrs</td>
 			          			{% if entry.1.budget != 0 %}
-			          				<td class="text-right budget-column{{entry.1.budget_status}}">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
+			          				<td class="text-right budget-column {{entry.1.budget_status}}">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
 			          			{% else %}
 			          				<td class="text-right budget-column">{{entry.1.total_hours}} hrs total spent</td>
 			          			{% endif %}
