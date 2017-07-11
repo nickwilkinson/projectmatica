@@ -21,7 +21,8 @@
 
   	<!-- Custom CSS -->
   	<link rel="stylesheet" type="text/css" href="{% static 'pm/css/style.css' %}" />
-
+    <link rel="stylesheet" type="text/css" href="{% static 'pm/css/jquery.treetable.css' %}" />
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'pm/css/jquery.treetable.theme.default.css' %}" /> -->
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -109,12 +110,16 @@
 
     <!-- From http://sunnywalker.github.io/jQuery.FilterTable/   -->
     <script src="{% static 'pm/js/jquery.filtertable.min.js' %}"></script>
+    <script src="{% static 'pm/js/jquery.treetable.js' %}"></script>
+
     <script>
       // table filtering
       $('table').filterTable({
         inputSelector: '#search_input',
         placeholder: 'search projects'
       });
+
+      $(".table-treeview").treetable({expandable: true});
     </script>
   </body>
 </html>
