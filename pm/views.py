@@ -117,18 +117,15 @@ def project_list(request):
 
 				remaining_budget_pct = float(remaining_hours / all_projects_details[entry]["budget"])
 
-				all_projects_details[entry]["budget_status"] = remaining_budget_pct
-				# if remaining_budget_pct <= 0.5:
-				# 	all_projects_details[entry]["budget_status"] = 'text-warning'
-				# if all_projects_details[entry]["remaining_hours"] <= 0:
-				# 	all_projects_details[entry]["budget_status"] = 'text-danger'
+				# all_projects_details[entry]["budget_status"] = remaining_budget_pct
+				if remaining_budget_pct <= 0.5:
+					all_projects_details[entry]["budget_status"] = 'text-warning'
+				else:
+					all_projects_details[entry]["budget_status"] = ''
+				
+				if all_projects_details[entry]["remaining_hours"] <= 0:
+					all_projects_details[entry]["budget_status"] = 'text-danger'
 
-				# if remaining_budget_pct <= 0:
-				# 	all_projects_details[entry]["budget_status"] = 'text-danger'
-				# elif (remaining_budget_pct <= 0.5) and (remaining_budget_pct > 0):
-				# 	all_projects_details[entry]["budget_status"] = 'text-warning'
-				# else:
-				# 	all_projects_details[entry]["budget_status"] = ''
 
 			# Calculate deadline status
 			date_14_days_from_now = (datetime.now() + timedelta(days=14)).strftime('%Y-%m-%d')
