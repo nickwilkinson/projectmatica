@@ -178,12 +178,16 @@ def project_list(request):
 	inactive_project_details = dict()
 	for entry in all_billable_projects:
 		if entry.redmine_project_id not in recent_project_ids:
+			hours_remaining = entry.budget - math.ceil(entry.total_hours_spent)
 			inactive_project_details = {
 				"redmine_project_id": entry.redmine_project_id,
 				"client": entry.client_name,
 				"deadline": entry.deadline,
 				"project_desc": entry.project_desc,
-				"identifier": entry.redmine_project_url
+				"identifier": entry.redmine_project_url,
+				"budget": entry.budget,
+				"hours_remaining": hours_remaining,
+				"product": entry.product.product_name
 			}
 			displayed_inactive_projects.append(inactive_project_details)
 
