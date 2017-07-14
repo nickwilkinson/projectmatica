@@ -58,13 +58,13 @@
 					{% endif %}
 		        {% endfor %}
 		        {% if non_billable_count.0 > 0 %}
-		        <tr class="non-billable-header non-billable">
+		        <tr class="non-billable-header non-billable" data-tt-id="20">
 		        	<td colspan="4">Non-billable projects</td>
 	        	</tr>
 		        {% for entry in sorted_all_projects_details %}
 			        {% if entry.1.project_id is null %}
 				        {% if entry.1.product == "AtoM" and entry.1.category == "Non-billable" %}
-				        <tr class="non-billable">
+				        <tr class="non-billable" data-tt-id="21" data-tt-parent-id="20">
 			                <td>
 							{% if user.is_superuser %}
 							<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
@@ -209,13 +209,13 @@
 					{% endif %}
 		        {% endfor %}
 		        {% if non_billable_count.2 > 0 %}
-		        <tr class="non-billable-header non-billable">
+		        <tr class="non-billable-header non-billable" data-tt-id="30">
 		        	<td colspan="4">Non-billable projects</td>
 	        	</tr>
 		        {% for entry in sorted_all_projects_details %}
 			        {% if entry.1.project_id is null %}
 				        {% if entry.1.product == "Combo" and entry.1.category == "Non-billable" %}
-				        <tr class="non-billable">
+				        <tr class="non-billable" data-tt-id="31" data-tt-parent-id="30">
 			                <td>
 							{% if user.is_superuser %}
 							<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
@@ -283,13 +283,13 @@
 					{% endif %}
 		        {% endfor %}
 		        {% if non_billable_count.2 > 0 %}
-		        <tr class="non-billable-header non-billable">
+		        <tr class="non-billable-header non-billable" data-tt-id="40">
 		        	<td colspan="4">Non-billable projects</td>
 	        	</tr>
 		        {% for entry in sorted_all_projects_details %}
 			        {% if entry.1.project_id is null %}
 				        {% if entry.1.product == "Binder" and entry.1.category == "Non-billable" %}
-				        <tr class="non-billable">
+				        <tr class="non-billable" data-tt-id="41" data-tt-parent-id="40">
 			                <td>
 							{% if user.is_superuser %}
 							<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
