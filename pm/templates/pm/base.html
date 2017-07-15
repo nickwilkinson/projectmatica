@@ -110,6 +110,8 @@
 
     <!-- From http://sunnywalker.github.io/jQuery.FilterTable/   -->
     <script src="{% static 'pm/js/jquery.filtertable.min.js' %}"></script>
+    
+    <!-- http://ludo.cubicphuse.nl/jquery-treetable/ -->
     <script src="{% static 'pm/js/jquery.treetable.js' %}"></script>
 
     <script>
@@ -119,7 +121,7 @@
         placeholder: 'search projects'
       });
 
-      $(".table-treeview").treetable({expandable: true});
+      $(".table-treeview").treetable({initialState: "expanded", expandable: true, clickableNodeNames: true});
     </script>
   </body>
 </html>

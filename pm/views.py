@@ -98,7 +98,6 @@ def project_list(request):
 	# Build a list of projects for display on the dashboard [AtoM, Archivematica, Binder, Combo]
 	product_count = [0, 0, 0, 0]
 	non_billable_count = [0, 0, 0, 0]
-
 	all_projects_details = dict()
 	for entry in recent_project_ids:
 		if entry in defined_project_ids:
@@ -170,34 +169,62 @@ def project_list(request):
 		elif entry not in other_pm_project_ids:
 			all_projects_details[entry] = {"project_id": entry, "deadline": ''}
 
+	# # set counter for each product type
+	# non_billable_count = [0, 0, 0, 0]
+	# for entry in all_projects_details:
+	# 	if entry.category == 'Non-billable':
+	# 		if entry.product == 'AtoM':
+	# 			non_billable_count[0] += 1
+	# 		elif entry.product == 'Archivematica':
+	# 			non_billable_count[1] += 1
+	# 		elif entry.product == 'Binder':
+	# 			non_billable_count[2] += 1
+	# 		elif entry.product == 'Combo':
+	# 			non_billable_count[3] += 1
+
+
 	sorted_all_projects_details = sorted(all_projects_details.items(), key=lambda v: (v[1]['deadline'] == '', v[1]['deadline'] is None, v[1]['deadline']))
 
 	# Build a list of inactivate projects
 	all_billable_projects = Project.objects.filter(category__category_name__in = ['Billable']).exclude(completed_on__isnull=False)
-	displayed_inactive_projects = []
+	displayed_inactive_projects = dict()
 	inactive_project_details = dict()
+	inactive_count = [0,0,0,0]
 	for entry in all_billable_projects:
 		if entry.redmine_project_id not in recent_project_ids:
-			hours_remaining = entry.budget - math.ceil(entry.total_hours_spent)
+			remaining_hours = entry.budget - math.ceil(entry.total_hours_spent)
 			inactive_project_details = {
 				"redmine_project_id": entry.redmine_project_id,
-				"client": entry.client_name,
 				"deadline": entry.deadline,
+				"client": entry.client_name,
 				"project_desc": entry.project_desc,
 				"identifier": entry.redmine_project_url,
 				"budget": entry.budget,
-				"hours_remaining": hours_remaining,
-				"product": entry.product.product_name
+				"remaining_hours": remaining_hours,
+				"product": entry.product.product_name,
+				"total_hours": math.ceil(entry.total_hours_spent)
 			}
-			displayed_inactive_projects.append(inactive_project_details)
-
+			
+			if entry.product.product_name == "AtoM":
+				inactive_count[0] += 1
+			elif entry.product.product_name == "Archivematica":
+				inactive_count[1] += 1
+			elif entry.product.product_name == "Binder":
+				inactive_count[2] += 1
+			elif entry.product.product_name == "Combo":
+				inactive_count[3] += 1
+			
+			displayed_inactive_projects[entry.redmine_project_id] = inactive_project_details
+	
+	sorted_displayed_inactive_projects = sorted(displayed_inactive_projects.items(), key=lambda v: (v[1]['deadline'] == '', v[1]['deadline'] is None, v[1]['deadline']))
 
 	context = {
 		"show_menu" : True,
 		"sorted_all_projects_details": sorted_all_projects_details,
-		"displayed_inactive_projects": displayed_inactive_projects,
+		"displayed_inactive_projects": sorted_displayed_inactive_projects,
 		"product_count": product_count,
-		"non_billable_count": non_billable_count
+		"non_billable_count": non_billable_count,
+		"inactive_count": inactive_count
 	}
 
 	return render(request, 'pm/index.html', context)

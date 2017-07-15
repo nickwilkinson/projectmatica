@@ -87,6 +87,36 @@
 					{% endif %}
 		        {% endfor %}
 		        {% endif %}	        	        	
+
+	    		{% if inactive_count.0 > 0 %}
+			        <tr class="inactive-projects-header inactive-projects" data-tt-id="60">
+			        	<td colspan="4">Inactive projects ({{inactive_count.0}})</td>
+		        	</tr>
+	    			{% for entry in displayed_inactive_projects %}
+			        	{% if entry.1.product == "AtoM" %}
+					        <tr class="inactive-projects" data-tt-id="61" data-tt-parent-id="60">
+				                <td>
+								{% if user.is_superuser %}
+								<a class="edit_project" href="{% url 'project_edit' pid=entry.1.redmine_project_id %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+								{% endif %}
+				                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
+				                {% if entry.1.client != "none" %}
+				                	{{entry.1.client}} - {{entry.1.project_desc}}</a></td>
+				                {% else %}
+				                	{{entry.1.project_desc}}</a></td>
+				                {% endif %}
+				          			<td class="text-right recent-hrs-column">---</td>
+				          			{% if entry.1.budget != 0 %}
+				          				<td class="text-right budget-column">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
+				          			{% else %}
+				          				<td class="text-right budget-column">{{entry.1.total_hours}} hrs total spent</td>
+				          			{% endif %}
+				          			<td class="text-right deadline-column">{{ entry.1.deadline }}</td>
+							</tr>
+				        {% endif %}
+			        {% endfor %}
+		        {% endif %}
+
         	</tbody>
 		</table>
 		</div>
@@ -132,7 +162,7 @@
 		        {% endfor %}
 		        {% if non_billable_count.1 > 0 %}
 		        <tr class="non-billable-header non-billable" data-tt-id="1">
-		        	<td colspan="4">Non-billable projects</td>
+		        	<td colspan="4">Non-billable projects ()</td>
 	        	</tr>
 		        {% for entry in sorted_all_projects_details %}
 			        {% if entry.1.project_id is null %}
@@ -160,9 +190,35 @@
 					{% endif %}
 		        {% endfor %}
 		        {% endif %}
-		        <tr class="inactive-projects-header inactive-projects">
-		        	<td colspan="4">Inactive projects</td>
-	        	</tr>
+		        
+	    		{% if inactive_count.1 > 0 %}
+			        <tr class="inactive-projects-header inactive-projects" data-tt-id="50">
+			        	<td colspan="4">Inactive projects ({{inactive_count.1}})</td>
+		        	</tr>
+	    			{% for entry in displayed_inactive_projects %}
+			        	{% if entry.1.product == "Archivematica" %}
+					        <tr class="inactive-projects" data-tt-id="51" data-tt-parent-id="50">
+				                <td>
+								{% if user.is_superuser %}
+								<a class="edit_project" href="{% url 'project_edit' pid=entry.1.redmine_project_id %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+								{% endif %}
+				                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
+				                {% if entry.1.client != "none" %}
+				                	{{entry.1.client}} - {{entry.1.project_desc}}</a></td>
+				                {% else %}
+				                	{{entry.1.project_desc}}</a></td>
+				                {% endif %}
+				          			<td class="text-right recent-hrs-column">---</td>
+				          			{% if entry.1.budget != 0 %}
+				          				<td class="text-right budget-column">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
+				          			{% else %}
+				          				<td class="text-right budget-column">{{entry.1.total_hours}} hrs total spent</td>
+				          			{% endif %}
+				          			<td class="text-right deadline-column">{{ entry.1.deadline }}</td>
+							</tr>
+				        {% endif %}
+			        {% endfor %}
+		        {% endif %}
 
         	</tbody>
 		</table>
@@ -239,6 +295,36 @@
 		        {% endfor %}
 		        {% endif %}        	
         	</tbody>
+
+	    		{% if inactive_count.3 > 0 %}
+			        <tr class="inactive-projects-header inactive-projects" data-tt-id="70">
+			        	<td colspan="4">Inactive projects ({{inactive_count.3}})</td>
+		        	</tr>
+	    			{% for entry in displayed_inactive_projects %}
+			        	{% if entry.1.product == "Combo" %}
+					        <tr class="inactive-projects" data-tt-id="71" data-tt-parent-id="70">
+				                <td>
+								{% if user.is_superuser %}
+								<a class="edit_project" href="{% url 'project_edit' pid=entry.1.redmine_project_id %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+								{% endif %}
+				                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
+				                {% if entry.1.client != "none" %}
+				                	{{entry.1.client}} - {{entry.1.project_desc}}</a></td>
+				                {% else %}
+				                	{{entry.1.project_desc}}</a></td>
+				                {% endif %}
+				          			<td class="text-right recent-hrs-column">---</td>
+				          			{% if entry.1.budget != 0 %}
+				          				<td class="text-right budget-column">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
+				          			{% else %}
+				          				<td class="text-right budget-column">{{entry.1.total_hours}} hrs total spent</td>
+				          			{% endif %}
+				          			<td class="text-right deadline-column">{{ entry.1.deadline }}</td>
+							</tr>
+				        {% endif %}
+			        {% endfor %}
+		        {% endif %}
+
 		</table>
     	</div>
     	{% endif %}
@@ -312,6 +398,36 @@
 					{% endif %}
 		        {% endfor %}
 		        {% endif %}        	
+
+	    		{% if inactive_count.2 > 0 %}
+			        <tr class="inactive-projects-header inactive-projects" data-tt-id="80">
+			        	<td colspan="4">Inactive projects ({{inactive_count.2}})</td>
+		        	</tr>
+	    			{% for entry in displayed_inactive_projects %}
+			        	{% if entry.1.product == "Binder" %}
+					        <tr class="inactive-projects" data-tt-id="81" data-tt-parent-id="80">
+				                <td>
+								{% if user.is_superuser %}
+								<a class="edit_project" href="{% url 'project_edit' pid=entry.1.redmine_project_id %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+								{% endif %}
+				                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
+				                {% if entry.1.client != "none" %}
+				                	{{entry.1.client}} - {{entry.1.project_desc}}</a></td>
+				                {% else %}
+				                	{{entry.1.project_desc}}</a></td>
+				                {% endif %}
+				          			<td class="text-right recent-hrs-column">---</td>
+				          			{% if entry.1.budget != 0 %}
+				          				<td class="text-right budget-column">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
+				          			{% else %}
+				          				<td class="text-right budget-column">{{entry.1.total_hours}} hrs total spent</td>
+				          			{% endif %}
+				          			<td class="text-right deadline-column">{{ entry.1.deadline }}</td>
+							</tr>
+				        {% endif %}
+			        {% endfor %}
+		        {% endif %}
+
         	</tbody>
 		</table>
     	</div>
@@ -329,14 +445,17 @@
 	    <br/>
 	{% endif %}
 
+{% comment %}
     {% if user.is_superuser %}
 	    <h3>Inactive projects</h3>
+
 	    {% for entry in displayed_inactive_projects %}
 	        <li>{{ entry.client }}: {{entry.project_desc}} -- {{entry.product}} | {{entry.hours_remaining}} / {{entry.budget}} hrs remaining | {{entry.deadline}} | <a href="{% url 'project_edit' pid=entry.redmine_project_id %}">edit</a></li>
 	    {% endfor %}
+    
 	    <br/>
 	{% endif %}
-
+{% endcomment %}
   </div>
 
 {% endblock %}
