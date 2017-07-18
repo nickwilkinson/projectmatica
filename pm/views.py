@@ -285,6 +285,7 @@ def project_new(request, pid):
 			project.redmine_project_name = project_details.name
 			project.total_hours_spent = total_project_hours
 			project.save()
+			form.save_m2m()
 			return redirect('project_list')
 	# GET request (loading data)
 	else:
@@ -325,9 +326,10 @@ def project_edit(request, pid):
 		form = ProjectForm(request.POST, instance=project)
 		if form.is_valid():
 			project = form.save(commit=False)
+			project.save()
 			# project.redmine_project_id = 1000
 			# project.redmine_project_name = ''
-			project.save()
+			form.save_m2m()
 			return redirect('project_list')
 	else:
 		form = ProjectForm(instance=project)

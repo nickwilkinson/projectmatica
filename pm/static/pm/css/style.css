@@ -43,6 +43,8 @@ td { height: 50px; /*width: 25px;*/ }
 #projects_table td.deadline-column {width:12%;}
 #projects_table tr.project_group_break {border-bottom: 2px solid black;}
 
+#projects_table .fa-user {padding-right:10px; padding-left:5px; font-size: 18px;}
+
 #projects_table tr.non-billable {border-left: 2px solid rgb(215,81,0);}
 #projects_table tr.non-billable-header {background-color: rgb(43,62,80); font-weight: bold;}
 #projects_table tr.non-billable-header td {border-top: 2px solid rgb(223,105,26);}

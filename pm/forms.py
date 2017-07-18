@@ -1,7 +1,13 @@
 from django import forms
-from .models import Product, Category, Project
+from .models import Product, Category, Staff, Project
+from django.forms import ModelMultipleChoiceField
 
 class ProjectForm(forms.ModelForm):
+
+	class StaffForm(forms.ModelForm):
+	    team = ModelMultipleChoiceField(
+	        queryset=Staff.objects,
+	    )
 
 	class Meta:
 		model = Project
@@ -19,4 +25,5 @@ class ProjectForm(forms.ModelForm):
 			'start_date',
 			'completed_on',
 			'product',
-			'category')
+			'category',
+			'team')

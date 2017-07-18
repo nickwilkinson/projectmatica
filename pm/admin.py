@@ -1,11 +1,14 @@
 from django.contrib import admin
 
-from .models import Product, Category, Project
+from .models import Product, Category, Staff, Project
 
 class CategoryAdmin(admin.ModelAdmin):
 	extra = 1
 
 class ProductAdmin(admin.ModelAdmin):
+	extra = 1
+
+class StaffAdmin(admin.ModelAdmin):
 	extra = 1
 
 class ProjectAdmin(admin.ModelAdmin):
@@ -29,6 +32,7 @@ class ProjectAdmin(admin.ModelAdmin):
 		(None,					{'fields': ['recent_hours_spent']}),
 		(None,					{'fields': ['product']}),
 		(None,					{'fields': ['category']}),
+		(None,					{'fields': ['team']}),
 	]
 	# inlines = [CategoryInline, ProductInline]
 	# this is a list of fields displayed on the top-level Project page
@@ -38,4 +42,5 @@ class ProjectAdmin(admin.ModelAdmin):
 
 admin.site.register(Product)
 admin.site.register(Category)
+admin.site.register(Staff)
 admin.site.register(Project, ProjectAdmin)

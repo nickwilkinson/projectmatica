@@ -2,6 +2,7 @@ import datetime
 
 from django.db import models
 from django.utils import timezone
+from django import forms
 
 class Product(models.Model):
 	product_name = models.CharField(max_length=20)
@@ -15,6 +16,14 @@ class Category(models.Model):
 	
 	def __str__(self):
 		return self.category_name
+
+
+class Staff(models.Model):
+	name = models.CharField(max_length=30)
+	email = models.EmailField()
+	
+	def __str__(self):
+		return self.name
 
 
 class Project(models.Model):
@@ -34,9 +43,10 @@ class Project(models.Model):
 	total_admin_hours_spent = models.DecimalField('Total admin hours spent', max_digits=8, decimal_places=2, default=0.00)
 	total_analysis_hours_spent = models.DecimalField('Total analysis hours spent', max_digits=8, decimal_places=2, default=0.00)
 	recent_hours_spent = models.DecimalField('Recent hours spent', max_digits=8, decimal_places=2, default=0.00)
-	product = models.ForeignKey(Product, on_delete=models.CASCADE, default=4) #defauls to "None" product
-	category = models.ForeignKey(Category, on_delete=models.CASCADE, default=9) #defauls to "Uncategorized"
-	
+	product = models.ForeignKey(Product, on_delete=models.CASCADE, default=4) #defaults to "None" product
+	category = models.ForeignKey(Category, on_delete=models.CASCADE, default=9) #defaults to "Uncategorized"
+	team = models.ManyToManyField(Staff, blank=True)
+
 	def __str__(self):
 		return self.redmine_project_name
 
