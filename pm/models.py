@@ -24,7 +24,7 @@ class Project(models.Model):
 	client_name = models.CharField(max_length=75)
 	project_desc = models.CharField('Project description', max_length=200)
 	budget = models.IntegerField(default=0, blank=True)
-	tm_cap = models.IntegerField('Time and Materials cap', default=0, blank=True)
+	tm_cap = models.IntegerField('Time and Materials flag', default=0, blank=True)
 	deadline = models.DateField(blank=True, null=True)
 	analysis_pct = models.DecimalField('Analysis %', max_digits=3, decimal_places=2, default=0.00)
 	admin_pct = models.DecimalField('Admin %', max_digits=3, decimal_places=2, default=0.00)

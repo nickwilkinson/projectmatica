@@ -97,7 +97,6 @@ def project_list(request):
 	
 	# Build a list of projects for display on the dashboard [AtoM, Archivematica, Binder, Combo]
 	product_count = [0, 0, 0, 0]
-	# non_billable_count = [0, 0, 0, 0]
 	all_projects_details = dict()
 	for entry in recent_project_ids:
 		if entry in defined_project_ids:
@@ -150,19 +149,6 @@ def project_list(request):
 				product_count[2] = 1
 			elif all_projects_details[entry]["product"] == 'Combo':
 				product_count[3] = 1
-
-			# Set Non-billable indicator
-			# if all_projects_details[entry]["category"] == "Non-billable":
-			# 	#all_projects_details[entry]["category_type"] = '<span class="label label-primary">Non-billable</span>'
-			# 	# set counter for each product type
-			# 	if all_projects_details[entry]["product"] == 'AtoM':
-			# 		non_billable_count[0] += 1
-			# 	elif all_projects_details[entry]["product"] == 'Archivematica':
-			# 		non_billable_count[1] += 1
-			# 	elif all_projects_details[entry]["product"] == 'Binder':
-			# 		non_billable_count[2] += 1
-			# 	elif all_projects_details[entry]["product"] == 'Combo':
-			# 		non_billable_count[3] += 1
 
 
 		# Add list of Uncategorized projects
