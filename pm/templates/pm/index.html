@@ -19,7 +19,7 @@
 <!-- 	Projects list -->
 	<div class="container">
 
-		{% if product_count.0 > 0 %}
+		{% if product_count.0 > 0 or non_billable_count.0 > 0 or inactive_count.0 > 0%}
 		<div class="table_wrapper">
 		<h2 class="product">AtoM</h2>
 		<table id="projects_table" class="table table-striped table-hover table-treeview">
@@ -34,7 +34,7 @@
 			<tbody>
 		        {% for entry in sorted_all_projects_details %}
 			        {% if entry.1.project_id is null %}
-				        {% if entry.1.product == "AtoM" and entry.1.category != "Non-billable" %}
+				        {% if entry.1.product == "AtoM" %}
 				        <tr>
 			                <td class="first-column">
 							{% if user.is_superuser %}
@@ -59,11 +59,11 @@
 		        {% endfor %}
 		        {% if non_billable_count.0 > 0 %}
 		        <tr class="non-billable-header non-billable" data-tt-id="20">
-		        	<td colspan="4">Non-billable projects</td>
+		        	<td colspan="4">Non-billable projects ({{non_billable_count.0}})</td>
 	        	</tr>
-		        {% for entry in sorted_all_projects_details %}
+		        {% for entry in displayed_non_billable_projects %}
 			        {% if entry.1.project_id is null %}
-				        {% if entry.1.product == "AtoM" and entry.1.category == "Non-billable" %}
+				        {% if entry.1.product == "AtoM" %}
 				        <tr class="non-billable" data-tt-id="21" data-tt-parent-id="20">
 			                <td>
 							{% if user.is_superuser %}
@@ -122,7 +122,7 @@
 		</div>
 		{% endif %}
 
-		{% if product_count.1 > 0 %}
+		{% if product_count.1 > 0 or non_billable_count.1 > 0 or inactive_count.1 > 0 %}
 		<div class="table_wrapper">
 		<h2 class="product">Archivematica</h2>
 		<table id="projects_table" class="table table-striped table-hover table-treeview">
@@ -137,7 +137,7 @@
 			<tbody>
 		        {% for entry in sorted_all_projects_details %}
 			        {% if entry.1.project_id is null %}
-				        {% if entry.1.product == "Archivematica" and entry.1.category != "Non-billable" %}
+				        {% if entry.1.product == "Archivematica" %}
 				        <tr>
 			                <td>
 							{% if user.is_superuser %}
@@ -160,13 +160,14 @@
 						{% endif %}
 					{% endif %}
 		        {% endfor %}
+
 		        {% if non_billable_count.1 > 0 %}
 		        <tr class="non-billable-header non-billable" data-tt-id="1">
-		        	<td colspan="4">Non-billable projects ()</td>
+		        	<td colspan="4">Non-billable projects ({{non_billable_count.1}})</td>
 	        	</tr>
-		        {% for entry in sorted_all_projects_details %}
+		        {% for entry in displayed_non_billable_projects %}
 			        {% if entry.1.project_id is null %}
-				        {% if entry.1.product == "Archivematica" and entry.1.category == "Non-billable" %}
+				        {% if entry.1.product == "Archivematica" %}
 				        <tr class="non-billable" data-tt-id="2" data-tt-parent-id="1">
 			                <td>
 							{% if user.is_superuser %}
@@ -226,7 +227,7 @@
 		{% endif %}
 
 		
-		{% if product_count.3 > 0 %}
+		{% if product_count.3 > 0 or non_billable_count.3 > 0 or inactive_count.3 > 0%}
 		<div class="table_wrapper">
 		<h2 class="product">Mixed projects</h2>
 		<table id="projects_table" class="table table-striped table-hover table-treeview">
@@ -241,7 +242,7 @@
 			<tbody>
 		        {% for entry in sorted_all_projects_details %}
 			        {% if entry.1.project_id is null %}
-				        {% if entry.1.product == "Combo" and entry.1.category != "Non-billable" %}
+				        {% if entry.1.product == "Combo" %}
 				        <tr>
 			                <td>
 							{% if user.is_superuser %}
@@ -264,13 +265,14 @@
 						{% endif %}
 					{% endif %}
 		        {% endfor %}
-		        {% if non_billable_count.2 > 0 %}
+
+		        {% if non_billable_count.3 > 0 %}
 		        <tr class="non-billable-header non-billable" data-tt-id="30">
-		        	<td colspan="4">Non-billable projects</td>
+		        	<td colspan="4">Non-billable projects ({{non_billable_count.3}})</td>
 	        	</tr>
-		        {% for entry in sorted_all_projects_details %}
+		        {% for entry in displayed_non_billable_projects %}
 			        {% if entry.1.project_id is null %}
-				        {% if entry.1.product == "Combo" and entry.1.category == "Non-billable" %}
+				        {% if entry.1.product == "Combo" %}
 				        <tr class="non-billable" data-tt-id="31" data-tt-parent-id="30">
 			                <td>
 							{% if user.is_superuser %}
@@ -329,8 +331,7 @@
     	</div>
     	{% endif %}
 
-
-		{% if product_count.2 > 0 %}
+		{% if product_count.2 > 0 or non_billable_count.2 > 0 or inactive_count.2 > 0 %}
 		<div class="table_wrapper">
 		<h2 class="product">Binder</h2>
 		<table id="projects_table" class="table table-striped table-hover table-treeview">
@@ -345,7 +346,7 @@
 			<tbody>
 		        {% for entry in sorted_all_projects_details %}
 			        {% if entry.1.project_id is null %}
-				        {% if entry.1.product == "Binder" and entry.1.category != "Non-billable" %}
+				        {% if entry.1.product == "Binder" %}
 				        <tr>
 			                <td>
 							{% if user.is_superuser %}
@@ -368,13 +369,14 @@
 						{% endif %}
 					{% endif %}
 		        {% endfor %}
+		        
 		        {% if non_billable_count.2 > 0 %}
 		        <tr class="non-billable-header non-billable" data-tt-id="40">
-		        	<td colspan="4">Non-billable projects</td>
+		        	<td colspan="4">Non-billable projects ({{non_billable_count.2}})</td>
 	        	</tr>
-		        {% for entry in sorted_all_projects_details %}
+		        {% for entry in displayed_non_billable_projects %}
 			        {% if entry.1.project_id is null %}
-				        {% if entry.1.product == "Binder" and entry.1.category == "Non-billable" %}
+				        {% if entry.1.product == "Binder" %}
 				        <tr class="non-billable" data-tt-id="41" data-tt-parent-id="40">
 			                <td>
 							{% if user.is_superuser %}

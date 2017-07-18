@@ -53,8 +53,8 @@ def project_list(request):
 	# Get a list of all defined projects from the Projectmatica db that:
 	#  - are categorized as Billable or Non-billable
 	#  - don't have a completed_on date
-	defined_projects = Project.objects.filter(category__category_name__in = ['Billable', 'Non-billable']).exclude(completed_on__isnull=False)
-	# defined_projects = Project.objects.filter(category__category_name__in = ['Billable']).exclude(completed_on__isnull=False)
+	# defined_projects = Project.objects.filter(category__category_name__in = ['Billable', 'Non-billable']).exclude(completed_on__isnull=False)
+	defined_projects = Project.objects.filter(category__category_name__in = ['Billable']).exclude(completed_on__isnull=False)
 
 	defined_projects_details = dict()
 	project_details = dict()
@@ -97,7 +97,7 @@ def project_list(request):
 	
 	# Build a list of projects for display on the dashboard [AtoM, Archivematica, Binder, Combo]
 	product_count = [0, 0, 0, 0]
-	non_billable_count = [0, 0, 0, 0]
+	# non_billable_count = [0, 0, 0, 0]
 	all_projects_details = dict()
 	for entry in recent_project_ids:
 		if entry in defined_project_ids:
@@ -152,38 +152,59 @@ def project_list(request):
 				product_count[3] = 1
 
 			# Set Non-billable indicator
-			if all_projects_details[entry]["category"] == "Non-billable":
-				#all_projects_details[entry]["category_type"] = '<span class="label label-primary">Non-billable</span>'
-				# set counter for each product type
-				if all_projects_details[entry]["product"] == 'AtoM':
-					non_billable_count[0] = 1
-				elif all_projects_details[entry]["product"] == 'Archivematica':
-					non_billable_count[1] = 1
-				elif all_projects_details[entry]["product"] == 'Binder':
-					non_billable_count[2] = 1
-				elif all_projects_details[entry]["product"] == 'Combo':
-					non_billable_count[3] = 1
+			# if all_projects_details[entry]["category"] == "Non-billable":
+			# 	#all_projects_details[entry]["category_type"] = '<span class="label label-primary">Non-billable</span>'
+			# 	# set counter for each product type
+			# 	if all_projects_details[entry]["product"] == 'AtoM':
+			# 		non_billable_count[0] += 1
+			# 	elif all_projects_details[entry]["product"] == 'Archivematica':
+			# 		non_billable_count[1] += 1
+			# 	elif all_projects_details[entry]["product"] == 'Binder':
+			# 		non_billable_count[2] += 1
+			# 	elif all_projects_details[entry]["product"] == 'Combo':
+			# 		non_billable_count[3] += 1
 
 
 		# Add list of Uncategorized projects
 		elif entry not in other_pm_project_ids:
 			all_projects_details[entry] = {"project_id": entry, "deadline": ''}
 
-	# # set counter for each product type
-	# non_billable_count = [0, 0, 0, 0]
-	# for entry in all_projects_details:
-	# 	if entry.category == 'Non-billable':
-	# 		if entry.product == 'AtoM':
-	# 			non_billable_count[0] += 1
-	# 		elif entry.product == 'Archivematica':
-	# 			non_billable_count[1] += 1
-	# 		elif entry.product == 'Binder':
-	# 			non_billable_count[2] += 1
-	# 		elif entry.product == 'Combo':
-	# 			non_billable_count[3] += 1
-
-
 	sorted_all_projects_details = sorted(all_projects_details.items(), key=lambda v: (v[1]['deadline'] == '', v[1]['deadline'] is None, v[1]['deadline']))
+
+
+	# Build a list of non-billable projects
+	all_non_billable_projects = Project.objects.filter(category__category_name__in = ['Non-billable']).exclude(completed_on__isnull=False)
+	displayed_non_billable_projects = dict()
+	non_billable_project_details = dict()
+	non_billable_count = [0,0,0,0]
+	for entry in all_non_billable_projects:
+		if entry.redmine_project_id in recent_project_ids:
+			remaining_hours = int(entry.budget - math.ceil(entry.total_hours_spent))
+			non_billable_project_details = {
+				"redmine_project_id": entry.redmine_project_id,
+				"deadline": entry.deadline,
+				"client": entry.client_name,
+				"project_desc": entry.project_desc,
+				"identifier": entry.redmine_project_url,
+				"budget": entry.budget,
+				"remaining_hours": remaining_hours,
+				"product": entry.product.product_name,
+				"total_hours": math.ceil(entry.total_hours_spent)
+			}
+			
+			if entry.product.product_name == "AtoM":
+				non_billable_count[0] += 1
+			elif entry.product.product_name == "Archivematica":
+				non_billable_count[1] += 1
+			elif entry.product.product_name == "Binder":
+				non_billable_count[2] += 1
+			elif entry.product.product_name == "Combo":
+				non_billable_count[3] += 1
+			
+			displayed_non_billable_projects[entry.redmine_project_id] = non_billable_project_details
+	
+	sorted_displayed_non_billable_projects = sorted(displayed_non_billable_projects.items(), key=lambda v: (v[1]['deadline'] == '', v[1]['deadline'] is None, v[1]['deadline']))
+
 
 	# Build a list of inactivate projects
 	all_billable_projects = Project.objects.filter(category__category_name__in = ['Billable']).exclude(completed_on__isnull=False)
@@ -192,7 +213,7 @@ def project_list(request):
 	inactive_count = [0,0,0,0]
 	for entry in all_billable_projects:
 		if entry.redmine_project_id not in recent_project_ids:
-			remaining_hours = entry.budget - math.ceil(entry.total_hours_spent)
+			remaining_hours = int(entry.budget - math.ceil(entry.total_hours_spent))
 			inactive_project_details = {
 				"redmine_project_id": entry.redmine_project_id,
 				"deadline": entry.deadline,
@@ -222,6 +243,7 @@ def project_list(request):
 		"show_menu" : True,
 		"sorted_all_projects_details": sorted_all_projects_details,
 		"displayed_inactive_projects": sorted_displayed_inactive_projects,
+		"displayed_non_billable_projects": sorted_displayed_non_billable_projects,
 		"product_count": product_count,
 		"non_billable_count": non_billable_count,
 		"inactive_count": inactive_count
