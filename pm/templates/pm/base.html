@@ -109,17 +109,17 @@
     <script src="{% static 'pm/js/bootstrap.min.js' %}"></script>
 
     <!-- From http://sunnywalker.github.io/jQuery.FilterTable/   -->
-    <script src="{% static 'pm/js/jquery.filtertable.min.js' %}"></script>
+    <!-- <script src="{% static 'pm/js/jquery.filtertable.min.js' %}"></script> -->
     
     <!-- http://ludo.cubicphuse.nl/jquery-treetable/ -->
     <script src="{% static 'pm/js/jquery.treetable.js' %}"></script>
 
     <script>
-      // table filtering
-      $('table').filterTable({
-        inputSelector: '#search_input',
-        placeholder: 'search projects'
-      });
+      // // table filtering
+      // $('table').filterTable({
+      //   inputSelector: '#search_input',
+      //   placeholder: 'search projects'
+      // });
 
       $(".table-treeview").treetable({expandable: true, clickableNodeNames: true});
     </script>
