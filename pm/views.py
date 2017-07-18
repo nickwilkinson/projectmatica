@@ -188,6 +188,7 @@ def project_list(request):
 				"identifier": entry.redmine_project_url,
 				"budget": entry.budget,
 				"remaining_hours": remaining_hours,
+				"recent_hours": entry.recent_hours_spent,
 				"product": entry.product.product_name,
 				"total_hours": math.ceil(entry.total_hours_spent)
 			}
