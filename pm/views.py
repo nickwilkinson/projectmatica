@@ -165,7 +165,15 @@ def project_list(request):
 	non_billable_count = [0,0,0,0]
 	for entry in all_non_billable_projects:
 		if entry.redmine_project_id in recent_project_ids:
+			
 			remaining_hours = int(entry.budget - math.ceil(entry.total_hours_spent))
+			
+			# Set Time and Materials indicator
+			if entry.tm_cap != 0:
+				tm_status = '<span class="label label-info">Time and Materials</span>'
+			else:
+				tm_status = ''
+
 			non_billable_project_details = {
 				"redmine_project_id": entry.redmine_project_id,
 				"deadline": entry.deadline,
@@ -175,6 +183,7 @@ def project_list(request):
 				"budget": entry.budget,
 				"remaining_hours": remaining_hours,
 				"recent_hours": entry.recent_hours_spent,
+				"tm_status": tm_status,
 				"product": entry.product.product_name,
 				"total_hours": math.ceil(entry.total_hours_spent)
 			}
@@ -200,7 +209,15 @@ def project_list(request):
 	inactive_count = [0,0,0,0]
 	for entry in all_billable_projects:
 		if entry.redmine_project_id not in recent_project_ids:
+			
 			remaining_hours = int(entry.budget - math.ceil(entry.total_hours_spent))
+			
+			# Set Time and Materials indicator
+			if entry.tm_cap != 0:
+				tm_status = '<span class="label label-info">Time and Materials</span>'
+			else:
+				tm_status = ''
+
 			inactive_project_details = {
 				"redmine_project_id": entry.redmine_project_id,
 				"deadline": entry.deadline,
@@ -209,6 +226,7 @@ def project_list(request):
 				"identifier": entry.redmine_project_url,
 				"budget": entry.budget,
 				"remaining_hours": remaining_hours,
+				"tm_status": tm_status,
 				"product": entry.product.product_name,
 				"total_hours": math.ceil(entry.total_hours_spent)
 			}

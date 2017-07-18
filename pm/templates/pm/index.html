@@ -42,9 +42,9 @@
 							{% endif %}
 			                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
 			                {% if entry.1.client != "none" %}
-			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
+			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
 			                {% else %}
-			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
+			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
 			                {% endif %}
 			          			<td class="text-right recent-hrs-column">{{entry.1.recent_hours}} hrs</td>
 			          			{% if entry.1.budget != 0 %}
@@ -57,6 +57,7 @@
 						{% endif %}
 					{% endif %}
 		        {% endfor %}
+
 		        {% if non_billable_count.0 > 0 %}
 		        <tr class="non-billable-header non-billable" data-tt-id="20">
 		        	<td colspan="4">Non-billable projects ({{non_billable_count.0}})</td>
@@ -71,9 +72,9 @@
 							{% endif %}
 			                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
 			                {% if entry.1.client != "none" %}
-			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
+			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
 			                {% else %}
-			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
+			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
 			                {% endif %}
 			          			<td class="text-right recent-hrs-column">{{entry.1.recent_hours}} hrs</td>
 			          			{% if entry.1.budget != 0 %}
@@ -101,9 +102,9 @@
 								{% endif %}
 				                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
 				                {% if entry.1.client != "none" %}
-				                	{{entry.1.client}} - {{entry.1.project_desc}}</a></td>
+				                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
 				                {% else %}
-				                	{{entry.1.project_desc}}</a></td>
+				                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
 				                {% endif %}
 				          			<td class="text-right recent-hrs-column">---</td>
 				          			{% if entry.1.budget != 0 %}
@@ -145,9 +146,9 @@
 							{% endif %}
 			                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
 			                {% if entry.1.client != "none" %}
-			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
+			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
 			                {% else %}
-			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
+			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
 			                {% endif %}
 			          			<td class="text-right recent-hrs-column">{{entry.1.recent_hours}} hrs</td>
 			          			{% if entry.1.budget != 0 %}
@@ -175,9 +176,9 @@
 							{% endif %}
 			                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
 			                {% if entry.1.client != "none" %}
-			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
+			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
 			                {% else %}
-			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
+			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
 			                {% endif %}
 			          			<td class="text-right recent-hrs-column">{{entry.1.recent_hours}} hrs</td>
 			          			{% if entry.1.budget != 0 %}
@@ -205,9 +206,9 @@
 								{% endif %}
 				                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
 				                {% if entry.1.client != "none" %}
-				                	{{entry.1.client}} - {{entry.1.project_desc}}</a></td>
+				                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
 				                {% else %}
-				                	{{entry.1.project_desc}}</a></td>
+				                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
 				                {% endif %}
 				          			<td class="text-right recent-hrs-column">---</td>
 				          			{% if entry.1.budget != 0 %}
@@ -250,9 +251,9 @@
 							{% endif %}
 			                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
 			                {% if entry.1.client != "none" %}
-			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
+			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
 			                {% else %}
-			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
+			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
 			                {% endif %}
 			          			<td class="text-right recent-hrs-column">{{entry.1.recent_hours}} hrs</td>
 			          			{% if entry.1.budget != 0 %}
@@ -280,9 +281,9 @@
 							{% endif %}
 			                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
 			                {% if entry.1.client != "none" %}
-			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
+			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
 			                {% else %}
-			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
+			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
 			                {% endif %}
 			          			<td class="text-right recent-hrs-column">{{entry.1.recent_hours}} hrs</td>
 			          			{% if entry.1.budget != 0 %}
@@ -311,9 +312,9 @@
 								{% endif %}
 				                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
 				                {% if entry.1.client != "none" %}
-				                	{{entry.1.client}} - {{entry.1.project_desc}}</a></td>
+				                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
 				                {% else %}
-				                	{{entry.1.project_desc}}</a></td>
+				                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
 				                {% endif %}
 				          			<td class="text-right recent-hrs-column">---</td>
 				          			{% if entry.1.budget != 0 %}
@@ -354,9 +355,9 @@
 							{% endif %}
 			                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
 			                {% if entry.1.client != "none" %}
-			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
+			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
 			                {% else %}
-			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
+			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
 			                {% endif %}
 			          			<td class="text-right recent-hrs-column">{{entry.1.recent_hours}} hrs</td>
 			          			{% if entry.1.budget != 0 %}
@@ -384,9 +385,9 @@
 							{% endif %}
 			                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
 			                {% if entry.1.client != "none" %}
-			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
+			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
 			                {% else %}
-			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}} {{entry.1.category_type|safe}}</td>
+			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
 			                {% endif %}
 			          			<td class="text-right recent-hrs-column">{{entry.1.recent_hours}} hrs</td>
 			          			{% if entry.1.budget != 0 %}
@@ -414,9 +415,9 @@
 								{% endif %}
 				                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
 				                {% if entry.1.client != "none" %}
-				                	{{entry.1.client}} - {{entry.1.project_desc}}</a></td>
+				                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
 				                {% else %}
-				                	{{entry.1.project_desc}}</a></td>
+				                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
 				                {% endif %}
 				          			<td class="text-right recent-hrs-column">---</td>
 				          			{% if entry.1.budget != 0 %}
