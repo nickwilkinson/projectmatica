@@ -37,7 +37,9 @@ td { height: 50px; /*width: 25px;*/ }
 
 .table_wrapper {margin-bottom:60px;}
 #projects_table th {font-size: 1.1em;}
+#projects_table th.team_column {width:10%;}
 #projects_table td {vertical-align: middle; font-size: 1.3em;}
+#projects_table td span.team_label {padding: 0 6px; border:2px solid rgb(153, 153, 153); border-radius: 10px; font-size: 13px;}
 #projects_table td.recent-hrs-column {width:12%;}
 #projects_table td.budget-column {width:19%;}
 #projects_table td.deadline-column {width:12%;}

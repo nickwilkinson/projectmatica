@@ -73,7 +73,8 @@ def project_list(request):
 			"recent_hours": entry.recent_hours_spent,
 			"tm_cap": entry.tm_cap,
 			"category": entry.category.category_name,
-			"product": entry.product.product_name
+			"product": entry.product.product_name,
+			"team": entry.staff_names
 		}
 		defined_projects_details[entry.redmine_project_id] = project_details
 
@@ -150,6 +151,13 @@ def project_list(request):
 			elif all_projects_details[entry]["product"] == 'Combo':
 				product_count[3] = 1
 
+			# Build team data for display
+			if all_projects_details[entry]["team"] != '':
+				# all_projects_details[entry]["team_display"] = '<span class="team_label">JRM</span> <span class="team_label">JRM</span>'
+				all_projects_details[entry]["team_display"] = all_projects_details[entry]["team"]
+			else:
+				all_projects_details[entry]["team_display"] = '<span>---</span>'
+			
 
 		# Add list of Uncategorized projects
 		elif entry not in other_pm_project_ids:

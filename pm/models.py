@@ -19,11 +19,11 @@ class Category(models.Model):
 
 
 class Staff(models.Model):
-	name = models.CharField(max_length=30)
-	email = models.EmailField()
+	staff_name = models.CharField(max_length=30)
+	staff_email = models.EmailField()
 	
 	def __str__(self):
-		return self.name
+		return self.staff_name
 
 
 class Project(models.Model):
@@ -46,6 +46,10 @@ class Project(models.Model):
 	product = models.ForeignKey(Product, on_delete=models.CASCADE, default=4) #defaults to "None" product
 	category = models.ForeignKey(Category, on_delete=models.CASCADE, default=9) #defaults to "Uncategorized"
 	team = models.ManyToManyField(Staff, blank=True)
+
+	def staff_names(self):
+		return ', '.join([a.staff_name for a in self.team.all()])
+	staff_names.short_description = "Staff Names"
 
 	def __str__(self):
 		return self.redmine_project_name

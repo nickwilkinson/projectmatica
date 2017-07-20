@@ -25,6 +25,7 @@
 		<table id="projects_table" class="table table-striped table-hover table-treeview">
 			<thead>
 				<tr>
+					<th class="team_column">Team</th>
 					<th>Project name</th>
 					<th class="text-right">Spent in last 14 days</th>
 					<th class="text-right">Overall budget</th>
@@ -40,7 +41,10 @@
 							{% if user.is_superuser %}
 							<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 							{% endif %}
-			                <i class="fa fa-user" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="" data-original-title="Mike G, Sara"></i>
+							{{entry.1.team_display}}
+						</td>
+						<td>
+			                <!-- <i class="fa fa-user" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="" data-original-title="Mike G, Sara"></i> -->
 			                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
 			                {% if entry.1.client != "none" %}
 			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
@@ -61,16 +65,19 @@
 
 		        {% if non_billable_count.0 > 0 %}
 		        <tr class="non-billable-header non-billable" data-tt-id="20">
-		        	<td colspan="4">Non-billable projects ({{non_billable_count.0}})</td>
+		        	<td colspan="5">Non-billable projects ({{non_billable_count.0}})</td>
 	        	</tr>
 		        {% for entry in displayed_non_billable_projects %}
 			        {% if entry.1.project_id is null %}
 				        {% if entry.1.product == "AtoM" %}
 				        <tr class="non-billable" data-tt-id="21" data-tt-parent-id="20">
 			                <td>
-							{% if user.is_superuser %}
-							<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-							{% endif %}
+								{% if user.is_superuser %}
+								<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+								{% endif %}
+								<span class="team_label">JRM</span> <span class="team_label">JRM</span>
+							</td>
+							<td>
 			                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
 			                {% if entry.1.client != "none" %}
 			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
@@ -92,15 +99,18 @@
 
 	    		{% if inactive_count.0 > 0 %}
 			        <tr class="inactive-projects-header inactive-projects" data-tt-id="60">
-			        	<td colspan="4">Inactive projects ({{inactive_count.0}})</td>
+			        	<td colspan="5">Inactive projects ({{inactive_count.0}})</td>
 		        	</tr>
 	    			{% for entry in displayed_inactive_projects %}
 			        	{% if entry.1.product == "AtoM" %}
 					        <tr class="inactive-projects" data-tt-id="61" data-tt-parent-id="60">
 				                <td>
-								{% if user.is_superuser %}
-								<a class="edit_project" href="{% url 'project_edit' pid=entry.1.redmine_project_id %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-								{% endif %}
+									{% if user.is_superuser %}
+									<a class="edit_project" href="{% url 'project_edit' pid=entry.1.redmine_project_id %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+									{% endif %}
+									<span class="team_label">JRM</span> <span class="team_label">JRM</span>
+								</td>
+								<td>
 				                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
 				                {% if entry.1.client != "none" %}
 				                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
@@ -130,6 +140,7 @@
 		<table id="projects_table" class="table table-striped table-hover table-treeview">
 			<thead>
 				<tr>
+					<th class="team_column">Team</th>
 					<th>Project name</th>
 					<th class="text-right">Spent in last 14 days</th>
 					<th class="text-right">Overall budget</th>
@@ -142,9 +153,12 @@
 				        {% if entry.1.product == "Archivematica" %}
 				        <tr>
 			                <td>
-							{% if user.is_superuser %}
-							<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-							{% endif %}
+								{% if user.is_superuser %}
+								<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+								{% endif %}
+								<span class="team_label">JRM</span> <span class="team_label">JRM</span>
+							</td>
+							<td>
 			                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
 			                {% if entry.1.client != "none" %}
 			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
@@ -165,16 +179,19 @@
 
 		        {% if non_billable_count.1 > 0 %}
 		        <tr class="non-billable-header non-billable" data-tt-id="1">
-		        	<td colspan="4">Non-billable projects ({{non_billable_count.1}})</td>
+		        	<td colspan="5">Non-billable projects ({{non_billable_count.1}})</td>
 	        	</tr>
 		        {% for entry in displayed_non_billable_projects %}
 			        {% if entry.1.project_id is null %}
 				        {% if entry.1.product == "Archivematica" %}
 				        <tr class="non-billable" data-tt-id="2" data-tt-parent-id="1">
 			                <td>
-							{% if user.is_superuser %}
-							<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-							{% endif %}
+								{% if user.is_superuser %}
+								<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+								{% endif %}
+								<span class="team_label">JRM</span> <span class="team_label">JRM</span>
+							</td>
+							<td>
 			                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
 			                {% if entry.1.client != "none" %}
 			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
@@ -196,15 +213,18 @@
 		        
 	    		{% if inactive_count.1 > 0 %}
 			        <tr class="inactive-projects-header inactive-projects" data-tt-id="50">
-			        	<td colspan="4">Inactive projects ({{inactive_count.1}})</td>
+			        	<td colspan="5">Inactive projects ({{inactive_count.1}})</td>
 		        	</tr>
 	    			{% for entry in displayed_inactive_projects %}
 			        	{% if entry.1.product == "Archivematica" %}
 					        <tr class="inactive-projects" data-tt-id="51" data-tt-parent-id="50">
 				                <td>
-								{% if user.is_superuser %}
-								<a class="edit_project" href="{% url 'project_edit' pid=entry.1.redmine_project_id %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-								{% endif %}
+									{% if user.is_superuser %}
+									<a class="edit_project" href="{% url 'project_edit' pid=entry.1.redmine_project_id %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+									{% endif %}
+									<span class="team_label">JRM</span> <span class="team_label">JRM</span>
+								</td>
+								<td>
 				                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
 				                {% if entry.1.client != "none" %}
 				                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
@@ -235,6 +255,7 @@
 		<table id="projects_table" class="table table-striped table-hover table-treeview">
 			<thead>
 				<tr>
+					<th class="team_column">Team</th>
 					<th>Project name</th>
 					<th class="text-right">Spent in last 14 days</th>
 					<th class="text-right">Overall budget</th>
@@ -247,9 +268,12 @@
 				        {% if entry.1.product == "Combo" %}
 				        <tr>
 			                <td>
-							{% if user.is_superuser %}
-							<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-							{% endif %}
+								{% if user.is_superuser %}
+								<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+								{% endif %}
+								<span class="team_label">JRM</span> <span class="team_label">JRM</span>
+			                </td>
+			                <td>
 			                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
 			                {% if entry.1.client != "none" %}
 			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
@@ -270,16 +294,19 @@
 
 		        {% if non_billable_count.3 > 0 %}
 		        <tr class="non-billable-header non-billable" data-tt-id="30">
-		        	<td colspan="4">Non-billable projects ({{non_billable_count.3}})</td>
+		        	<td colspan="5">Non-billable projects ({{non_billable_count.3}})</td>
 	        	</tr>
 		        {% for entry in displayed_non_billable_projects %}
 			        {% if entry.1.project_id is null %}
 				        {% if entry.1.product == "Combo" %}
 				        <tr class="non-billable" data-tt-id="31" data-tt-parent-id="30">
 			                <td>
-							{% if user.is_superuser %}
-							<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-							{% endif %}
+								{% if user.is_superuser %}
+								<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+								{% endif %}
+								<span class="team_label">JRM</span> <span class="team_label">JRM</span>
+							</td>
+							<td>
 			                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
 			                {% if entry.1.client != "none" %}
 			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
@@ -302,15 +329,18 @@
 
 	    		{% if inactive_count.3 > 0 %}
 			        <tr class="inactive-projects-header inactive-projects" data-tt-id="70">
-			        	<td colspan="4">Inactive projects ({{inactive_count.3}})</td>
+			        	<td colspan="5">Inactive projects ({{inactive_count.3}})</td>
 		        	</tr>
 	    			{% for entry in displayed_inactive_projects %}
 			        	{% if entry.1.product == "Combo" %}
 					        <tr class="inactive-projects" data-tt-id="71" data-tt-parent-id="70">
 				                <td>
-								{% if user.is_superuser %}
-								<a class="edit_project" href="{% url 'project_edit' pid=entry.1.redmine_project_id %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-								{% endif %}
+									{% if user.is_superuser %}
+									<a class="edit_project" href="{% url 'project_edit' pid=entry.1.redmine_project_id %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+									{% endif %}
+									<span class="team_label">JRM</span> <span class="team_label">JRM</span>
+								</td>
+								<td>
 				                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
 				                {% if entry.1.client != "none" %}
 				                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
@@ -339,6 +369,7 @@
 		<table id="projects_table" class="table table-striped table-hover table-treeview">
 			<thead>
 				<tr>
+					<th class="team_column">Team</th>
 					<th>Project name</th>
 					<th class="text-right">Spent in last 14 days</th>
 					<th class="text-right">Overall budget</th>
@@ -351,9 +382,12 @@
 				        {% if entry.1.product == "Binder" %}
 				        <tr>
 			                <td>
-							{% if user.is_superuser %}
-							<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-							{% endif %}
+								{% if user.is_superuser %}
+								<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+								{% endif %}
+				                <span class="team_label">JRM</span> <span class="team_label">JRM</span>
+			                </td>
+			                <td>
 			                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
 			                {% if entry.1.client != "none" %}
 			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
@@ -374,16 +408,19 @@
 		        
 		        {% if non_billable_count.2 > 0 %}
 		        <tr class="non-billable-header non-billable" data-tt-id="40">
-		        	<td colspan="4">Non-billable projects ({{non_billable_count.2}})</td>
+		        	<td colspan="5">Non-billable projects ({{non_billable_count.2}})</td>
 	        	</tr>
 		        {% for entry in displayed_non_billable_projects %}
 			        {% if entry.1.project_id is null %}
 				        {% if entry.1.product == "Binder" %}
 				        <tr class="non-billable" data-tt-id="41" data-tt-parent-id="40">
 			                <td>
-							{% if user.is_superuser %}
-							<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-							{% endif %}
+								{% if user.is_superuser %}
+								<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+								{% endif %}
+								<span class="team_label">JRM</span> <span class="team_label">JRM</span>
+							</td>
+							<td>
 			                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
 			                {% if entry.1.client != "none" %}
 			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
@@ -405,15 +442,18 @@
 
 	    		{% if inactive_count.2 > 0 %}
 			        <tr class="inactive-projects-header inactive-projects" data-tt-id="80">
-			        	<td colspan="4">Inactive projects ({{inactive_count.2}})</td>
+			        	<td colspan="5">Inactive projects ({{inactive_count.2}})</td>
 		        	</tr>
 	    			{% for entry in displayed_inactive_projects %}
 			        	{% if entry.1.product == "Binder" %}
 					        <tr class="inactive-projects" data-tt-id="81" data-tt-parent-id="80">
 				                <td>
-								{% if user.is_superuser %}
-								<a class="edit_project" href="{% url 'project_edit' pid=entry.1.redmine_project_id %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-								{% endif %}
+									{% if user.is_superuser %}
+									<a class="edit_project" href="{% url 'project_edit' pid=entry.1.redmine_project_id %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+									{% endif %}
+									<span class="team_label">JRM</span> <span class="team_label">JRM</span>
+								</td>
+								<td>
 				                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
 				                {% if entry.1.client != "none" %}
 				                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
