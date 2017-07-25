@@ -19,8 +19,10 @@ class Category(models.Model):
 
 
 class Staff(models.Model):
-	staff_name = models.CharField(max_length=30)
-	staff_email = models.EmailField()
+	staff_abvr = models.CharField(max_length=4, blank=True, default="")
+	staff_email = models.EmailField(blank=True, default="")
+	staff_name = models.CharField(max_length=30, blank=True, default="")
+	staff_position = models.CharField(max_length=30, blank=True, default="")
 	
 	def __str__(self):
 		return self.staff_name
@@ -47,9 +49,10 @@ class Project(models.Model):
 	category = models.ForeignKey(Category, on_delete=models.CASCADE, default=9) #defaults to "Uncategorized"
 	team = models.ManyToManyField(Staff, blank=True)
 
-	def staff_names(self):
-		return ', '.join([a.staff_name for a in self.team.all()])
-	staff_names.short_description = "Staff Names"
+	# https://stackoverflow.com/questions/4564086/django-display-content-of-a-manytomanyfield
+	def staff_abvrs(self):
+		return ', '.join([a.staff_abvr for a in self.team.all()])
+	staff_abvrs.short_description = "Staff Abbreviations"
 
 	def __str__(self):
 		return self.redmine_project_name

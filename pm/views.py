@@ -74,7 +74,7 @@ def project_list(request):
 			"tm_cap": entry.tm_cap,
 			"category": entry.category.category_name,
 			"product": entry.product.product_name,
-			"team": entry.staff_names
+			"team": entry.staff_abvrs()
 		}
 		defined_projects_details[entry.redmine_project_id] = project_details
 
@@ -153,10 +153,9 @@ def project_list(request):
 
 			# Build team data for display
 			if all_projects_details[entry]["team"] != '':
-				# all_projects_details[entry]["team_display"] = '<span class="team_label">JRM</span> <span class="team_label">JRM</span>'
-				all_projects_details[entry]["team_display"] = all_projects_details[entry]["team"]
+				all_projects_details[entry]["team_display"] = all_projects_details[entry]["team"].split(",")
 			else:
-				all_projects_details[entry]["team_display"] = '<span>---</span>'
+				all_projects_details[entry]["team_display"] = ['<span>---</span>']
 			
 
 		# Add list of Uncategorized projects
@@ -182,6 +181,12 @@ def project_list(request):
 			else:
 				tm_status = ''
 
+			# Build team data for display
+			if entry.staff_abvrs() != '':
+				team_display = entry.staff_abvrs().split(",")
+			else:
+				team_display = ['<span>---</span>']
+
 			non_billable_project_details = {
 				"redmine_project_id": entry.redmine_project_id,
 				"deadline": entry.deadline,
@@ -193,7 +198,8 @@ def project_list(request):
 				"recent_hours": entry.recent_hours_spent,
 				"tm_status": tm_status,
 				"product": entry.product.product_name,
-				"total_hours": math.ceil(entry.total_hours_spent)
+				"total_hours": math.ceil(entry.total_hours_spent),
+				"team_display": team_display
 			}
 			
 			if entry.product.product_name == "AtoM":
@@ -226,6 +232,13 @@ def project_list(request):
 			else:
 				tm_status = ''
 
+			# Build team data for display
+			if entry.staff_abvrs() != '':
+				team_display = entry.staff_abvrs().split(",")
+			else:
+				team_display = ['<span>---</span>']
+
+
 			inactive_project_details = {
 				"redmine_project_id": entry.redmine_project_id,
 				"deadline": entry.deadline,
@@ -236,7 +249,8 @@ def project_list(request):
 				"remaining_hours": remaining_hours,
 				"tm_status": tm_status,
 				"product": entry.product.product_name,
-				"total_hours": math.ceil(entry.total_hours_spent)
+				"total_hours": math.ceil(entry.total_hours_spent),
+				"team_display": team_display
 			}
 			
 			if entry.product.product_name == "AtoM":
@@ -247,7 +261,7 @@ def project_list(request):
 				inactive_count[2] += 1
 			elif entry.product.product_name == "Combo":
 				inactive_count[3] += 1
-			
+
 			displayed_inactive_projects[entry.redmine_project_id] = inactive_project_details
 	
 	sorted_displayed_inactive_projects = sorted(displayed_inactive_projects.items(), key=lambda v: (v[1]['deadline'] == '', v[1]['deadline'] is None, v[1]['deadline']))

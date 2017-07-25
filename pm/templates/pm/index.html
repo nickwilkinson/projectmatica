@@ -41,7 +41,14 @@
 							{% if user.is_superuser %}
 							<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 							{% endif %}
-							{{entry.1.team_display}}
+							<!-- Team column -->
+							{% for staff in entry.1.team_display %}
+								{% if staff != '<span>---</span>' %}
+									<span class="team_label">{{staff|safe}}</span>
+								{% else %}
+									{{staff|safe}}
+								{% endif %}
+							{% endfor %}
 						</td>
 						<td>
 			                <!-- <i class="fa fa-user" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="" data-original-title="Mike G, Sara"></i> -->
@@ -75,7 +82,14 @@
 								{% if user.is_superuser %}
 								<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 								{% endif %}
-								<span class="team_label">JRM</span> <span class="team_label">JRM</span>
+								<!-- Team column -->
+								{% for staff in entry.1.team_display %}
+									{% if staff != '<span>---</span>' %}
+										<span class="team_label">{{staff|safe}}</span>
+									{% else %}
+										{{staff|safe}}
+									{% endif %}
+								{% endfor %}
 							</td>
 							<td>
 			                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
@@ -108,7 +122,14 @@
 									{% if user.is_superuser %}
 									<a class="edit_project" href="{% url 'project_edit' pid=entry.1.redmine_project_id %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 									{% endif %}
-									<span class="team_label">JRM</span> <span class="team_label">JRM</span>
+									<!-- Team column -->
+									{% for staff in entry.1.team_display %}
+										{% if staff != '<span>---</span>' %}
+											<span class="team_label">{{staff|safe}}</span>
+										{% else %}
+											{{staff|safe}}
+										{% endif %}
+									{% endfor %}
 								</td>
 								<td>
 				                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
@@ -156,7 +177,14 @@
 								{% if user.is_superuser %}
 								<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 								{% endif %}
-								<span class="team_label">JRM</span> <span class="team_label">JRM</span>
+								<!-- Team column -->
+								{% for staff in entry.1.team_display %}
+									{% if staff != '<span>---</span>' %}
+										<span class="team_label">{{staff|safe}}</span>
+									{% else %}
+										{{staff|safe}}
+									{% endif %}
+								{% endfor %}
 							</td>
 							<td>
 			                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
@@ -189,7 +217,14 @@
 								{% if user.is_superuser %}
 								<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 								{% endif %}
-								<span class="team_label">JRM</span> <span class="team_label">JRM</span>
+								<!-- Team column -->
+								{% for staff in entry.1.team_display %}
+									{% if staff != '<span>---</span>' %}
+										<span class="team_label">{{staff|safe}}</span>
+									{% else %}
+										{{staff|safe}}
+									{% endif %}
+								{% endfor %}
 							</td>
 							<td>
 			                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
@@ -222,7 +257,14 @@
 									{% if user.is_superuser %}
 									<a class="edit_project" href="{% url 'project_edit' pid=entry.1.redmine_project_id %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 									{% endif %}
-									<span class="team_label">JRM</span> <span class="team_label">JRM</span>
+									<!-- Team column -->
+									{% for staff in entry.1.team_display %}
+										{% if staff != '<span>---</span>' %}
+											<span class="team_label">{{staff|safe}}</span>
+										{% else %}
+											{{staff|safe}}
+										{% endif %}
+									{% endfor %}
 								</td>
 								<td>
 				                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
@@ -271,7 +313,14 @@
 								{% if user.is_superuser %}
 								<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 								{% endif %}
-								<span class="team_label">JRM</span> <span class="team_label">JRM</span>
+								<!-- Team column -->
+								{% for staff in entry.1.team_display %}
+									{% if staff != '<span>---</span>' %}
+										<span class="team_label">{{staff|safe}}</span>
+									{% else %}
+										{{staff|safe}}
+									{% endif %}
+								{% endfor %}
 			                </td>
 			                <td>
 			                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
@@ -304,7 +353,14 @@
 								{% if user.is_superuser %}
 								<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 								{% endif %}
-								<span class="team_label">JRM</span> <span class="team_label">JRM</span>
+								<!-- Team column -->
+								{% for staff in entry.1.team_display %}
+									{% if staff != '<span>---</span>' %}
+										<span class="team_label">{{staff|safe}}</span>
+									{% else %}
+										{{staff|safe}}
+									{% endif %}
+								{% endfor %}
 							</td>
 							<td>
 			                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
@@ -338,7 +394,14 @@
 									{% if user.is_superuser %}
 									<a class="edit_project" href="{% url 'project_edit' pid=entry.1.redmine_project_id %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 									{% endif %}
-									<span class="team_label">JRM</span> <span class="team_label">JRM</span>
+									<!-- Team column -->
+									{% for staff in entry.1.team_display %}
+										{% if staff != '<span>---</span>' %}
+											<span class="team_label">{{staff|safe}}</span>
+										{% else %}
+											{{staff|safe}}
+										{% endif %}
+									{% endfor %}
 								</td>
 								<td>
 				                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
@@ -385,7 +448,14 @@
 								{% if user.is_superuser %}
 								<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 								{% endif %}
-				                <span class="team_label">JRM</span> <span class="team_label">JRM</span>
+								<!-- Team column -->
+								{% for staff in entry.1.team_display %}
+									{% if staff != '<span>---</span>' %}
+										<span class="team_label">{{staff|safe}}</span>
+									{% else %}
+										{{staff|safe}}
+									{% endif %}
+								{% endfor %}
 			                </td>
 			                <td>
 			                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
@@ -418,7 +488,14 @@
 								{% if user.is_superuser %}
 								<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 								{% endif %}
-								<span class="team_label">JRM</span> <span class="team_label">JRM</span>
+								<!-- Team column -->
+								{% for staff in entry.1.team_display %}
+									{% if staff != '<span>---</span>' %}
+										<span class="team_label">{{staff|safe}}</span>
+									{% else %}
+										{{staff|safe}}
+									{% endif %}
+								{% endfor %}
 							</td>
 							<td>
 			                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
@@ -451,7 +528,14 @@
 									{% if user.is_superuser %}
 									<a class="edit_project" href="{% url 'project_edit' pid=entry.1.redmine_project_id %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 									{% endif %}
-									<span class="team_label">JRM</span> <span class="team_label">JRM</span>
+									<!-- Team column -->
+									{% for staff in entry.1.team_display %}
+										{% if staff != '<span>---</span>' %}
+											<span class="team_label">{{staff|safe}}</span>
+										{% else %}
+											{{staff|safe}}
+										{% endif %}
+									{% endfor %}
 								</td>
 								<td>
 				                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
