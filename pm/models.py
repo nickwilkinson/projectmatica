@@ -22,7 +22,7 @@ class Staff(models.Model):
 	staff_abvr = models.CharField(max_length=4, blank=True, default="")
 	staff_email = models.EmailField(blank=True, default="")
 	staff_name = models.CharField(max_length=30, blank=True, default="")
-	staff_position = models.CharField(max_length=30, blank=True, default="")
+	staff_position = models.CharField(max_length=20, blank=True, default="")
 	
 	def __str__(self):
 		return self.staff_name
