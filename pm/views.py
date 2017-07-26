@@ -273,7 +273,8 @@ def project_list(request):
 		"displayed_non_billable_projects": sorted_displayed_non_billable_projects,
 		"product_count": product_count,
 		"non_billable_count": non_billable_count,
-		"inactive_count": inactive_count
+		"inactive_count": inactive_count,
+		"dashboard": True
 	}
 
 	return render(request, 'pm/index.html', context)

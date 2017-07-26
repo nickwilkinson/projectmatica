@@ -105,6 +105,35 @@
     </script>
     {% endif %}
 
+    {% if dashboard %}
+    <script>
+      $( function() {
+        $( "#projects_table tr" ).hover(
+          function() {
+            var row = (this.id);
+            var row_number = row.split("_").pop();
+
+            $("#edit_"+row_number).css("visibility", "visible");
+          }, function() {
+            var row = (this.id);
+            var row_number = row.split("_").pop();
+
+            $("#edit_"+row_number).css("visibility", "hidden");
+          }
+        );
+
+
+        // $("#projects_table tr").mouseover(function() {
+        //   $("projects_table a.edit_project").hide("", function(){
+        //     var row = (this.id);
+        //     var row_number = row.split("_").pop();
+        //     $("#edit_"+row_number).show();
+        //   });
+        // });
+      });
+    </script>
+    {% endif %}
+
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="{% static 'pm/js/bootstrap.min.js' %}"></script>
 
