@@ -51,7 +51,7 @@ def project_list(request):
 		recent_project_ids.append(entry.redmine_project_id)
 
 	# Get a list of all defined projects from the Projectmatica db that:
-	#  - are categorized as Billable or Non-billable
+	#  - are categorized as Billable or Non-billable (don't get list of non-billable projects, yet!)
 	#  - don't have a completed_on date
 	# defined_projects = Project.objects.filter(category__category_name__in = ['Billable', 'Non-billable']).exclude(completed_on__isnull=False)
 	defined_projects = Project.objects.filter(category__category_name__in = ['Billable']).exclude(completed_on__isnull=False)
@@ -141,6 +141,7 @@ def project_list(request):
 			else:
 				all_projects_details[entry]["tm_status"] = ''
 
+
 			# Determine if there are any projects for each product
 			if all_projects_details[entry]["product"] == 'AtoM':
 				product_count[0] = 1
@@ -156,7 +157,7 @@ def project_list(request):
 				all_projects_details[entry]["team_display"] = all_projects_details[entry]["team"].split(",")
 			else:
 				all_projects_details[entry]["team_display"] = ['<span>---</span>']
-			
+
 
 		# Add list of Uncategorized projects
 		elif entry not in other_pm_project_ids:
