@@ -51,14 +51,15 @@ td { height: 50px; /*width: 25px;*/ }
 #projects_table tr.non-billable {border-left: 2px solid rgb(215,81,0);}
 #projects_table tr.non-billable-header {background-color: rgb(43,62,80); font-weight: bold;}
 #projects_table tr.non-billable-header td {border-top: 2px solid rgb(223,105,26);}
-#projects_table tr.non-billable a.edit_project {display:inline; margin-left:-13px;}
 
 #projects_table tr.inactive-projects {border-left: 2px solid grey;}
 #projects_table tr.inactive-projects-header {background-color: rgb(43,62,80); font-weight: bold;}
 #projects_table tr.inactive-projects-header td {border-top: 2px solid grey;}
-#projects_table tr.inactive-projects a.edit_project {display:inline; margin-left:-13px;}
 
 #projects_table a.edit_project {display: inline-block; visibility: hidden; margin-left:-25px; margin-right:1px; width: 20px; height:30px;}
+#projects_table tr.inactive-projects a.edit_project {display:inline; margin-left:-48px;}
+#projects_table tr.non-billable a.edit_project {display:inline; margin-left:-48px;}
+
 p.no_projects {margin-top: 20px; font-size: 1.25em;}
 
 /* Project Edit form */

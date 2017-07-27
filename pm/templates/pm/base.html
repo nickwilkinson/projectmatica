@@ -105,7 +105,7 @@
     </script>
     {% endif %}
 
-    {% if dashboard %}
+    {% if dashboard and user.is_superuser %}
     <script>
       $( function() {
         $( "#projects_table tr" ).hover(
@@ -122,14 +122,34 @@
           }
         );
 
+        $( "tr.inactive-projects" ).hover(
+          function() {
+            var row = (this.id);
+            var row_number = row.split("_").pop()+"i";
 
-        // $("#projects_table tr").mouseover(function() {
-        //   $("projects_table a.edit_project").hide("", function(){
-        //     var row = (this.id);
-        //     var row_number = row.split("_").pop();
-        //     $("#edit_"+row_number).show();
-        //   });
-        // });
+            $("#edit_"+row_number+"i").css("visibility", "visible");
+          }, function() {
+            var row = (this.id);
+            var row_number = row.split("_").pop()+"i";
+
+            $("#edit_"+row_number+"i").css("visibility", "hidden");
+          }
+        );
+
+        $( "tr.non-billable" ).hover(
+          function() {
+            var row = (this.id);
+            var row_number = row.split("_").pop()+"n";
+
+            $("#edit_"+row_number+"n").css("visibility", "visible");
+          }, function() {
+            var row = (this.id);
+            var row_number = row.split("_").pop()+"i";
+
+            $("#edit_"+row_number+"n").css("visibility", "hidden");
+          }
+        );
+
       });
     </script>
     {% endif %}

@@ -77,10 +77,10 @@
 		        {% for entry in displayed_non_billable_projects %}
 			        {% if entry.1.project_id is null %}
 				        {% if entry.1.product == "AtoM" %}
-				        <tr class="non-billable" data-tt-id="21" data-tt-parent-id="20">
+				        <tr id="row_{{forloop.counter}}n" class="non-billable" data-tt-id="21" data-tt-parent-id="20">
 			                <td>
 								{% if user.is_superuser %}
-								<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+								<a id="edit_{{forloop.counter}}n" class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 								{% endif %}
 								<!-- Team column -->
 								{% for staff in entry.1.team_display %}
@@ -117,10 +117,10 @@
 		        	</tr>
 	    			{% for entry in displayed_inactive_projects %}
 			        	{% if entry.1.product == "AtoM" %}
-					        <tr class="inactive-projects" data-tt-id="61" data-tt-parent-id="60">
+					        <tr id="row_{{forloop.counter}}i" class="inactive-projects" data-tt-id="61" data-tt-parent-id="60">
 				                <td>
 									{% if user.is_superuser %}
-									<a class="edit_project" href="{% url 'project_edit' pid=entry.1.redmine_project_id %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+									<a id="edit_{{forloop.counter}}i" class="edit_project" href="{% url 'project_edit' pid=entry.1.redmine_project_id %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 									{% endif %}
 									<!-- Team column -->
 									{% for staff in entry.1.team_display %}
@@ -212,10 +212,10 @@
 		        {% for entry in displayed_non_billable_projects %}
 			        {% if entry.1.project_id is null %}
 				        {% if entry.1.product == "Archivematica" %}
-				        <tr class="non-billable" data-tt-id="2" data-tt-parent-id="1">
+				        <tr id="row_{{forloop.counter}}n" class="non-billable" data-tt-id="2" data-tt-parent-id="1">
 			                <td>
 								{% if user.is_superuser %}
-								<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+								<a id="edit_{{forloop.counter}}n" class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 								{% endif %}
 								<!-- Team column -->
 								{% for staff in entry.1.team_display %}
@@ -252,10 +252,10 @@
 		        	</tr>
 	    			{% for entry in displayed_inactive_projects %}
 			        	{% if entry.1.product == "Archivematica" %}
-					        <tr class="inactive-projects" data-tt-id="51" data-tt-parent-id="50">
+					        <tr id="row_{{forloop.counter}}i" class="inactive-projects" data-tt-id="51" data-tt-parent-id="50">
 				                <td>
 									{% if user.is_superuser %}
-									<a class="edit_project" href="{% url 'project_edit' pid=entry.1.redmine_project_id %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+									<a id="edit_{{forloop.counter}}i" class="edit_project" href="{% url 'project_edit' pid=entry.1.redmine_project_id %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 									{% endif %}
 									<!-- Team column -->
 									{% for staff in entry.1.team_display %}
@@ -348,10 +348,10 @@
 		        {% for entry in displayed_non_billable_projects %}
 			        {% if entry.1.project_id is null %}
 				        {% if entry.1.product == "Combo" %}
-				        <tr class="non-billable" data-tt-id="31" data-tt-parent-id="30">
+				        <tr id="row_{{forloop.counter}}n" class="non-billable" data-tt-id="31" data-tt-parent-id="30">
 			                <td>
 								{% if user.is_superuser %}
-								<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+								<a id="edit_{{forloop.counter}}n" class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 								{% endif %}
 								<!-- Team column -->
 								{% for staff in entry.1.team_display %}
@@ -389,10 +389,10 @@
 		        	</tr>
 	    			{% for entry in displayed_inactive_projects %}
 			        	{% if entry.1.product == "Combo" %}
-					        <tr class="inactive-projects" data-tt-id="71" data-tt-parent-id="70">
+					        <tr id="row_{{forloop.counter}}i" class="inactive-projects" data-tt-id="71" data-tt-parent-id="70">
 				                <td>
 									{% if user.is_superuser %}
-									<a class="edit_project" href="{% url 'project_edit' pid=entry.1.redmine_project_id %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+									<a id="edit_{{forloop.counter}}i" class="edit_project" href="{% url 'project_edit' pid=entry.1.redmine_project_id %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 									{% endif %}
 									<!-- Team column -->
 									{% for staff in entry.1.team_display %}
@@ -483,10 +483,10 @@
 		        {% for entry in displayed_non_billable_projects %}
 			        {% if entry.1.project_id is null %}
 				        {% if entry.1.product == "Binder" %}
-				        <tr class="non-billable" data-tt-id="41" data-tt-parent-id="40">
+				        <tr id="row_{{forloop.counter}}n" class="non-billable" data-tt-id="41" data-tt-parent-id="40">
 			                <td>
 								{% if user.is_superuser %}
-								<a class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+								<a id="edit_{{forloop.counter}}n" class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 								{% endif %}
 								<!-- Team column -->
 								{% for staff in entry.1.team_display %}
@@ -523,10 +523,10 @@
 		        	</tr>
 	    			{% for entry in displayed_inactive_projects %}
 			        	{% if entry.1.product == "Binder" %}
-					        <tr class="inactive-projects" data-tt-id="81" data-tt-parent-id="80">
+					        <tr id="row_{{forloop.counter}}i" class="inactive-projects" data-tt-id="81" data-tt-parent-id="80">
 				                <td>
 									{% if user.is_superuser %}
-									<a class="edit_project" href="{% url 'project_edit' pid=entry.1.redmine_project_id %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+									<a id="edit_{{forloop.counter}}i" class="edit_project" href="{% url 'project_edit' pid=entry.1.redmine_project_id %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 									{% endif %}
 									<!-- Team column -->
 									{% for staff in entry.1.team_display %}
