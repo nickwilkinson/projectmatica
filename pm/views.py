@@ -147,10 +147,11 @@ def project_list(request):
 				product_count[0] = 1
 			elif all_projects_details[entry]["product"] == 'Archivematica':
 				product_count[1] = 1
-			elif all_projects_details[entry]["product"] == 'Binder':
-				product_count[2] = 1
 			elif all_projects_details[entry]["product"] == 'Combo':
+				product_count[2] = 1
+			elif all_projects_details[entry]["product"] == 'Binder':
 				product_count[3] = 1
+
 
 			# Build team data for display
 			if all_projects_details[entry]["team"] != '':
@@ -267,6 +268,9 @@ def project_list(request):
 	
 	sorted_displayed_inactive_projects = sorted(displayed_inactive_projects.items(), key=lambda v: (v[1]['deadline'] == '', v[1]['deadline'] is None, v[1]['deadline']))
 
+	# Build list of products to iterate through on the Dashboard
+	product_list = ["Atom", "Archivematica", "Mixed projects", "Binder"]
+
 	context = {
 		"show_menu" : True,
 		"sorted_all_projects_details": sorted_all_projects_details,
@@ -275,7 +279,8 @@ def project_list(request):
 		"product_count": product_count,
 		"non_billable_count": non_billable_count,
 		"inactive_count": inactive_count,
-		"dashboard": True
+		"dashboard": True,
+		"product_list": product_list
 	}
 
 	return render(request, 'pm/index.html', context)
