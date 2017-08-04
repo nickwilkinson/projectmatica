@@ -1,7 +1,7 @@
 {% if product_count > 0 or non_billable_count > 0 or inactive_count > 0%}
 <div class="table_wrapper">		
 <h2 class="product">{{product_title}}</h2>
-<table id="projects_table" class="table table-striped table-hover table-treeview">
+<table id="projects_table" class="table table-hover table-treeview">
 	<thead>
 		<tr>
 			<th class="team_column">Team</th>
@@ -11,23 +11,15 @@
 			<th class="text-right">Deadline</th>
 		</tr>
 	</thead>
-	<tbody>
-        {% for entry in sorted_all_projects_details %}
+        {% for entry in sorted_all_projects_details %}	        
 	        {% if entry.1.project_id is null %}
-		        {% if entry.1.product == product_name %}
-		        <tr id="row_{{forloop.counter}}">
+		        {% if entry.1.product == product_name %}		        	
+        		<tbody>
+        		<tr id="row_{{forloop.counter}}" data-tt-id="{{forloop.counter0}}">
 	                <td class="first-column">
 						{% if user.is_superuser %}
 						<a id="edit_{{forloop.counter}}" class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 						{% endif %}
-						<!-- Team column -->
-						{% for staff in entry.1.team_display %}
-							{% if staff != '<span>---</span>' %}
-								<span class="team_label">{{staff|safe}}</span>
-							{% else %}
-								{{staff|safe}}
-							{% endif %}
-						{% endfor %}
 					</td>
 					<td>
 	                	<a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
@@ -44,22 +36,8 @@
           			{% endif %}
           			<td class="text-right deadline-column {{entry.1.deadline_status}}">{{ entry.1.deadline }}</td>
 				</tr>
-				{% endif %}
-			{% endif %}
-        {% endfor %}
-
-        {% if non_billable_count > 0 %}
-        <tr class="non-billable-header non-billable" data-tt-id="20">
-        	<td colspan="5">Non-billable projects ({{non_billable_count}})</td>
-    	</tr>
-        {% for entry in displayed_non_billable_projects %}
-	        {% if entry.1.project_id is null %}
-		        {% if entry.1.product == product_name %}
-		        <tr id="row_{{forloop.counter}}n" class="non-billable" data-tt-id="21" data-tt-parent-id="20">
-	                <td>
-						{% if user.is_superuser %}
-						<a id="edit_{{forloop.counter}}n" class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-						{% endif %}
+        		<tr data-tt-id="{{forloop.counter}}" data-tt-parent-id="{{forloop.counter0}}">
+					<td>
 						<!-- Team column -->
 						{% for staff in entry.1.team_display %}
 							{% if staff != '<span>---</span>' %}
@@ -68,6 +46,30 @@
 								{{staff|safe}}
 							{% endif %}
 						{% endfor %}
+					</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				</tbody>
+				{% endif %}
+			{% endif %}
+        {% endfor %}
+
+        {% if non_billable_count > 0 %}
+        <tbody>
+        <tr class="non-billable-header non-billable" data-tt-id="1000">
+        	<td colspan="5">Non-billable projects ({{non_billable_count}})</td>
+    	</tr>
+        {% for entry in displayed_non_billable_projects %}
+	        {% if entry.1.project_id is null %}
+		        {% if entry.1.product == product_name %}
+		        <tr id="row_{{forloop.counter}}n" class="non-billable" data-tt-id="{{forloop.counter0}}n" data-tt-parent-id="1000">
+	                <td>
+						{% if user.is_superuser %}
+						<a id="edit_{{forloop.counter}}n" class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+						{% endif %}
 					</td>
 					<td>
 	                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
@@ -84,30 +86,40 @@
 	          			{% endif %}
 	          			<td class="text-right deadline-column {{entry.1.deadline_status}}">{{ entry.1.deadline }}</td>
 				</tr>
+        		<tr data-tt-id="{{forloop.counter}}n" data-tt-parent-id="{{forloop.counter0}}n">
+					<td>
+						<!-- Team column -->
+						{% for staff in entry.1.team_display %}
+							{% if staff != '<span>---</span>' %}
+								<span class="team_label">{{staff|safe}}</span>
+							{% else %}
+								{{staff|safe}}
+							{% endif %}
+						{% endfor %}
+					</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				</tbody>
 				{% endif %}
 			{% endif %}
         {% endfor %}
         {% endif %}	        	        	
 
 		{% if inactive_count > 0 %}
-	        <tr class="inactive-projects-header inactive-projects" data-tt-id="60">
+	        <tbody>
+	        <tr class="inactive-projects-header inactive-projects" data-tt-id="2000">
 	        	<td colspan="5">Inactive projects ({{inactive_count}})</td>
         	</tr>
 			{% for entry in displayed_inactive_projects %}
 	        	{% if entry.1.product == product_name %}
-			        <tr id="row_{{forloop.counter}}i" class="inactive-projects" data-tt-id="61" data-tt-parent-id="60">
+			        <tr id="row_{{forloop.counter}}i" class="inactive-projects" data-tt-id="{{forloop.counter0}}i" data-tt-parent-id="2000">
 		                <td>
 							{% if user.is_superuser %}
 							<a id="edit_{{forloop.counter}}i" class="edit_project" href="{% url 'project_edit' pid=entry.1.redmine_project_id %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 							{% endif %}
-							<!-- Team column -->
-							{% for staff in entry.1.team_display %}
-								{% if staff != '<span>---</span>' %}
-									<span class="team_label">{{staff|safe}}</span>
-								{% else %}
-									{{staff|safe}}
-								{% endif %}
-							{% endfor %}
 						</td>
 						<td>
 		                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
@@ -124,11 +136,26 @@
 		          			{% endif %}
 		          			<td class="text-right deadline-column">{{ entry.1.deadline }}</td>
 					</tr>
+        			<tr data-tt-id="{{forloop.counter}}i" data-tt-parent-id="{{forloop.counter0}}i">
+						<td>
+							<!-- Team column -->
+							{% for staff in entry.1.team_display %}
+								{% if staff != '<span>---</span>' %}
+									<span class="team_label">{{staff|safe}}</span>
+								{% else %}
+									{{staff|safe}}
+								{% endif %}
+							{% endfor %}
+						</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</tbody>
 		        {% endif %}
 	        {% endfor %}
         {% endif %}
-
-	</tbody>
 </table>
 </div>
 {% endif %}
