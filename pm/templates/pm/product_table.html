@@ -1,0 +1,134 @@
+{% if product_count > 0 or non_billable_count > 0 or inactive_count > 0%}
+<div class="table_wrapper">		
+<h2 class="product">{{product_title}}</h2>
+<table id="projects_table" class="table table-striped table-hover table-treeview">
+	<thead>
+		<tr>
+			<th class="team_column">Team</th>
+			<th>Project name</th>
+			<th class="text-right">Spent in last 14 days</th>
+			<th class="text-right">Overall budget</th>
+			<th class="text-right">Deadline</th>
+		</tr>
+	</thead>
+	<tbody>
+        {% for entry in sorted_all_projects_details %}
+	        {% if entry.1.project_id is null %}
+		        {% if entry.1.product == product_name %}
+		        <tr id="row_{{forloop.counter}}">
+	                <td class="first-column">
+						{% if user.is_superuser %}
+						<a id="edit_{{forloop.counter}}" class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+						{% endif %}
+						<!-- Team column -->
+						{% for staff in entry.1.team_display %}
+							{% if staff != '<span>---</span>' %}
+								<span class="team_label">{{staff|safe}}</span>
+							{% else %}
+								{{staff|safe}}
+							{% endif %}
+						{% endfor %}
+					</td>
+					<td>
+	                	<a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
+	                	{% if entry.1.client != "none" %}
+	                		{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
+	                	{% else %}
+	                		{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
+	                	{% endif %}
+          			<td class="text-right recent-hrs-column">{{entry.1.recent_hours}} hrs</td>
+          			{% if entry.1.budget != 0 %}
+          				<td class="text-right budget-column {{entry.1.budget_status}}">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
+          			{% else %}
+          				<td class="text-right budget-column">{{entry.1.total_hours}} hrs total spent</td>
+          			{% endif %}
+          			<td class="text-right deadline-column {{entry.1.deadline_status}}">{{ entry.1.deadline }}</td>
+				</tr>
+				{% endif %}
+			{% endif %}
+        {% endfor %}
+
+        {% if non_billable_count > 0 %}
+        <tr class="non-billable-header non-billable" data-tt-id="20">
+        	<td colspan="5">Non-billable projects ({{non_billable_count}})</td>
+    	</tr>
+        {% for entry in displayed_non_billable_projects %}
+	        {% if entry.1.project_id is null %}
+		        {% if entry.1.product == product_name %}
+		        <tr id="row_{{forloop.counter}}n" class="non-billable" data-tt-id="21" data-tt-parent-id="20">
+	                <td>
+						{% if user.is_superuser %}
+						<a id="edit_{{forloop.counter}}n" class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+						{% endif %}
+						<!-- Team column -->
+						{% for staff in entry.1.team_display %}
+							{% if staff != '<span>---</span>' %}
+								<span class="team_label">{{staff|safe}}</span>
+							{% else %}
+								{{staff|safe}}
+							{% endif %}
+						{% endfor %}
+					</td>
+					<td>
+	                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
+	                {% if entry.1.client != "none" %}
+	                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
+	                {% else %}
+	                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
+	                {% endif %}
+	          			<td class="text-right recent-hrs-column">{{entry.1.recent_hours}} hrs</td>
+	          			{% if entry.1.budget != 0 %}
+	          				<td class="text-right budget-column {{entry.1.budget_status}}">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
+	          			{% else %}
+	          				<td class="text-right budget-column">{{entry.1.total_hours}} hrs total spent</td>
+	          			{% endif %}
+	          			<td class="text-right deadline-column {{entry.1.deadline_status}}">{{ entry.1.deadline }}</td>
+				</tr>
+				{% endif %}
+			{% endif %}
+        {% endfor %}
+        {% endif %}	        	        	
+
+		{% if inactive_count > 0 %}
+	        <tr class="inactive-projects-header inactive-projects" data-tt-id="60">
+	        	<td colspan="5">Inactive projects ({{inactive_count}})</td>
+        	</tr>
+			{% for entry in displayed_inactive_projects %}
+	        	{% if entry.1.product == product_name %}
+			        <tr id="row_{{forloop.counter}}i" class="inactive-projects" data-tt-id="61" data-tt-parent-id="60">
+		                <td>
+							{% if user.is_superuser %}
+							<a id="edit_{{forloop.counter}}i" class="edit_project" href="{% url 'project_edit' pid=entry.1.redmine_project_id %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+							{% endif %}
+							<!-- Team column -->
+							{% for staff in entry.1.team_display %}
+								{% if staff != '<span>---</span>' %}
+									<span class="team_label">{{staff|safe}}</span>
+								{% else %}
+									{{staff|safe}}
+								{% endif %}
+							{% endfor %}
+						</td>
+						<td>
+		                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
+		                {% if entry.1.client != "none" %}
+		                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
+		                {% else %}
+		                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
+		                {% endif %}
+		          			<td class="text-right recent-hrs-column">---</td>
+		          			{% if entry.1.budget != 0 %}
+		          				<td class="text-right budget-column">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
+		          			{% else %}
+		          				<td class="text-right budget-column">{{entry.1.total_hours}} hrs total spent</td>
+		          			{% endif %}
+		          			<td class="text-right deadline-column">{{ entry.1.deadline }}</td>
+					</tr>
+		        {% endif %}
+	        {% endfor %}
+        {% endif %}
+
+	</tbody>
+</table>
+</div>
+{% endif %}
