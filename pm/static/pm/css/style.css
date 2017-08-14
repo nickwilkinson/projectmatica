@@ -40,8 +40,10 @@ td { height: 50px; /*width: 25px;*/ }
 #projects_table th.team_column {width:10%;}
 #projects_table td {vertical-align: middle; font-size: 1.3em;}
 #projects_table td span.team_label {
-    display:inline-block; padding-top:3px; border:2px solid rgb(153, 153, 153); border-radius: 50%; font-size: 12px; height:28px; width:28px; text-align: center;}
+    display:inline-block; padding-top:3px; border:2px solid rgb(153, 153, 153); border-radius: 50%; font-size: 12px; height:28px; width:28px; text-align: center; margin-left:3px;}
+#projects_table td .first-column-content {display:inline-block; width:90%;}
 #projects_table td.first-column a {margin-top: 5px;}
+#projects_table td.first-column.inactive-indent span.indenter, #projects_table td.first-column.non-billable-indent span.indenter {padding-left: 12px!important; padding-right: 8px!important;} 
 #projects_table td.recent-hrs-column {width:12%;}
 #projects_table td.budget-column {width:19%;}
 #projects_table td.deadline-column {width:12%;}
@@ -63,6 +65,19 @@ td { height: 50px; /*width: 25px;*/ }
 #projects_table a.edit_project {position: relative; display: inline-block; visibility: hidden; margin:0; padding:0; margin-left:-45px; margin-right:25px; width: 20px; height:30px;}
 #projects_table tr.inactive-projects a.edit_project {display:inline; margin-left:-48px;}
 #projects_table tr.non-billable a.edit_project {display:inline; margin-left:-48px;}
+
+#projects_table tr.project_data_row {height:80px;}
+#projects_table tr.project_data_row td {vertical-align: top; padding-top: 5px;}
+#projects_table tr.project_data_row.inactive_details_row {border-left: 2px solid grey;}
+#projects_table tr.project_data_row.nonbillable_details_row {border-left: 2px solid rgb(215,81,0);}
+#projects_table td.team_column {padding-left:32px;}
+#projects_table td.team_column span.indenter {display: none;}
+#projects_table td.team_column .team_label {font-size: 13px; margin-bottom: 5px;}
+#projects_table td.team_column .team_border {position:relative; display:inline-block; min-width:70px; height:1px; padding-top:10px; top: -5px; border-top:1px solid rgb(153, 153, 153);}
+#projects_table td.team_column.inactive_nonbillable_details {padding-left: 45px;}
+
+#projects_table td.update_column .update_label {font-size: 13px; margin-left: -450px;}
+#projects_table td.update_column .update_text {margin-left: -450px; border-top: 1px solid rgb(153, 153, 153); padding-top:10px;}
 
 p.no_projects {margin-top: 20px; font-size: 1.25em;}
 

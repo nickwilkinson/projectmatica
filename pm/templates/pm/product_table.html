@@ -1,7 +1,7 @@
-{% if product_count > 0 or non_billable_count > 0 or inactive_count > 0%}
+{% if product_count > 0 or non_billable_count > 0 or inactive_count > 0 %}
 <div class="table_wrapper">		
 <h2 class="product">{{product_title}}</h2>
-<table id="projects_table" class="table table-hover table-treeview">
+<table id="projects_table" class="table table-treeview table-{{product_name}}">
 	<thead>
 		<tr>
 			<!-- <th class="team_column">Team</th> -->
@@ -16,20 +16,19 @@
 		        {% if entry.1.product == product_name %}		        	
         		<tbody>
         		<tr id="row_{{forloop.counter}}" data-tt-id="{{forloop.counter0}}">
-<!-- 	                <td class="first-column">
-					</td>
- -->
  					<td class="first-column">
 						{% if user.is_superuser %}
 							<a id="edit_{{forloop.counter}}" class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 						{% endif %}
 
-	                	<a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
-	                	{% if entry.1.client != "none" %}
-	                		{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}
-	                	{% else %}
-	                		{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}
-	                	{% endif %}
+	                	<span class="first-column-content">
+		                	<a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
+		                	{% if entry.1.client != "none" %}
+		                		{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}
+		                	{% else %}
+		                		{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}
+		                	{% endif %}
+		                </span>
 					</td>
           			<td class="text-right recent-hrs-column">{{entry.1.recent_hours}} hrs</td>
           			{% if entry.1.budget != 0 %}
@@ -39,9 +38,11 @@
           			{% endif %}
           			<td class="text-right deadline-column {{entry.1.deadline_status}}">{{ entry.1.deadline }}</td>
 				</tr>
-        		<tr data-tt-id="{{forloop.counter}}" data-tt-parent-id="{{forloop.counter0}}">
-					<td>
+        		<tr class="project_data_row" data-tt-id="{{forloop.counter0}}detail" data-tt-parent-id="{{forloop.counter0}}">
+					<td class="team_column">
 						<!-- Team column -->
+						<div class="team_label">Team</div>
+						<span class="team_border">
 						{% for staff in entry.1.team_display %}
 							{% if staff != '<span>---</span>' %}
 								<span class="team_label">{{staff|safe}}</span>
@@ -49,11 +50,13 @@
 								{{staff|safe}}
 							{% endif %}
 						{% endfor %}
+						</span>
 					</td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
+					<td colspan="3" class="update_column">
+						<div class="update_label">Today at 11:23am</div>
+						<div class="update_text">Update from MG -- still waiting on client about question regarding parentIds and the record hierarchy,</div>
+						</div>
+					</td>
 				</tr>
 				</tbody>
 				{% endif %}
@@ -62,36 +65,40 @@
 
         {% if non_billable_count > 0 %}
         <tbody>
-        <tr class="non-billable-header non-billable" data-tt-id="1000">
+        <tr class="non-billable-header non-billable" data-tt-id="1000{{product_name}}">
         	<td colspan="5">Non-billable projects ({{non_billable_count}})</td>
     	</tr>
         {% for entry in displayed_non_billable_projects %}
 	        {% if entry.1.project_id is null %}
 		        {% if entry.1.product == product_name %}
-		        <tr id="row_{{forloop.counter}}n" class="non-billable" data-tt-id="{{forloop.counter0}}n" data-tt-parent-id="1000">
-	                <td>
+		        <tr id="row_{{forloop.counter}}n" class="non-billable" data-tt-id="{{forloop.counter0}}n" data-tt-parent-id="1000{{product_name}}">
+					<td class="first-column non-billable-indent">
 						{% if user.is_superuser %}
 						<a id="edit_{{forloop.counter}}n" class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 						{% endif %}
+						
+						<span class="first-column-content">
+			                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
+			                {% if entry.1.client != "none" %}
+			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}
+			                {% else %}
+			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}
+			                {% endif %}
+			            </span>
 					</td>
-					<td>
-	                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
-	                {% if entry.1.client != "none" %}
-	                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
-	                {% else %}
-	                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
-	                {% endif %}
-	          			<td class="text-right recent-hrs-column">{{entry.1.recent_hours}} hrs</td>
-	          			{% if entry.1.budget != 0 %}
-	          				<td class="text-right budget-column {{entry.1.budget_status}}">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
-	          			{% else %}
-	          				<td class="text-right budget-column">{{entry.1.total_hours}} hrs total spent</td>
-	          			{% endif %}
-	          			<td class="text-right deadline-column {{entry.1.deadline_status}}">{{ entry.1.deadline }}</td>
+          			<td class="text-right recent-hrs-column">{{entry.1.recent_hours}} hrs</td>
+          			{% if entry.1.budget != 0 %}
+          				<td class="text-right budget-column {{entry.1.budget_status}}">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
+          			{% else %}
+          				<td class="text-right budget-column">{{entry.1.total_hours}} hrs total spent</td>
+          			{% endif %}
+          			<td class="text-right deadline-column {{entry.1.deadline_status}}">{{ entry.1.deadline }}</td>
 				</tr>
-        		<tr data-tt-id="{{forloop.counter}}n" data-tt-parent-id="{{forloop.counter0}}n">
-					<td>
+        		<tr class="project_data_row nonbillable_details_row" data-tt-id="{{forloop.counter0}}n-detail" data-tt-parent-id="{{forloop.counter0}}n">
+					<td class="team_column inactive_nonbillable_details">
 						<!-- Team column -->
+						<div class="team_label">Team</div>
+						<span class="team_border">
 						{% for staff in entry.1.team_display %}
 							{% if staff != '<span>---</span>' %}
 								<span class="team_label">{{staff|safe}}</span>
@@ -99,13 +106,15 @@
 								{{staff|safe}}
 							{% endif %}
 						{% endfor %}
+						</span>
 					</td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
+					<td colspan="3" class="update_column">
+						<div class="update_label">Today at 11:23am</div>
+						<div class="update_text">Update from MG -- still waiting on client about question regarding parentIds and the record hierarchy, found an encoding issue with their most recent CSVs (investigating now), all other data imported successfully</div>
+						</div>
+					</td>
 				</tr>
-				</tbody>
+			</tbody>
 				{% endif %}
 			{% endif %}
         {% endfor %}
@@ -113,24 +122,26 @@
 
 		{% if inactive_count > 0 %}
 	        <tbody>
-	        <tr class="inactive-projects-header inactive-projects" data-tt-id="2000">
+	        <tr class="inactive-projects-header inactive-projects" data-tt-id="2000{{product_name}}">
 	        	<td colspan="5">Inactive projects ({{inactive_count}})</td>
         	</tr>
 			{% for entry in displayed_inactive_projects %}
 	        	{% if entry.1.product == product_name %}
-			        <tr id="row_{{forloop.counter}}i" class="inactive-projects" data-tt-id="{{forloop.counter0}}i" data-tt-parent-id="2000">
-		                <td>
+			        <tr id="row_{{forloop.counter}}i" class="inactive-projects" data-tt-id="{{forloop.counter0}}i" data-tt-parent-id="2000{{product_name}}">
+						<td class="first-column inactive-indent">
 							{% if user.is_superuser %}
 							<a id="edit_{{forloop.counter}}i" class="edit_project" href="{% url 'project_edit' pid=entry.1.redmine_project_id %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 							{% endif %}
-						</td>
-						<td>
-		                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
-		                {% if entry.1.client != "none" %}
-		                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
-		                {% else %}
-		                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}</td>
-		                {% endif %}
+
+							<span class="first-column-content">
+				                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
+				                {% if entry.1.client != "none" %}
+				                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}
+				                {% else %}
+				                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}
+				                {% endif %}
+				            </span>
+			            </td>
 		          			<td class="text-right recent-hrs-column">---</td>
 		          			{% if entry.1.budget != 0 %}
 		          				<td class="text-right budget-column">{{entry.1.remaining_hours}} / {{entry.1.budget}} hrs remaining</td>
@@ -139,9 +150,11 @@
 		          			{% endif %}
 		          			<td class="text-right deadline-column">{{ entry.1.deadline }}</td>
 					</tr>
-        			<tr data-tt-id="{{forloop.counter}}i" data-tt-parent-id="{{forloop.counter0}}i">
-						<td>
+        			<tr class="project_data_row inactive_details_row" data-tt-id="{{forloop.counter}}i-detail" data-tt-parent-id="{{forloop.counter0}}i">
+						<td class="team_column inactive_nonbillable_details">
 							<!-- Team column -->
+							<div class="team_label">Team</div>
+							<span class="team_border">
 							{% for staff in entry.1.team_display %}
 								{% if staff != '<span>---</span>' %}
 									<span class="team_label">{{staff|safe}}</span>
@@ -149,11 +162,13 @@
 									{{staff|safe}}
 								{% endif %}
 							{% endfor %}
+							</span>
 						</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
+						<td colspan="3" class="update_column">
+							<div class="update_label">Today at 11:23am</div>
+							<div class="update_text">Update from MG -- still waiting on client about question regarding parentIds and the record hierarchy, found an encoding issue with their most recent CSVs (investigating now), all other data imported successfully</div>
+							</div>
+						</td>
 					</tr>
 				</tbody>
 		        {% endif %}
