@@ -43,7 +43,9 @@ td { height: 50px; /*width: 25px;*/ }
     display:inline-block; padding-top:3px; border:2px solid rgb(153, 153, 153); border-radius: 50%; font-size: 12px; height:28px; width:28px; text-align: center; margin-left:3px;}
 #projects_table td .first-column-content {display:inline-block; width:90%;}
 #projects_table td.first-column a {margin-top: 5px;}
-#projects_table td.first-column.inactive-indent span.indenter, #projects_table td.first-column.non-billable-indent span.indenter {padding-left: 12px!important; padding-right: 8px!important;} 
+#projects_table td.first-column.inactive-indent span.indenter, #projects_table td.first-column.non-billable-indent span.indenter {
+    padding-left: 12px!important; padding-right: 8px!important;} 
+#projects_table td.first-column.inactive-indent, #projects_table td.first-column.non-billable-indent {padding-top: 0;}
 #projects_table td.recent-hrs-column {width:12%;}
 #projects_table td.budget-column {width:19%;}
 #projects_table td.deadline-column {width:12%;}

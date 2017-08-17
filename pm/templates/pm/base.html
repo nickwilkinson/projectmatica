@@ -175,20 +175,32 @@
 
       $(".table-treeview").treetable({expandable: true, clickableNodeNames: false});
 
-      $(".table-treeview tr").click(function(){
+      $(".table-treeview tbody tr").click(function(event){
+        var target = $(event.target);
         var table = $(this).parent().parent().attr('class');
         var node = $(this).attr('data-tt-id');
         var status = $(this).attr('class');
         var selector = "";
-        
+
         if (table.indexOf("AtoM") >= 0) { selector = ".table-AtoM"; }
         else if (table.indexOf("Archivematica") >= 0) {selector = ".table-Archivematica";}
         else if (table.indexOf("Combo") >= 0) {selector = ".table-Combo";}
         else if (table.indexOf("Binder") >= 0) {selector = ".table-Binder";}
 
-        console.log(table +"|"+ node +"|"+ status);
-        if (status.indexOf("collapsed") >= 0) { $(selector).treetable("expandNode", node); }
-        else if (status.indexOf("expanded") >= 0) { $(selector).treetable("collapseNode", node); }
+        if (target.is('a')) {
+          if (status.indexOf("collapsed") >= 0) { $(selector).treetable("collapseNode", node); }
+          else if (status.indexOf("expanded") >= 0) { $(selector).treetable("expandNode", node); }      
+        }
+        else if (target.is('i.fa.fa-pencil')) {
+          return;
+        }
+        else {
+          if (status.indexOf("collapsed") >= 0) { $(selector).treetable("expandNode", node); }
+          else if (status.indexOf("expanded") >= 0) { $(selector).treetable("collapseNode", node); }
+        }        
+        // console.log(table +"|"+ node +"|"+ status +"|"+ selector);
+
+        // console.log(table +"|"+ node +"|"+ $(this).attr('class') +"|"+ target);
       });
 
     </script>
