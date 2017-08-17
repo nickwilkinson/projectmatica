@@ -18,7 +18,7 @@
         		<tr id="row_{{forloop.counter}}" data-tt-id="{{forloop.counter0}}">
  					<td class="first-column">
 						{% if user.is_superuser %}
-							<a id="edit_{{forloop.counter}}" class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+							<a id="edit_{{forloop.counter}}" class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-wrench" aria-hidden="true"></i></a>
 						{% endif %}
 
 	                	<span class="first-column-content">
@@ -28,6 +28,7 @@
 		                	{% else %}
 		                		{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}
 		                	{% endif %}
+		                	<a id="add-log-entry_{{forloop.counter}}" class="add-log-entries" href=""><i class="fa fa-book" aria-hidden="true"></i></a>
 		                </span>
 					</td>
           			<td class="text-right recent-hrs-column">{{entry.1.recent_hours}} hrs</td>
@@ -74,7 +75,7 @@
 		        <tr id="row_{{forloop.counter}}n" class="non-billable" data-tt-id="{{forloop.counter0}}n" data-tt-parent-id="1000{{product_name}}">
 					<td class="first-column non-billable-indent">
 						{% if user.is_superuser %}
-						<a id="edit_{{forloop.counter}}n" class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+						<a id="edit_{{forloop.counter}}n" class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-wrench" aria-hidden="true"></i></a>
 						{% endif %}
 						
 						<span class="first-column-content">
@@ -84,6 +85,7 @@
 			                {% else %}
 			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}
 			                {% endif %}
+			                <a id="add-log-entry_{{forloop.counter}}n" class="add-log-entries" href=""><i class="fa fa-book" aria-hidden="true"></i></a>
 			            </span>
 					</td>
           			<td class="text-right recent-hrs-column">{{entry.1.recent_hours}} hrs</td>
@@ -130,7 +132,7 @@
 			        <tr id="row_{{forloop.counter}}i" class="inactive-projects" data-tt-id="{{forloop.counter0}}i" data-tt-parent-id="2000{{product_name}}">
 						<td class="first-column inactive-indent">
 							{% if user.is_superuser %}
-							<a id="edit_{{forloop.counter}}i" class="edit_project" href="{% url 'project_edit' pid=entry.1.redmine_project_id %}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+							<a id="edit_{{forloop.counter}}i" class="edit_project" href="{% url 'project_edit' pid=entry.1.redmine_project_id %}"><i class="fa fa-wrench" aria-hidden="true"></i></a>
 							{% endif %}
 
 							<span class="first-column-content">
@@ -140,6 +142,7 @@
 				                {% else %}
 				                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}
 				                {% endif %}
+				                <a id="add-log-entry_{{forloop.counter}}i" class="add-log-entries" href=""><i class="fa fa-book" aria-hidden="true"></i></a>
 				            </span>
 			            </td>
 		          			<td class="text-right recent-hrs-column">---</td>

@@ -17,7 +17,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'pm/css/bootstrap.min.css' %}" />
 
   	<!-- Include Font Awesome -->
-  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
   	<!-- Custom CSS -->
   	<link rel="stylesheet" type="text/css" href="{% static 'pm/css/style.css' %}" />
@@ -114,11 +114,13 @@
             var row_number = row.split("_").pop();
 
             $("#edit_"+row_number).css("visibility", "visible");
+            $("#add-log-entry_"+row_number).css("display", "inline");
           }, function() {
             var row = (this.id);
             var row_number = row.split("_").pop();
 
             $("#edit_"+row_number).css("visibility", "hidden");
+            $("#add-log-entry_"+row_number).css("display", "none");
           }
         );
 
@@ -128,11 +130,13 @@
             var row_number = row.split("_").pop()+"i";
 
             $("#edit_"+row_number+"i").css("visibility", "visible");
+            $("#add-log-entry_"+row_number+"i").css("visibility", "visible");
           }, function() {
             var row = (this.id);
             var row_number = row.split("_").pop()+"i";
 
             $("#edit_"+row_number+"i").css("visibility", "hidden");
+            $("#add-log-entry_"+row_number+"i").css("visibility", "hidden");
           }
         );
 
@@ -142,11 +146,13 @@
             var row_number = row.split("_").pop()+"n";
 
             $("#edit_"+row_number+"n").css("visibility", "visible");
+            $("#add-log-entry_"+row_number+"n").css("visibility", "visible");
           }, function() {
             var row = (this.id);
             var row_number = row.split("_").pop()+"i";
 
             $("#edit_"+row_number+"n").css("visibility", "hidden");
+            $("#add-log-entry_"+row_number+"n").css("visibility", "hidden");
           }
         );
 
@@ -191,7 +197,7 @@
           if (status.indexOf("collapsed") >= 0) { $(selector).treetable("collapseNode", node); }
           else if (status.indexOf("expanded") >= 0) { $(selector).treetable("expandNode", node); }      
         }
-        else if (target.is('i.fa.fa-pencil')) {
+        else if (target.is('i.fa')) {
           return;
         }
         else {
