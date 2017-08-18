@@ -87,6 +87,57 @@
       </div>
     </div>
 
+<div id="log-entry-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Add Log Entry</h4>
+      </div>
+      <div class="modal-body">
+        <div class="log-entry-section">
+          <span class="log-entry-label">Project</span>
+          <span id="log-entry-project-name" class="log-entry-title"></span>
+        </div>
+        <form>
+          <div class="log-entry-section">
+            <span class="log-entry-label textarea-label">Update</span>
+            <span><textarea maxlength="225"></textarea></span>
+          </div>
+          <div class="log-entry-section">
+            <span class="log-entry-label">Link</span>
+            <span><input type="text" class="entry-link"></span>
+          </div>        
+          <div class="log-entry-section">
+            <span class="log-entry-label">Action</span>
+            <span>
+              <select>
+                <option value="update">Update</option>
+                <option value="decision">Decision</option>
+                <option value="request">Request</option>
+                <option value="response">Response</option>
+              </select>
+            </span>
+          </div>
+          <div class="log-entry-section">
+            <span class="log-entry-label">Meeting</span>
+            <span><input type="checkbox" name="Meeting" value="no" id="log-meeting"></span>
+          </div>
+          <div class="log-entry-section">
+            <span class="log-entry-label">Date</span>
+            <span><input type="text" id="log-datepicker" placeholder="Now"></span>
+          </div>
+        </div>
+        <input id="pid-field" type="hidden" name="pid">
+      </form>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
     {% block content %}
     {% endblock %}
 
@@ -157,6 +208,28 @@
         );
 
       });
+    </script>
+
+    <script>
+      $( function() {
+        $( "#log-datepicker" ).datepicker({
+          minDate: -90,
+          maxDate: +0,
+          showOn: "button",
+          buttonText: "<i class='fa fa-calendar'></i>"
+        });
+      });
+
+      $('#log-entry-modal').on('show.bs.modal', function(e) {
+        //get data attributes of the clicked element
+        var projectID = $(e.relatedTarget).data('pid');
+        var projectName = $(e.relatedTarget).data('pname');
+
+        //populate the elements
+        $(e.currentTarget).find('#log-entry-project-name').text(projectName);
+        $(e.currentTarget).find('#pid-field').val(projectID);
+      });
+
     </script>
     {% endif %}
 

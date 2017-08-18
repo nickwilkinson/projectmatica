@@ -25,10 +25,11 @@
 		                	<a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
 		                	{% if entry.1.client != "none" %}
 		                		{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}
+		                		<a id="add-log-entry_{{forloop.counter}}" class="add-log-entries" href="#log-entry-modal" role="button" data-toggle="modal" data-pid="{{entry.0}}" data-pname="{{entry.1.client}} - {{entry.1.project_desc}}"><i class="fa fa-book" aria-hidden="true"></i></a>
 		                	{% else %}
 		                		{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}
+		                		<a id="add-log-entry_{{forloop.counter}}" class="add-log-entries" href="#log-entry-modal" role="button" data-toggle="modal" data-pid="{{entry.0}}" data-pname="{{entry.1.project_desc}}"><i class="fa fa-book" aria-hidden="true"></i></a>
 		                	{% endif %}
-		                	<a id="add-log-entry_{{forloop.counter}}" class="add-log-entries" href=""><i class="fa fa-book" aria-hidden="true"></i></a>
 		                </span>
 					</td>
           			<td class="text-right recent-hrs-column">{{entry.1.recent_hours}} hrs</td>
@@ -82,10 +83,11 @@
 			                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
 			                {% if entry.1.client != "none" %}
 			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}
+			                	<a id="add-log-entry_{{forloop.counter}}n" class="add-log-entries" href="#log-entry-modal" role="button" data-toggle="modal" data-pid="{{entry.0}}" data-pname="{{entry.1.client}} - {{entry.1.project_desc}}"><i class="fa fa-book" aria-hidden="true"></i></a>
 			                {% else %}
 			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}
+			                	<a id="add-log-entry_{{forloop.counter}}n" class="add-log-entries" href="#log-entry-modal" role="button" data-toggle="modal" data-pid="{{entry.0}}" data-pname="{{entry.1.project_desc}}"><i class="fa fa-book" aria-hidden="true"></i></a>
 			                {% endif %}
-			                <a id="add-log-entry_{{forloop.counter}}n" class="add-log-entries" href=""><i class="fa fa-book" aria-hidden="true"></i></a>
 			            </span>
 					</td>
           			<td class="text-right recent-hrs-column">{{entry.1.recent_hours}} hrs</td>
@@ -139,10 +141,11 @@
 				                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
 				                {% if entry.1.client != "none" %}
 				                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}
+				                	<a id="add-log-entry_{{forloop.counter}}i" class="add-log-entries" href="#log-entry-modal" role="button" data-toggle="modal" data-pid="{{entry.0}}" data-pname="{{entry.1.client}} - {{entry.1.project_desc}}"><i class="fa fa-book" aria-hidden="true"></i></a>
 				                {% else %}
 				                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}
+				                	<a id="add-log-entry_{{forloop.counter}}i" class="add-log-entries" href="#log-entry-modal" role="button" data-toggle="modal" data-pid="{{entry.0}}" data-pname="{{entry.1.project_desc}}"><i class="fa fa-book" aria-hidden="true"></i></a>
 				                {% endif %}
-				                <a id="add-log-entry_{{forloop.counter}}i" class="add-log-entries" href=""><i class="fa fa-book" aria-hidden="true"></i></a>
 				            </span>
 			            </td>
 		          			<td class="text-right recent-hrs-column">---</td>
