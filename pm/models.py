@@ -4,6 +4,15 @@ from django.db import models
 from django.utils import timezone
 from django import forms
 
+# Define options for log entry action, to be displayed in the form select box
+UPDATE = 'UP'
+DECISION = 'DC'
+ACTION_CHOICES = (
+	(UPDATE, 'Update'),
+	(DECISION, 'Decision'),
+)
+
+
 class Product(models.Model):
 	product_name = models.CharField(max_length=20)
 	
@@ -63,3 +72,15 @@ class RecentWork(models.Model):
 
 	def __str__(self):
 		return '%s' % (self.redmine_project_id)
+
+
+class ProjectLogEntry(models.Model):
+	entry_action = models.CharField(max_length=2, choices=ACTION_CHOICES, default=UPDATE)
+	entry_text = models.TextField(max_length=225)
+	entry_link = models.URLField(blank=True, default="")
+	entry_type = models.BooleanField('Meeting?', default=False)
+	entry_date = models.DateTimeField(default=timezone.now)
+	redmine_identifier = models.IntegerField()
+
+	def __str__(self):
+		return self.entry_action

@@ -87,57 +87,6 @@
       </div>
     </div>
 
-<div id="log-entry-modal" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Add Log Entry</h4>
-      </div>
-      <div class="modal-body">
-        <div class="log-entry-section">
-          <span class="log-entry-label">Project</span>
-          <span id="log-entry-project-name" class="log-entry-title"></span>
-        </div>
-        <form>
-          <div class="log-entry-section">
-            <span class="log-entry-label textarea-label">Update</span>
-            <span><textarea maxlength="225"></textarea></span>
-          </div>
-          <div class="log-entry-section">
-            <span class="log-entry-label">Link</span>
-            <span><input type="text" class="entry-link"></span>
-          </div>        
-          <div class="log-entry-section">
-            <span class="log-entry-label">Action</span>
-            <span>
-              <select>
-                <option value="update">Update</option>
-                <option value="decision">Decision</option>
-                <option value="request">Request</option>
-                <option value="response">Response</option>
-              </select>
-            </span>
-          </div>
-          <div class="log-entry-section">
-            <span class="log-entry-label">Meeting</span>
-            <span><input type="checkbox" name="Meeting" value="no" id="log-meeting"></span>
-          </div>
-          <div class="log-entry-section">
-            <span class="log-entry-label">Date</span>
-            <span><input type="text" id="log-datepicker" placeholder="Now"></span>
-          </div>
-        </div>
-        <input id="pid-field" type="hidden" name="pid">
-      </form>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-
     {% block content %}
     {% endblock %}
 
@@ -207,30 +156,18 @@
           }
         );
 
-      });
-    </script>
+          // jquery datepicker UI
+          // $("#id_entry_date").datepicker({
+          //   minDate: -120,
+          //   maxDate: +0,
+          //   showOn: "button",
+          //   buttonText: "<i class='fa fa-calendar'></i>"
+          // });
 
-    <script>
-      $( function() {
-        $( "#log-datepicker" ).datepicker({
-          minDate: -90,
-          maxDate: +0,
-          showOn: "button",
-          buttonText: "<i class='fa fa-calendar'></i>"
-        });
-      });
-
-      $('#log-entry-modal').on('show.bs.modal', function(e) {
-        //get data attributes of the clicked element
-        var projectID = $(e.relatedTarget).data('pid');
-        var projectName = $(e.relatedTarget).data('pname');
-
-        //populate the elements
-        $(e.currentTarget).find('#log-entry-project-name').text(projectName);
-        $(e.currentTarget).find('#pid-field').val(projectID);
       });
 
     </script>
+
     {% endif %}
 
     <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -249,9 +186,6 @@
       //   placeholder: 'search projects'
       // });
       
-      // code to make tooltips work
-      // $('[data-toggle="tooltip"]').tooltip()
-
       $(".table-treeview").treetable({expandable: true, clickableNodeNames: false});
 
       $(".table-treeview tbody tr").click(function(event){
@@ -277,10 +211,69 @@
           if (status.indexOf("collapsed") >= 0) { $(selector).treetable("expandNode", node); }
           else if (status.indexOf("expanded") >= 0) { $(selector).treetable("collapseNode", node); }
         }        
-        // console.log(table +"|"+ node +"|"+ status +"|"+ selector);
-
-        // console.log(table +"|"+ node +"|"+ $(this).attr('class') +"|"+ target);
       });
+
+      $(".add-log-entries").click(function(ev) { // for each edit contact url
+          ev.preventDefault(); // prevent navigation
+          var url = $(this).data("form"); // get the contact form url
+          var projectName = $(this).data('pname'); // get project name and id
+          var projectID = $(this).data('pid');
+          var project_data = projectID+"|"+projectName;
+
+          $("#log-entry-modal").load(url, project_data, function() { // load the url into the modal
+              $(this).modal('show'); // display the modal on url load
+              $('.modal').css('display', 'block');
+              $('.modal').fadeTo("fast", 1);
+              
+              project_data_array = project_data.split("|",2);
+              $('#log-entry-project-name').text(project_data_array[1]); // write project name and id to modal
+              $('#id_redmine_identifier').val(project_data_array[0]);
+
+              // Submit log entry on submit
+              $('#log-entry-form').on('submit', function(event){
+                  event.preventDefault();
+                  console.log("form submitted!")  // sanity check
+                  create_entry();
+              });
+          });
+          return false; // prevent click propagation
+      });
+
+      // AJAX for posting log entry form data
+      function create_entry() {
+          console.log("create_entry is working!") // sanity check
+          // var formData = $("#log-entry-form").serializeArray()
+          $.ajax({
+              url : "/post/new/", // the endpoint
+              type : "POST", // http method
+              data : { 
+                // formData,
+                entry_text : $('#id_entry_text').val(),
+                entry_link : $('#id_entry_link').val(),
+                entry_action : $('#id_entry_action').val(),
+                entry_date : $('#id_entry_date').val(),
+                entry_type : $('#id_entry_type').prop('checked'),
+                redmine_identifier : $('#id_redmine_identifier').val(),
+                'csrfmiddlewaretoken': '{{csrf_token}}'
+              }, // data sent with the post request
+
+              // handle a successful response
+              success : function(return_data) {
+                  // console.log(formData);
+                  $('#id_entry_text').val(''); // remove the value from the input
+                  // var temp = jQuery.parseJSON( return_data );
+                  console.log(return_data); // log the returned json to the console
+                  //console.log("success"); // another sanity check
+              },
+
+              // handle a non-successful response
+              error : function(xhr,errmsg,err) {
+                  $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+                      " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+                  console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+              }
+          });
+      };
 
     </script>
   </body>

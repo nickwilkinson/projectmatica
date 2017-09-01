@@ -90,14 +90,14 @@ p.no_projects {margin-top: 20px; font-size: 1.25em;}
 #log-entry-project-name {position:relative; display:inline-block; width: 485px;}
 #log-entry-modal .log-entry-section {margin-bottom: 20px;}
 #log-entry-modal .log-entry-label {margin-right:20px;}
-#log-entry-modal .log-entry-label.textarea-label {position:relative; top:-85px;}
-#log-entry-modal textarea {display: inline-block; width: 485px; height: 100px;}
-#log-entry-modal input.entry-link {margin-left:20px; width:485px;}
+#id_entry_text {display: inline-block; width: 485px; height: 100px;}
+#log-entry-modal .textarea-label {position:relative;top:-85px;}
+#id_entry_link {margin-left:20px; width:485px;}
 #log-entry-modal select {color: black; margin-left:5px;}
 #log-entry-modal .log-entry-title {font-weight: bold;}
-#log-meeting {position:relative; width:20px;height:20px; top:5px; left:-8px;}
-#log-datepicker {margin-left:15px; width: 90px; border:none; padding-left: 3px;}
-#ui-datepicker-div {margin-top:10px; background-color: rgba(0,0,0,0.75); padding:5px; border-radius: 10px;}
+#id_entry_type {position:relative; width:20px; height:20px; top:5px; left:-8px;}
+#id_entry_date {margin-left:15px; width: 150px; border:none; padding-left: 3px;}
+/*#ui-datepicker-div {margin-top:10px; background-color: rgba(0,0,0,0.75); padding:5px; border-radius: 10px;}
 button.ui-datepicker-trigger {border:none; background:none;}
 .ui-datepicker-title {text-align: center;}
 .ui-datepicker-prev {float:left;}
@@ -105,7 +105,7 @@ button.ui-datepicker-trigger {border:none; background:none;}
 .ui-datepicker-prev, .ui-datepicker-next {font-size: 12px;}
 table.ui-datepicker-calendar tr td {height:25px; text-align: center;}
 table.ui-datepicker-calendar tr th {width:30px; height:25px; text-align: center;}
-
+*/
 /* Project Edit form */
 .redmine_url {font-weight: bold;}
 .pm_form label {font-weight: bold; width: 150px;}

@@ -25,10 +25,12 @@
 		                	<a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
 		                	{% if entry.1.client != "none" %}
 		                		{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}
-		                		<a id="add-log-entry_{{forloop.counter}}" class="add-log-entries" href="#log-entry-modal" role="button" data-toggle="modal" data-pid="{{entry.0}}" data-pname="{{entry.1.client}} - {{entry.1.project_desc}}"><i class="fa fa-book" aria-hidden="true"></i></a>
+		                		<a id="add-log-entry_{{forloop.counter}}" href="#" data-form="/post/new/" class="add-log-entries" data-pid="{{entry.0}}" data-pname="{{entry.1.client}} - {{entry.1.project_desc}}" data-target="#log-entry-modal"><i class="fa fa-book" aria-hidden="true"></i></a>
+		                		<!-- <a id="add-log-entry_{{forloop.counter}}" href="#log-entry-modal" role="button" data-toggle="modal" onclick="$('#log-entry-modal').load('/post/new');" class="add-log-entries"><i class="fa fa-book" aria-hidden="true"></i></a> -->
+		                		<!-- <a id="add-log-entry_{{forloop.counter}}" class="add-log-entries" href="#log-entry-modal" role="button" data-toggle="modal" data-pid="{{entry.0}}" data-pname="{{entry.1.client}} - {{entry.1.project_desc}}"><i class="fa fa-book" aria-hidden="true"></i></a> -->
 		                	{% else %}
 		                		{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}
-		                		<a id="add-log-entry_{{forloop.counter}}" class="add-log-entries" href="#log-entry-modal" role="button" data-toggle="modal" data-pid="{{entry.0}}" data-pname="{{entry.1.project_desc}}"><i class="fa fa-book" aria-hidden="true"></i></a>
+		                		<!-- <a id="add-log-entry_{{forloop.counter}}" class="add-log-entries" href="#log-entry-modal" role="button" data-toggle="modal" data-pid="{{entry.0}}" data-pname="{{entry.1.project_desc}}"><i class="fa fa-book" aria-hidden="true"></i></a> -->
 		                	{% endif %}
 		                </span>
 					</td>

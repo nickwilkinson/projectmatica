@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Product, Category, Staff, Project
+from .models import Product, Category, Staff, Project, ProjectLogEntry
 
 class CategoryAdmin(admin.ModelAdmin):
 	extra = 1
@@ -10,6 +10,9 @@ class ProductAdmin(admin.ModelAdmin):
 
 class StaffAdmin(admin.ModelAdmin):
 	extra = 1
+
+class ProjectLogEntryAdmin(admin.ModelAdmin):
+	list_display = ('entry_action', 'entry_text', 'entry_date')
 
 class ProjectAdmin(admin.ModelAdmin):
 	readonly_fields = ('redmine_project_url','redmine_project_id','redmine_project_name','total_hours_spent','recent_hours_spent', 'total_admin_hours_spent', 'total_analysis_hours_spent')
@@ -43,4 +46,5 @@ class ProjectAdmin(admin.ModelAdmin):
 admin.site.register(Product)
 admin.site.register(Category)
 admin.site.register(Staff)
+admin.site.register(ProjectLogEntry, ProjectLogEntryAdmin)
 admin.site.register(Project, ProjectAdmin)
