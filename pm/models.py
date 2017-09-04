@@ -76,11 +76,12 @@ class RecentWork(models.Model):
 
 class ProjectLogEntry(models.Model):
 	entry_action = models.CharField(max_length=2, choices=ACTION_CHOICES, default=UPDATE)
-	entry_text = models.TextField(max_length=225)
+	entry_text = models.TextField(max_length=250)
 	entry_link = models.URLField(blank=True, default="")
 	entry_type = models.BooleanField('Meeting?', default=False)
 	entry_date = models.DateTimeField(default=timezone.now)
 	redmine_identifier = models.IntegerField()
+	entry_author = models.CharField(max_length=20, default="")
 
 	def __str__(self):
 		return self.entry_action

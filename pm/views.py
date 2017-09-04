@@ -159,6 +159,16 @@ def project_list(request):
 			else:
 				all_projects_details[entry]["team_display"] = ['<span>---</span>']
 
+			
+			# get most recent project log and timestamp
+			if ProjectLogEntry.objects.filter(redmine_identifier = entry).exists():
+				most_recent_log_entry_data = ProjectLogEntry.objects.filter(redmine_identifier = entry).order_by('-id')[0]
+				all_projects_details[entry]["log_entry_text"] = most_recent_log_entry_data.entry_text
+				all_projects_details[entry]["log_entry_date"] = most_recent_log_entry_data.entry_date.isoformat()
+			else:
+				all_projects_details[entry]["log_entry_text"] = "none"
+				all_projects_details[entry]["log_entry_date"] = "---"
+
 
 		# Add list of Uncategorized projects
 		elif entry not in other_pm_project_ids:
@@ -189,6 +199,16 @@ def project_list(request):
 			else:
 				team_display = ['<span>---</span>']
 
+			# get most recent project log and timestamp
+			if ProjectLogEntry.objects.filter(redmine_identifier = entry.redmine_project_id).exists():
+				most_recent_log_entry_data = ProjectLogEntry.objects.filter(redmine_identifier = entry.redmine_project_id).order_by('-id')[0]
+				log_entry_text = most_recent_log_entry_data.entry_text
+				log_entry_date = most_recent_log_entry_data.entry_date.isoformat()
+			else:
+				log_entry_text = "none"
+				log_entry_date = "---"
+
+
 			non_billable_project_details = {
 				"redmine_project_id": entry.redmine_project_id,
 				"deadline": entry.deadline,
@@ -201,7 +221,9 @@ def project_list(request):
 				"tm_status": tm_status,
 				"product": entry.product.product_name,
 				"total_hours": math.ceil(entry.total_hours_spent),
-				"team_display": team_display
+				"team_display": team_display,
+				"log_entry_text": log_entry_text,
+				"log_entry_date": log_entry_date
 			}
 			
 			if entry.product.product_name == "AtoM":
@@ -212,7 +234,7 @@ def project_list(request):
 				non_billable_count[2] += 1
 			elif entry.product.product_name == "Combo":
 				non_billable_count[3] += 1
-			
+
 			displayed_non_billable_projects[entry.redmine_project_id] = non_billable_project_details
 	
 	sorted_displayed_non_billable_projects = sorted(displayed_non_billable_projects.items(), key=lambda v: (v[1]['deadline'] == '', v[1]['deadline'] is None, v[1]['deadline']))
@@ -240,6 +262,15 @@ def project_list(request):
 			else:
 				team_display = ['<span>---</span>']
 
+			# get most recent project log and timestamp
+			if ProjectLogEntry.objects.filter(redmine_identifier = entry.redmine_project_id).exists():
+				most_recent_log_entry_data = ProjectLogEntry.objects.filter(redmine_identifier = entry.redmine_project_id).order_by('-id')[0]
+				log_entry_text = most_recent_log_entry_data.entry_text
+				log_entry_date = most_recent_log_entry_data.entry_date.isoformat()
+			else:
+				log_entry_text = "none"
+				log_entry_date = "---"
+
 
 			inactive_project_details = {
 				"redmine_project_id": entry.redmine_project_id,
@@ -252,7 +283,9 @@ def project_list(request):
 				"tm_status": tm_status,
 				"product": entry.product.product_name,
 				"total_hours": math.ceil(entry.total_hours_spent),
-				"team_display": team_display
+				"team_display": team_display,
+				"log_entry_text": log_entry_text,
+				"log_entry_date": log_entry_date
 			}
 			
 			if entry.product.product_name == "AtoM":
@@ -379,34 +412,6 @@ def project_edit(request, pid):
 
 
 def post_new(request):
-    # form = PostForm()
-    # return render(request, 'pm/project_log_form.html', {'form': form})
-
-	# if request.method == 'POST':
-	# 	# post_text = request.POST.get('the_entry')
-	# 	response_data = {}
-
-	# 	# post = Post(text=post_text)
-	# 	# post.save()
-
-	# 	response_data['result'] = 'Create post successful!'
-	# 	# response_data['postpk'] = post.pk
-	# 	# response_data['text'] = post.text
-	# 	# response_data['created'] = post.created.strftime('%B %d, %Y %I:%M %p')
-	# 	# response_data['author'] = post.author.username
-
-	# 	return HttpResponse(
-	# 		json.dumps(response_data),
-	# 		content_type="application/json"
-	# 	)
-	# else:
-	# 	return HttpResponse(
-	# 		json.dumps({"nothing to see": "this isn't happening"}),
-	# 		content_type="application/json"
-	# 	)
-
-
-
 	if request.method == "POST":
 		form = PostForm(request.POST)
 		post = form.save(commit=False)
@@ -416,47 +421,20 @@ def post_new(request):
 		entry_type = request.POST.get('entry_type')
 		entry_date = request.POST.get('entry_date')
 		redmine_identifier = request.POST.get('redmine_identifier')
+		post.entry_author = request.user.username
 		post.save()
 
-		# post = form.save(commit=False)
-		# post.entry_text = entry_text
-		# post.entry_link = timezone.now()
-		# post.save()
-		# response_data = {}
-		# response_data = form
-		# response_data = [entry_text, entry_link, entry_action, entry_type, entry_date, redmine_project_id]
 		response_data = dict()
 		response_data['entry_text'] = entry_text
 		response_data['entry_link'] = entry_link
 		response_data['entry_action'] = entry_action
 		response_data['entry_type'] = entry_type
 		response_data['entry_date'] = entry_date
+		response_data['user'] = request.user.username
 		response_data['redmine_identifier'] = redmine_identifier
 		# return HttpResponse(response_data)
 		return JsonResponse(response_data)
 
-		# form = PostForm(request.POST)
-		# if form.is_valid():
-			# post = form.save()
-			# entry_text = request.POST.get('entry_text')
-			# entry_link = request.POST.get('entry_link')
-			# entry_type = request.POST.get('entry_type')
-			# entry_date = request.POST.get('entry_date')
-			
-			# response_data = {}
-			# post = ProjectLogEntry(entry_text = text)
-			# post.save()
-			# post = form.save(commit=False)
-			# post.entry_text = entry_text
-			# post.published_date = timezone.now()
-			# post.save()
-			# return redirect('post_detail', pk=post.pk)
-			# response_data['result'] = 'Create post successful!'
-			# response_data['entry_text'] = entry_text
-			# response_data['entry_link'] = entry_link
-			# # response_data['entry_text'] = post.entry_text
-			# return HttpResponse(json.dumps(response_data), content_type="application/json")
-			# return JsonResponse(response_data)
 	else:
 		form = PostForm()
 		return render(request, 'pm/project_log_form.html', {'form': form})

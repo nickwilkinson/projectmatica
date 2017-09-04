@@ -30,6 +30,7 @@
 		                		<!-- <a id="add-log-entry_{{forloop.counter}}" class="add-log-entries" href="#log-entry-modal" role="button" data-toggle="modal" data-pid="{{entry.0}}" data-pname="{{entry.1.client}} - {{entry.1.project_desc}}"><i class="fa fa-book" aria-hidden="true"></i></a> -->
 		                	{% else %}
 		                		{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}
+		                		<a id="add-log-entry_{{forloop.counter}}" href="#" data-form="/post/new/" class="add-log-entries" data-pid="{{entry.0}}" data-pname="{{entry.1.project_desc}}" data-target="#log-entry-modal"><i class="fa fa-book" aria-hidden="true"></i></a>
 		                		<!-- <a id="add-log-entry_{{forloop.counter}}" class="add-log-entries" href="#log-entry-modal" role="button" data-toggle="modal" data-pid="{{entry.0}}" data-pname="{{entry.1.project_desc}}"><i class="fa fa-book" aria-hidden="true"></i></a> -->
 		                	{% endif %}
 		                </span>
@@ -57,9 +58,8 @@
 						</span>
 					</td>
 					<td colspan="3" class="update_column">
-						<div class="update_label">Today at 11:23am</div>
-						<div class="update_text">Update from MG -- still waiting on client about question regarding parentIds and the record hierarchy,</div>
-						</div>
+						<div id="{{entry.0}}_time_update" class="update_label update_date">{{entry.1.log_entry_date}}</div>
+						<div id="{{entry.0}}_update" class="update_text">{{entry.1.log_entry_text}}</div>
 					</td>
 				</tr>
 				</tbody>
@@ -78,17 +78,18 @@
 		        <tr id="row_{{forloop.counter}}n" class="non-billable" data-tt-id="{{forloop.counter0}}n" data-tt-parent-id="1000{{product_name}}">
 					<td class="first-column non-billable-indent">
 						{% if user.is_superuser %}
-						<a id="edit_{{forloop.counter}}n" class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-wrench" aria-hidden="true"></i></a>
+							<a id="edit_{{forloop.counter}}n" class="edit_project" href="{% url 'project_edit' pid=entry.0 %}"><i class="fa fa-wrench" aria-hidden="true"></i></a>
 						{% endif %}
-						
 						<span class="first-column-content">
 			                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
 			                {% if entry.1.client != "none" %}
 			                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}
-			                	<a id="add-log-entry_{{forloop.counter}}n" class="add-log-entries" href="#log-entry-modal" role="button" data-toggle="modal" data-pid="{{entry.0}}" data-pname="{{entry.1.client}} - {{entry.1.project_desc}}"><i class="fa fa-book" aria-hidden="true"></i></a>
+			                	<!-- <a id="add-log-entry_{{forloop.counter}}n" class="add-log-entries" href="#log-entry-modal" role="button" data-toggle="modal" data-pid="{{entry.0}}" data-pname="{{entry.1.client}} - {{entry.1.project_desc}}"><i class="fa fa-book" aria-hidden="true"></i></a> -->
+			                	<a id="add-log-entry_{{forloop.counter}}n" href="#" data-form="/post/new/" class="add-log-entries" data-pid="{{entry.0}}" data-pname="{{entry.1.client}} - {{entry.1.project_desc}}" data-target="#log-entry-modal"><i class="fa fa-book" aria-hidden="true"></i></a>
 			                {% else %}
 			                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}
-			                	<a id="add-log-entry_{{forloop.counter}}n" class="add-log-entries" href="#log-entry-modal" role="button" data-toggle="modal" data-pid="{{entry.0}}" data-pname="{{entry.1.project_desc}}"><i class="fa fa-book" aria-hidden="true"></i></a>
+			                	<!-- <a id="add-log-entry_{{forloop.counter}}n" class="add-log-entries" href="#log-entry-modal" role="button" data-toggle="modal" data-pid="{{entry.0}}" data-pname="{{entry.1.project_desc}}"><i class="fa fa-book" aria-hidden="true"></i></a> -->
+			                	<a id="add-log-entry_{{forloop.counter}}n" href="#" data-form="/post/new/" class="add-log-entries" data-pid="{{entry.0}}" data-pname="{{entry.1.project_desc}}" data-target="#log-entry-modal"><i class="fa fa-book" aria-hidden="true"></i></a>
 			                {% endif %}
 			            </span>
 					</td>
@@ -115,9 +116,8 @@
 						</span>
 					</td>
 					<td colspan="3" class="update_column">
-						<div class="update_label">Today at 11:23am</div>
-						<div class="update_text">Update from MG -- still waiting on client about question regarding parentIds and the record hierarchy, found an encoding issue with their most recent CSVs (investigating now), all other data imported successfully</div>
-						</div>
+						<div id="{{entry.0}}_time_update" class="update_label update_date">{{entry.1.log_entry_date}}</div>
+						<div id="{{entry.0}}_update" class="update_text">{{entry.1.log_entry_text}}</div>
 					</td>
 				</tr>
 			</tbody>
@@ -136,17 +136,19 @@
 			        <tr id="row_{{forloop.counter}}i" class="inactive-projects" data-tt-id="{{forloop.counter0}}i" data-tt-parent-id="2000{{product_name}}">
 						<td class="first-column inactive-indent">
 							{% if user.is_superuser %}
-							<a id="edit_{{forloop.counter}}i" class="edit_project" href="{% url 'project_edit' pid=entry.1.redmine_project_id %}"><i class="fa fa-wrench" aria-hidden="true"></i></a>
+								<a id="edit_{{forloop.counter}}i" class="edit_project" href="{% url 'project_edit' pid=entry.1.redmine_project_id %}"><i class="fa fa-wrench" aria-hidden="true"></i></a>
 							{% endif %}
 
 							<span class="first-column-content">
 				                <a target="_blank" href="https://projects.artefactual.com/projects/{{entry.1.identifier}}/issues">
 				                {% if entry.1.client != "none" %}
 				                	{{entry.1.client}} - {{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}
-				                	<a id="add-log-entry_{{forloop.counter}}i" class="add-log-entries" href="#log-entry-modal" role="button" data-toggle="modal" data-pid="{{entry.0}}" data-pname="{{entry.1.client}} - {{entry.1.project_desc}}"><i class="fa fa-book" aria-hidden="true"></i></a>
+				                	<!-- <a id="add-log-entry_{{forloop.counter}}i" class="add-log-entries" href="#log-entry-modal" role="button" data-toggle="modal" data-pid="{{entry.0}}" data-pname="{{entry.1.client}} - {{entry.1.project_desc}}"><i class="fa fa-book" aria-hidden="true"></i></a> -->
+				                	<a id="add-log-entry_{{forloop.counter}}i" href="#" data-form="/post/new/" class="add-log-entries" data-pid="{{entry.0}}" data-pname="{{entry.1.client}} - {{entry.1.project_desc}}" data-target="#log-entry-modal"><i class="fa fa-book" aria-hidden="true"></i></a>
 				                {% else %}
 				                	{{entry.1.project_desc}}</a>{{entry.1.tm_status|safe}}
-				                	<a id="add-log-entry_{{forloop.counter}}i" class="add-log-entries" href="#log-entry-modal" role="button" data-toggle="modal" data-pid="{{entry.0}}" data-pname="{{entry.1.project_desc}}"><i class="fa fa-book" aria-hidden="true"></i></a>
+				                	<!-- <a id="add-log-entry_{{forloop.counter}}i" class="add-log-entries" href="#log-entry-modal" role="button" data-toggle="modal" data-pid="{{entry.0}}" data-pname="{{entry.1.project_desc}}"><i class="fa fa-book" aria-hidden="true"></i></a> -->
+				                	<a id="add-log-entry_{{forloop.counter}}i" href="#" data-form="/post/new/" class="add-log-entries" data-pid="{{entry.0}}" data-pname="{{entry.1.project_desc}}" data-target="#log-entry-modal"><i class="fa fa-book" aria-hidden="true"></i></a>
 				                {% endif %}
 				            </span>
 			            </td>
@@ -173,9 +175,8 @@
 							</span>
 						</td>
 						<td colspan="3" class="update_column">
-							<div class="update_label">Today at 11:23am</div>
-							<div class="update_text">Update from MG -- still waiting on client about question regarding parentIds and the record hierarchy, found an encoding issue with their most recent CSVs (investigating now), all other data imported successfully</div>
-							</div>
+							<div id="{{entry.0}}_time_update" class="update_label update_date">{{entry.1.log_entry_date}}</div>
+							<div id="{{entry.0}}_update" class="update_text">{{entry.1.log_entry_text}}</div>
 						</td>
 					</tr>
 				</tbody>
