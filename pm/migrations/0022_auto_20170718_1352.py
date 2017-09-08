@@ -20,10 +20,6 @@ class Migration(migrations.Migration):
                 ('email', models.EmailField(max_length=254)),
             ],
         ),
-        migrations.RemoveField(
-            model_name='project',
-            name='team',
-        ),
         migrations.AddField(
             model_name='project',
             name='team',
