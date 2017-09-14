@@ -439,3 +439,13 @@ def post_new(request):
 		form = PostForm()
 		return render(request, 'pm/project_log_form.html', {'form': form})
 
+@user_passes_test(lambda u: u.is_superuser)
+def project_details(request, pid):
+	project_logs = ProjectLogEntry.objects.filter(redmine_identifier=pid).order_by('-entry_date')
+
+	context = { 
+		"redmine_project_id": pid,
+		"show_menu" : True,
+		"log_details": project_logs
+	}
+	return render(request, 'pm/project_details.html', context)

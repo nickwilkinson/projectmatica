@@ -81,8 +81,10 @@ td { height: 50px; /*width: 25px;*/ }
 #projects_table td.team_column .team_border {position:relative; display:inline-block; min-width:70px; height:1px; padding-top:10px; top: -5px; border-top:1px solid rgb(153, 153, 153);}
 #projects_table td.team_column.inactive_nonbillable_details {padding-left: 45px;}
 
-#projects_table td.update_column .update_label {font-size: 13px; margin-left: -450px;}
+#projects_table td.update_column .update_label {font-size: 13px; margin-left: -450px; display: inline;}
 #projects_table td.update_column .update_text {margin-left: -450px; border-top: 1px solid rgb(153, 153, 153); padding-top:13px;}
+#projects_table td.update_column span a {font-size: 13px; position: relative; display: inline; margin-left: 10px; text-decoration: none; color: #ebebeb;}
+#projects_table td.update_column span a:hover {text-decoration: underline;}
 
 p.no_projects {margin-top: 20px; font-size: 1.25em;}
 
@@ -106,6 +108,7 @@ button.ui-datepicker-trigger {border:none; background:none;}
 table.ui-datepicker-calendar tr td {height:25px; text-align: center;}
 table.ui-datepicker-calendar tr th {width:30px; height:25px; text-align: center;}
 */
+
 /* Project Edit form */
 .redmine_url {font-weight: bold;}
 .pm_form label {font-weight: bold; width: 150px;}
@@ -176,3 +179,6 @@ table.ui-datepicker-calendar tr th {width:30px; height:25px; text-align: center;
 input[type="text"], input[type="password"] {
     background-position: 150% 50% !important;
 }
+
+/* Project details timeline */
+.timeline_log_entry {margin-bottom: 20px;}

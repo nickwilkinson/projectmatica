@@ -11,7 +11,7 @@
 			<th class="text-right">Deadline</th>
 		</tr>
 	</thead>
-        {% for entry in sorted_all_projects_details %}	        
+        {% for entry in sorted_all_projects_details %}
 	        {% if entry.1.project_id is null %}
 		        {% if entry.1.product == product_name %}		        	
         		<tbody>
@@ -58,7 +58,7 @@
 						</span>
 					</td>
 					<td colspan="3" class="update_column">
-						<div id="{{entry.0}}_time_update" class="update_label update_date">{{entry.1.log_entry_date}}</div>
+						<div id="{{entry.0}}_time_update" class="update_label update_date">{{entry.1.log_entry_date}}</div><span><a href="{% url 'project_details' pid=entry.0 %}">(see full timeline)</a></span>
 						<div id="{{entry.0}}_update" class="update_text">{{entry.1.log_entry_text}}</div>
 					</td>
 				</tr>

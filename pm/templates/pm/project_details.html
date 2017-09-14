@@ -1,0 +1,31 @@
+{% extends 'pm/base.html' %}
+
+{% block content %}
+
+	<div class="container">
+		<div class="page-header" id="banner">
+			<div class="row">
+				<div class="col-md-12">
+					<h1>Project Details #{{ redmine_project_id }}</h1>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="container">
+		{% for entry in log_details %}	  
+			<div class="row">
+				<div class="col-sm-1">
+					<i class="fa fa-pencil" aria-hidden="true"></i>
+				</div>
+				<div class="timeline_log_entry col-sm-11">
+					<div>{{entry.entry_date|date:"l, N j, Y"}} | {{entry.entry_author}}</div>
+					<div>{{entry.entry_text}}</div>
+					<div>{{entry.entry_link}}</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+
+{% endblock %}
