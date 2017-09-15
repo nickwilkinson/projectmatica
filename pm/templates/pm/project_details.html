@@ -6,7 +6,8 @@
 		<div class="page-header" id="banner">
 			<div class="row">
 				<div class="col-md-12">
-					<h1>Project Details #{{ redmine_project_id }}</h1>
+					<h1>Project Timeline</h1>
+					<h4>{{project_client}}: {{project_desc}}</h4>
 				</div>
 			</div>
 		</div>
@@ -14,17 +15,24 @@
 
 
 	<div class="container">
-		{% for entry in log_details %}	  
-			<div class="row">
-				<div class="col-sm-1">
-					<i class="fa fa-pencil" aria-hidden="true"></i>
-				</div>
-				<div class="timeline_log_entry col-sm-11">
-					<div>{{entry.entry_date|date:"l, N j, Y"}} | {{entry.entry_author}}</div>
-					<div>{{entry.entry_text}}</div>
-					<div>{{entry.entry_link}}</div>
-				</div>
-			</div>
+		{% for date_to_display in month_years %}
+			<h2 class="timeline_month_year">{{date_to_display}}</h2>
+			{% for entry in project_logs_formatted %}
+				{% if entry.entry_date_formatted == date_to_display %}
+					<div class="row timeline_log_entry_wrapper">
+						<div class="col-sm-1 timeline-bullet-wrapper">
+							<i class="fa fa-circle-o timeline-bullet" aria-hidden="true"></i>
+						</div>
+						<div class="timeline_log_entry col-sm-11">
+							<div><span class="text-info">{{entry.entry_date|date:"l, N j, Y"}}</span> (posted by {{entry.entry_author}})</div>
+							<div>{{entry.entry_text}}</div>
+							{% if entry.entry_link %}
+								<div><a href="{{entry.entry_link}}">related info</a></div>
+							{% endif %}
+						</div>
+					</div>
+				{% endif %}
+			{% endfor %}
 		{% endfor %}
 	</div>
 

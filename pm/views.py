@@ -439,13 +439,48 @@ def post_new(request):
 		form = PostForm()
 		return render(request, 'pm/project_log_form.html', {'form': form})
 
-@user_passes_test(lambda u: u.is_superuser)
+@login_required
 def project_details(request, pid):
-	project_logs = ProjectLogEntry.objects.filter(redmine_identifier=pid).order_by('-entry_date')
+	project_logs = ProjectLogEntry.objects.filter(redmine_identifier=pid).order_by('-entry_date').values()
+	project_record = Project.objects.get(redmine_project_id = pid)
+
+	# basic project info
+	project_client = project_record.client_name
+	project_desc = project_record.project_desc
+
+	# get list of unique month/year pairs
+	month_years = []
+	for entry in project_logs:
+		temp_date = entry['entry_date'].strftime('%B %Y')
+		if temp_date not in month_years:
+			month_years.append(temp_date)
+		
+	
+	# get count of how many unique month/year paris there are
+	month_groups = len(month_years)
+
+	
+	# store log entries in dict organized by month/year pairs
+	project_logs_formatted = []
+	for entry in project_logs:
+		project_details = {
+			"entry_text": entry['entry_text'],
+			"entry_date_formatted": entry['entry_date'].strftime('%B %Y'),
+			"entry_date": entry['entry_date'],
+			"entry_action": entry['entry_action'],
+			"entry_link": entry['entry_link'],
+			"entry_author": entry['entry_author']
+		}
+		project_logs_formatted.append(project_details)
+
 
 	context = { 
 		"redmine_project_id": pid,
 		"show_menu" : True,
-		"log_details": project_logs
+		"project_client": project_client,
+		"project_desc": project_desc,
+		"month_years": month_years,
+		"month_groups": month_groups,
+		"project_logs_formatted": project_logs_formatted
 	}
 	return render(request, 'pm/project_details.html', context)

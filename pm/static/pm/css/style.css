@@ -181,4 +181,21 @@ input[type="text"], input[type="password"] {
 }
 
 /* Project details timeline */
-.timeline_log_entry {margin-bottom: 20px;}
+h2.timeline_month_year {display: block; background-color: rgb(43, 62, 80); margin:0; padding-top: 40px; margin-bottom: 40px; height: 50px;}
+h2.timeline_month_year:first-of-type {padding:0; margin:0; margin-top: 20px;}
+
+.timeline-bullet-wrapper:after {
+    content:"";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    min-height:130px;
+    border-left: 4px solid white;
+    transform: translate(-50%);
+}
+.timeline-bullet-wrapper {text-align: center;}
+.timeline-bullet {font-size: 2em; background-color: rgb(43, 62, 80); padding: 3px;}
+.timeline_log_entry {margin-bottom: 40px; padding-top:3px;}
+.timeline_log_entry a {text-decoration: underline;}
