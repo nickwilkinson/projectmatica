@@ -469,7 +469,8 @@ def project_details(request, pid):
 			"entry_date": entry['entry_date'],
 			"entry_action": entry['entry_action'],
 			"entry_link": entry['entry_link'],
-			"entry_author": entry['entry_author']
+			"entry_author": entry['entry_author'],
+			"entry_type": entry['entry_type']
 		}
 		project_logs_formatted.append(project_details)
 

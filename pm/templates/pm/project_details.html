@@ -21,13 +21,19 @@
 				{% if entry.entry_date_formatted == date_to_display %}
 					<div class="row timeline_log_entry_wrapper">
 						<div class="col-sm-1 timeline-bullet-wrapper">
-							<i class="fa fa-circle-o timeline-bullet" aria-hidden="true"></i>
+							{% if entry.entry_action == 'DC' %}
+								<i class="fa fa-check-circle-o timeline-bullet text-info" aria-hidden="true"></i>
+							{% elif entry.entry_type == True %}
+								<i class="fa fa-phone timeline-bullet text-warning" aria-hidden="true"></i>
+							{% else %}
+								<i class="fa fa-circle-o timeline-bullet" aria-hidden="true"></i>
+							{% endif %}
 						</div>
 						<div class="timeline_log_entry col-sm-11">
 							<div><span class="text-info">{{entry.entry_date|date:"l, N j, Y"}}</span> (posted by {{entry.entry_author}})</div>
 							<div>{{entry.entry_text}}</div>
 							{% if entry.entry_link %}
-								<div><a href="{{entry.entry_link}}">related info</a></div>
+								<div><a href="{{entry.entry_link}}" target="_blank">related info</a></div>
 							{% endif %}
 						</div>
 					</div>

@@ -197,5 +197,6 @@ h2.timeline_month_year:first-of-type {padding:0; margin:0; margin-top: 20px;}
 }
 .timeline-bullet-wrapper {text-align: center;}
 .timeline-bullet {font-size: 2em; background-color: rgb(43, 62, 80); padding: 3px;}
+.timeline-bullet-decision {color:red;}
 .timeline_log_entry {margin-bottom: 40px; padding-top:3px;}
 .timeline_log_entry a {text-decoration: underline;}
