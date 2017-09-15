@@ -200,3 +200,30 @@ h2.timeline_month_year:first-of-type {padding:0; margin:0; margin-top: 20px;}
 .timeline-bullet-decision {color:red;}
 .timeline_log_entry {margin-bottom: 40px; padding-top:3px;}
 .timeline_log_entry a {text-decoration: underline;}
+
+/************* PROJECTS SCORECARD *************/
+#timeline_charts .chart {height:250px; margin-top:5px;}
+#timeline_charts .chart_legend {height:40px; margin-top:40px; text-align: center;}
+#timeline_charts .chart_legend p {position:relative; display: inline; margin: 0 20px;}
+#timeline_charts .chart_legend p .legend_line {position:relative; display:inline-block; width: 25px; height:1px; top: -3px; margin-right:10px;}
+#timeline_charts .chart_legend p .overall_legend {border-top:3px solid #31b0d5;}
+#timeline_charts .chart_legend p .small_p_legend {border-top:3px solid rgba(223,105,26,1);}
+#timeline_charts .chart_legend p .medium_p_legend {border-top:3px solid rgba(240,173,78,1);}
+#timeline_charts .chart_legend p .large_p_legend {border-top:3px solid rgba(92,184,92,1);}
+
+.projects_by_year {margin-top:50px;}
+.year_wrapper {position: relative; display:block; width: 100%; height: auto; margin:0 auto; clear: both;}
+.final_year_wrapper {top: -12px;}
+.year_header {display:inline-block; width: 150px; height: auto; font-size: 3em; /*border-right:3px solid white;*/}
+.fa-circle-o {position:relative; font-size: 2em; margin-right: 20px; left: -14px; top:-5px; background-color: #2b3e50; padding: 5px 0; z-index: 1000;}
+.year_desc {position:relative; font-size: 1.5em; top:-7px;}
+.year_data_wrapper {position:relative; display:block; float:right; width:990px; padding-left:60px; margin-top:-65px; border-left:3px solid white; }
+.final_year_border {border: none;}
+
+.year_wrapper .table {font-size: 1em; margin-top: 60px;}
+.year_wrapper .additional_table {margin-top: 30px;}
+.year_wrapper .table thead tr th {height:25px;}
+.year_wrapper .table tbody tr td {height:25px;}
+.year_wrapper .fa-info-circle {margin-left:10px; cursor: pointer;}
+.year_wrapper .table tbody tr td.last_row {border-top: 1px solid white;}
+

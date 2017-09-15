@@ -1,0 +1,302 @@
+{% extends 'pm/base.html' %}
+
+{% block content %}
+
+<div class="container">
+	<div class="page-header" id="banner">
+		<div class="row">
+			<div class="col-md-12">
+				<h1>Project Timeline</h1>
+				<p>How well we've done on all XXX of our billable projects.</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container">
+	<div id="timeline_charts">
+		<div class="row">
+			<div class="col-md-4 chart">
+				<canvas id="budget_chart" width="350" height="250"></canvas>
+			</div>
+			<div class="col-md-4 chart">
+				<canvas id="schedule_chart" width="350" height="250"></canvas>
+			</div>
+			<div class="col-md-4 chart">
+				<canvas id="overhead_chart" width="350" height="250"></canvas>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 chart_legend">
+				<p><span class="legend_line overall_legend"></span>Overall average</p>
+				<p><span class="legend_line small_p_legend"></span>Average &#8212; small projects (<= 25 hrs)</p>
+				<p><span class="legend_line medium_p_legend"></span>Average &#8212; medium projects (26-150 hrs)</p>
+				<p><span class="legend_line large_p_legend"></span>Average &#8212; large projects (> 150 hrs)</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="container projects_by_year">
+	<div class="year_wrapper">
+		<div>
+			<span class="year_header">2017</span>
+			<i class="fa fa-circle-o" aria-hidden="true"></i>
+			<span class="year_desc">4 projects completed so far</span>
+		</div>
+		<div class="year_data_wrapper">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>AtoM Projects</th>
+						<th class="text-center">Budget</th>
+						<th class="text-center">Schedule</th>
+						<th class="text-center">Overhead</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><a href="" target="_blank">SFU enhancements</a></td>
+						<td class="text-center">+4%</td>
+						<td class="text-center">+2%</td>
+						<td class="text-center">23%</td>
+					</tr>
+					<tr>
+						<td><a href="" target="_blank">SFU enhancements</a></td>
+						<td class="text-center">+4%</td>
+						<td class="text-center">+2%</td>
+						<td class="text-center">23%</td>
+					</tr>
+					<tr>
+						<td><a href="" target="_blank">SFU enhancements</a></td>
+						<td class="text-center">+4%</td>
+						<td class="text-center">+2%</td>
+						<td class="text-center">23%</td>
+					</tr>
+					<tr>
+						<td class="last_row">Average</td>
+						<td class="last_row text-center">+4%</td>
+						<td class="last_row text-center">+2%</td>
+						<td class="last_row text-center">23%</td>
+					</tr>
+				</tbody>
+				
+			</table>
+			<table class="table table-striped additional_table">
+				<thead>
+					<tr>
+						<th>Archivematica Projects</th>
+						<th class="text-center">Budget</th>
+						<th class="text-center">Schedule</th>
+						<th class="text-center">Overhead</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><a href="" target="_blank">SFU enhancements</a></td>
+						<td class="text-center">+4%</td>
+						<td class="text-center">+2%</td>
+						<td class="text-center">23%</td>
+					</tr>
+					<tr>
+						<td><a href="" target="_blank">SFU enhancements</a></td>
+						<td class="text-center">+4%</td>
+						<td class="text-center">+2%</td>
+						<td class="text-center">23%</td>
+					</tr>
+					<tr>
+						<td><a href="" target="_blank">SFU enhancements</a></td>
+						<td class="text-center">+4%</td>
+						<td class="text-center">+2%</td>
+						<td class="text-center">23%</td>
+					</tr>
+					<tr>
+						<td class="last_row">Average</td>
+						<td class="last_row text-center">+4%</td>
+						<td class="last_row text-center">+2%</td>
+						<td class="last_row text-center">23%</td>
+					</tr>
+
+				</tbody>
+				
+			</table>
+
+		</div>
+	</div>
+
+	<div class="year_wrapper">
+		<div>
+			<span class="year_header">2016</span>
+			<i class="fa fa-circle-o" aria-hidden="true"></i>
+			<span class="year_desc">27 projects completed</span>
+		</div>
+		<div class="year_data_wrapper">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>AtoM Projects</th>
+						<th class="text-center">Budget</th>
+						<th class="text-center">Schedule</th>
+						<th class="text-center">Overhead</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><a href="" target="_blank">SFU enhancements</a></td>
+						<td class="text-center">+4%</td>
+						<td class="text-center">+2%</td>
+						<td class="text-center">23%</td>
+					</tr>
+					<tr>
+						<td><a href="" target="_blank">SFU enhancements</a></td>
+						<td class="text-center">+4%</td>
+						<td class="text-center">+2%</td>
+						<td class="text-center">23%</td>
+					</tr>
+					<tr>
+						<td><a href="" target="_blank">SFU enhancements</a></td>
+						<td class="text-center">+4%</td>
+						<td class="text-center">+2%</td>
+						<td class="text-center">23%</td>
+					</tr>
+					<tr>
+						<td class="last_row">Average</td>
+						<td class="last_row text-center">+4%</td>
+						<td class="last_row text-center">+2%</td>
+						<td class="last_row text-center">23%</td>
+					</tr>
+				</tbody>
+				
+			</table>
+			<table class="table table-striped additional_table">
+				<thead>
+					<tr>
+						<th>Archivematica Projects</th>
+						<th class="text-center">Budget</th>
+						<th class="text-center">Schedule</th>
+						<th class="text-center">Overhead</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><a href="" target="_blank">SFU enhancements</a></td>
+						<td class="text-center">+4%</td>
+						<td class="text-center">+2%</td>
+						<td class="text-center">23%</td>
+					</tr>
+					<tr>
+						<td><a href="" target="_blank">SFU enhancements</a></td>
+						<td class="text-center">+4%</td>
+						<td class="text-center">+2%</td>
+						<td class="text-center">23%</td>
+					</tr>
+					<tr>
+						<td><a href="" target="_blank">SFU enhancements</a></td>
+						<td class="text-center">+4%</td>
+						<td class="text-center">+2%</td>
+						<td class="text-center">23%</td>
+					</tr>
+					<tr>
+						<td class="last_row">Average</td>
+						<td class="last_row text-center">+4%</td>
+						<td class="last_row text-center">+2%</td>
+						<td class="last_row text-center">23%</td>
+					</tr>
+
+				</tbody>
+				
+			</table>
+
+		</div>
+	</div>
+
+	<div class="year_wrapper final_year_wrapper">
+		<div>
+			<span class="year_header">2015</span>
+			<i class="fa fa-circle-o" aria-hidden="true"></i>
+			<span class="year_desc">24 projects completed</span>
+		</div>
+		<div class="year_data_wrapper final_year_border">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>AtoM Projects</th>
+						<th class="text-center">Budget</th>
+						<th class="text-center">Schedule</th>
+						<th class="text-center">Overhead</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><a href="" target="_blank">SFU enhancements</a></td>
+						<td class="text-center">+4%</td>
+						<td class="text-center">+2%</td>
+						<td class="text-center">23%</td>
+					</tr>
+					<tr>
+						<td><a href="" target="_blank">SFU enhancements</a></td>
+						<td class="text-center">+4%</td>
+						<td class="text-center">+2%</td>
+						<td class="text-center">23%</td>
+					</tr>
+					<tr>
+						<td><a href="" target="_blank">SFU enhancements</a></td>
+						<td class="text-center">+4%</td>
+						<td class="text-center">+2%</td>
+						<td class="text-center">23%</td>
+					</tr>
+					<tr>
+						<td class="last_row">Average</td>
+						<td class="last_row text-center">+4%</td>
+						<td class="last_row text-center">+2%</td>
+						<td class="last_row text-center">23%</td>
+					</tr>
+				</tbody>
+				
+			</table>
+			<table class="table table-striped additional_table">
+				<thead>
+					<tr>
+						<th>Archivematica Projects</th>
+						<th class="text-center">Budget</th>
+						<th class="text-center">Schedule</th>
+						<th class="text-center">Overhead</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><a href="" target="_blank">SFU enhancements</a></td>
+						<td class="text-center">+4%</td>
+						<td class="text-center">+2%</td>
+						<td class="text-center">23%</td>
+					</tr>
+					<tr>
+						<td><a href="" target="_blank">SFU enhancements</a></td>
+						<td class="text-center">+4%</td>
+						<td class="text-center">+2%</td>
+						<td class="text-center">23%</td>
+					</tr>
+					<tr>
+						<td><a href="" target="_blank">SFU enhancements</a></td>
+						<td class="text-center">+4%</td>
+						<td class="text-center">+2%</td>
+						<td class="text-center">23%</td>
+					</tr>
+					<tr>
+						<td class="last_row">Average</td>
+						<td class="last_row text-center">+4%</td>
+						<td class="last_row text-center">+2%</td>
+						<td class="last_row text-center">23%</td>
+					</tr>
+
+				</tbody>
+				
+			</table>
+
+		</div>
+	</div>
+
+</div>
+
+{% endblock %}
