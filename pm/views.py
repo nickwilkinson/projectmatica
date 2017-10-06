@@ -778,7 +778,9 @@ def scorecard(request):
 
 
 		# calculate overall budget overage average for the given year
-		overall_budget_overage_avg = round((sum(budget_overage_pcts) / len(budget_overage_pcts)),0)
+		# overall_budget_overage_avg = round((sum(budget_overage_pcts) / len(budget_overage_pcts)),0)
+		# overall_budget_overage_avg = float(format((sum(budget_overage_pcts) / len(budget_overage_pcts)),'.0f'))
+		overall_budget_overage_avg = int(round(sum(budget_overage_pcts) / len(budget_overage_pcts)))
 		# set colour indicator
 		if overall_budget_overage_avg > 10:
 			overall_budget_overage_avg_indicator = 'text-danger'
