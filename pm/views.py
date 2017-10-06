@@ -577,7 +577,7 @@ def scorecard(request):
 				planned_days = (deadline - actual_start_date).days
 				actual_days = (actual_end_date - actual_start_date).days
 				if planned_days > 0:
-					schedule_overage = round((actual_days / planned_days),1)
+					schedule_overage = float(format((actual_days / planned_days),'.1f'))
 				else:
 					schedule_overage = 0
 				if schedule_overage >= 1.5:
@@ -593,7 +593,7 @@ def scorecard(request):
 
 		###### overhead pct calc --> (total_admin_hours_spent / budget) * 100
 		if entry['total_hours_spent'] > 0:
-			overhead_pct = round(((entry['total_admin_hours_spent'] / entry['total_hours_spent']) * 100),0)
+			overhead_pct = int(round(((entry['total_admin_hours_spent'] / entry['total_hours_spent']) * 100),0))
 			overhead_pct_total += overhead_pct
 		else:
 			overhead_pct = 0
@@ -746,33 +746,33 @@ def scorecard(request):
 		if product_count['AtoM'] > 0:
 			made_lost_avg['AtoM'] = currency_formatter(round((made_lost_sum['AtoM'] / product_count['AtoM']),0))
 			made_lost_avg_unformatted['AtoM'] = round((made_lost_sum['AtoM'] / product_count['AtoM']),0)
-			budget_overage_pct['AtoM'] = round((budget_overage_sum['AtoM'] / product_count['AtoM']),0)
-			schedule_overage_avg['AtoM'] = round((schedule_overage_sum['AtoM'] / product_count['AtoM']),1)
-			overhead_avg['AtoM'] = round((overhead_sum['AtoM'] / product_count['AtoM']),1)
+			budget_overage_pct['AtoM'] = int(round((budget_overage_sum['AtoM'] / product_count['AtoM']),0))
+			schedule_overage_avg['AtoM'] = float(format((schedule_overage_sum['AtoM'] / product_count['AtoM']),'.1f'))
+			overhead_avg['AtoM'] = int(round((overhead_sum['AtoM'] / product_count['AtoM']),1))
 		else: 
 			budget_overage_pct['AtoM'] = 0
 		if product_count['Archivematica'] > 0:
 			made_lost_avg['Archivematica'] = currency_formatter(round((made_lost_sum['Archivematica'] / product_count['Archivematica']),0))
 			made_lost_avg_unformatted['Archivematica'] = round((made_lost_sum['Archivematica'] / product_count['Archivematica']),0)
-			budget_overage_pct['Archivematica'] = round((budget_overage_sum['Archivematica'] / product_count['Archivematica']),0)
-			schedule_overage_avg['Archivematica'] = round((schedule_overage_sum['Archivematica'] / product_count['Archivematica']),1)
-			overhead_avg['Archivematica'] = round((overhead_sum['Archivematica'] / product_count['Archivematica']),1)
+			budget_overage_pct['Archivematica'] = int(round((budget_overage_sum['Archivematica'] / product_count['Archivematica']),0))
+			schedule_overage_avg['Archivematica'] = float(format((schedule_overage_sum['Archivematica'] / product_count['Archivematica']),'.1f'))
+			overhead_avg['Archivematica'] = int(round((overhead_sum['Archivematica'] / product_count['Archivematica']),1))
 		else:
 			budget_overage_pct['Archivematica'] = 0
 		if product_count['Binder'] > 0:
 			made_lost_avg['Binder'] = currency_formatter(round((made_lost_sum['Binder'] / product_count['Binder']),0))
 			made_lost_avg_unformatted['Binder'] = round((made_lost_sum['Binder'] / product_count['Binder']),0)
-			budget_overage_pct['Binder'] = round((budget_overage_sum['Binder'] / product_count['Binder']),0)
-			schedule_overage_avg['Binder'] = round((schedule_overage_sum['Binder'] / product_count['Binder']),1)
-			overhead_avg['Binder'] = round((overhead_sum['Binder'] / product_count['Binder']),1)
+			budget_overage_pct['Binder'] = int(round((budget_overage_sum['Binder'] / product_count['Binder']),0))
+			schedule_overage_avg['Binder'] = float(format((schedule_overage_sum['Binder'] / product_count['Binder']),'.1f'))
+			overhead_avg['Binder'] = int(round((overhead_sum['Binder'] / product_count['Binder']),1))
 		else:
 			budget_overage_pct['Binder'] = 0
 		if product_count['Combo'] > 0:
 			made_lost_avg['Combo'] = currency_formatter(round((made_lost_sum['Combo'] / product_count['Combo']),0))
 			made_lost_avg_unformatted['Combo'] = round((made_lost_sum['Combo'] / product_count['Combo']),0)
-			budget_overage_pct['Combo'] = round((budget_overage_sum['Combo'] / product_count['Combo']),0)
-			schedule_overage_avg['Combo'] = round((schedule_overage_sum['Combo'] / product_count['Combo']),1)
-			overhead_avg['Combo'] = round((overhead_sum['Combo'] / product_count['Combo']),1)
+			budget_overage_pct['Combo'] = int(round((budget_overage_sum['Combo'] / product_count['Combo']),0))
+			schedule_overage_avg['Combo'] = float(format((schedule_overage_sum['Combo'] / product_count['Combo']),'.1f'))
+			overhead_avg['Combo'] = int(round((overhead_sum['Combo'] / product_count['Combo']),1))
 		else:
 			budget_overage_pct['Combo'] = 0
 
