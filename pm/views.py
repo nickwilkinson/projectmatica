@@ -574,8 +574,8 @@ def scorecard(request):
 		if actual_start_date:
 			if deadline:
 				schedule_counter += 1
-				planned_days = (deadline - actual_start_date).days
-				actual_days = (actual_end_date - actual_start_date).days
+				planned_days = int((deadline - actual_start_date).days)
+				actual_days = int((actual_end_date - actual_start_date).days)
 				if planned_days > 0:
 					schedule_overage = float(format((actual_days / planned_days),'.2f'))
 				else:
