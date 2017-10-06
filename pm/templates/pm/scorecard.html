@@ -6,8 +6,8 @@
 	<div class="page-header" id="banner">
 		<div class="row">
 			<div class="col-md-12">
-				<h1>Project Timeline</h1>
-				<p>How well we've done on all XXX of our billable projects.</p>
+				<h1>Artefactual Scorecard</h1>
+				<p>{{completed_projects_count}} billable projects since {{first_year}}.<span class="scorecard_csv_export"><a href="{% url 'scorecard_csv' %}" target="_blank">csv export</a></span></p>
 			</div>
 		</div>
 	</div>
@@ -29,9 +29,9 @@
 		<div class="row">
 			<div class="col-md-12 chart_legend">
 				<p><span class="legend_line overall_legend"></span>Overall average</p>
-				<p><span class="legend_line small_p_legend"></span>Average &#8212; small projects (<= 25 hrs)</p>
-				<p><span class="legend_line medium_p_legend"></span>Average &#8212; medium projects (26-150 hrs)</p>
-				<p><span class="legend_line large_p_legend"></span>Average &#8212; large projects (> 150 hrs)</p>
+				<p><span class="legend_line small_p_legend"></span>{{overall_project_counts.small}} Small projects (<= 25 hrs)</p>
+				<p><span class="legend_line medium_p_legend"></span>{{overall_project_counts.medium}} Medium projects (26-150 hrs)</p>
+				<p><span class="legend_line large_p_legend"></span>{{overall_project_counts.large}} Large projects (> 150 hrs)</p>
 			</div>
 		</div>
 	</div>
@@ -39,264 +39,323 @@
 
 
 <div class="container projects_by_year">
-	<div class="year_wrapper">
-		<div>
-			<span class="year_header">2017</span>
-			<i class="fa fa-circle-o" aria-hidden="true"></i>
-			<span class="year_desc">4 projects completed so far</span>
+	{% for year in year_details %}
+		<div class="year_wrapper">
+ 			<div>
+				<span class="year_header">{{year.completion_year}}</span>
+				<i class="fa fa-circle-o milestone_marker" aria-hidden="true"></i>
+				<span class="year_desc">{{year.projects_per_year}} projects completed: <span class="{{year.overall_budget_overage_avg_indicator}}">{{year.overall_budget_overage_avg_status}}</span> on average</span>
+			</div>
+			{% for product in product_list %}
+				{% if product == 1 and year.atom_projects > 0 or product == 2 and year.am_projects > 0 or product == 3 and year.binder_projects > 0 or product == 5 and year.combo_projects > 0 %}
+                <div class="year_data_wrapper">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								{% if product == 1 and year.atom_projects > 0 %}
+									<th>AtoM Projects ({{year.atom_projects}})</th>
+								{% elif product == 2 and year.am_projects > 0 %}
+									<th>Archivematica Projects ({{year.am_projects}})</th>
+								{% elif product == 3 and year.binder_projects %}
+									<th>Binder Projects ({{year.binder_projects}})</th>
+								{% elif product == 5 and year.combo_projects > 0 %}
+									<th>Combo Projects ({{year.combo_projects}})</th>
+								{% endif %}
+                                    <th class="text-center data-column">Made/Lost</th>
+                                    <th class="text-center data-column">Budget Overage</th>
+                                    <th class="text-center data-column">Schedule Overage</th>
+                                    <th class="text-center data-column">Overhead</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for entry in completed_projects_details %}
+								{% if entry.year == year.completion_year and entry.product == product %}
+									<tr>
+										<td><a href="https://projects.artefactual.com/projects/{{entry.redmine_project_url}}" target="_blank">{{entry.client_name}}: {{entry.project_desc}}</a></td>
+										<td class="text-center {{entry.made_lost_indicator}}">{{entry.made_lost}}</td>
+										<td class="text-center {{entry.budget_overage_indicator}}">{{entry.budget_overage_pct}}%</td>
+										<td class="text-center {{entry.schedule_overage_indicator}}">{{entry.schedule_overage}}x</td>
+										<td class="text-center {{entry.overhead_indicator}}">{{entry.overhead_pct}}%</td>
+									</tr>
+								{% endif %}
+							{% endfor %}
+							{% if product == 1 and year.atom_projects > 0 %}
+ 							<tr>
+								<td class="last_row">Average</td>
+								<td class="last_row text-center {{year.made_lost_avg_indicator.AtoM}}">{{year.atom_made_lost_avg}}</td>
+								<td class="last_row text-center {{year.budget_avg_indicator.AtoM}}">{{year.atom_budget_overage}}%</td>
+								<td class="last_row text-center {{year.schedule_avg_indicator.AtoM}}">{{year.atom_schedule_overage_avg}}x</td>
+								<td class="last_row text-center {{year.overhead_avg_indicator.AtoM}}">{{year.atom_overhead_avg}}%</td>
+							</tr>
+							{% elif product == 2 and year.am_projects > 0 %}
+ 							<tr>
+								<td class="last_row">Average</td>
+								<td class="last_row text-center {{year.made_lost_avg_indicator.Archivematica}}">{{year.am_made_lost_avg}}</td>
+								<td class="last_row text-center {{year.budget_avg_indicator.Archivematica}}">{{year.am_budget_overage}}%</td>
+								<td class="last_row text-center {{year.schedule_avg_indicator.Archivematica}}">{{year.am_schedule_overage_avg}}x</td>
+								<td class="last_row text-center {{year.overhead_avg_indicator.Archivematica}}">{{year.am_overhead_avg}}%</td>
+							</tr>
+							{% elif product == 3 and year.binder_projects > 0 %}
+ 							<tr>
+								<td class="last_row">Average</td>
+								<td class="last_row text-center {{year.made_lost_avg_indicator.Binder}}">{{year.binder_made_lost_avg}}</td>
+								<td class="last_row text-center {{year.budget_avg_indicator.Binder}}">{{year.binder_budget_overage}}%</td>
+								<td class="last_row text-center {{year.schedule_avg_indicator.Binder}}">{{year.binder_schedule_overage_avg}}x</td>
+								<td class="last_row text-center {{year.overhead_avg_indicator.Binder}}">{{year.binder_overhead_avg}}%</td>
+							</tr>
+							{% elif product == 5 and year.combo_projects > 0 %}
+ 							<tr>
+								<td class="last_row">Average</td>
+								<td class="last_row text-center {{year.made_lost_avg_indicator.Combo}}">{{year.combo_made_lost_avg}}</td>
+								<td class="last_row text-center {{year.budget_avg_indicator.Combo}}">{{year.combo_budget_overage}}%</td>
+								<td class="last_row text-center {{year.schedule_avg_indicator.Combo}}">{{year.combo_schedule_overage_avg}}x</td>
+								<td class="last_row text-center {{year.overhead_avg_indicator.Combo}}">{{year.combo_overhead_avg}}%</td>
+							</tr>
+							{% endif %}
+						</tbody>
+					</table>
+				</div>
+                {% endif %}
+			{% endfor %}
 		</div>
-		<div class="year_data_wrapper">
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th>AtoM Projects</th>
-						<th class="text-center">Budget</th>
-						<th class="text-center">Schedule</th>
-						<th class="text-center">Overhead</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td><a href="" target="_blank">SFU enhancements</a></td>
-						<td class="text-center">+4%</td>
-						<td class="text-center">+2%</td>
-						<td class="text-center">23%</td>
-					</tr>
-					<tr>
-						<td><a href="" target="_blank">SFU enhancements</a></td>
-						<td class="text-center">+4%</td>
-						<td class="text-center">+2%</td>
-						<td class="text-center">23%</td>
-					</tr>
-					<tr>
-						<td><a href="" target="_blank">SFU enhancements</a></td>
-						<td class="text-center">+4%</td>
-						<td class="text-center">+2%</td>
-						<td class="text-center">23%</td>
-					</tr>
-					<tr>
-						<td class="last_row">Average</td>
-						<td class="last_row text-center">+4%</td>
-						<td class="last_row text-center">+2%</td>
-						<td class="last_row text-center">23%</td>
-					</tr>
-				</tbody>
-				
-			</table>
-			<table class="table table-striped additional_table">
-				<thead>
-					<tr>
-						<th>Archivematica Projects</th>
-						<th class="text-center">Budget</th>
-						<th class="text-center">Schedule</th>
-						<th class="text-center">Overhead</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td><a href="" target="_blank">SFU enhancements</a></td>
-						<td class="text-center">+4%</td>
-						<td class="text-center">+2%</td>
-						<td class="text-center">23%</td>
-					</tr>
-					<tr>
-						<td><a href="" target="_blank">SFU enhancements</a></td>
-						<td class="text-center">+4%</td>
-						<td class="text-center">+2%</td>
-						<td class="text-center">23%</td>
-					</tr>
-					<tr>
-						<td><a href="" target="_blank">SFU enhancements</a></td>
-						<td class="text-center">+4%</td>
-						<td class="text-center">+2%</td>
-						<td class="text-center">23%</td>
-					</tr>
-					<tr>
-						<td class="last_row">Average</td>
-						<td class="last_row text-center">+4%</td>
-						<td class="last_row text-center">+2%</td>
-						<td class="last_row text-center">23%</td>
-					</tr>
-
-				</tbody>
-				
-			</table>
-
-		</div>
-	</div>
-
-	<div class="year_wrapper">
-		<div>
-			<span class="year_header">2016</span>
-			<i class="fa fa-circle-o" aria-hidden="true"></i>
-			<span class="year_desc">27 projects completed</span>
-		</div>
-		<div class="year_data_wrapper">
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th>AtoM Projects</th>
-						<th class="text-center">Budget</th>
-						<th class="text-center">Schedule</th>
-						<th class="text-center">Overhead</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td><a href="" target="_blank">SFU enhancements</a></td>
-						<td class="text-center">+4%</td>
-						<td class="text-center">+2%</td>
-						<td class="text-center">23%</td>
-					</tr>
-					<tr>
-						<td><a href="" target="_blank">SFU enhancements</a></td>
-						<td class="text-center">+4%</td>
-						<td class="text-center">+2%</td>
-						<td class="text-center">23%</td>
-					</tr>
-					<tr>
-						<td><a href="" target="_blank">SFU enhancements</a></td>
-						<td class="text-center">+4%</td>
-						<td class="text-center">+2%</td>
-						<td class="text-center">23%</td>
-					</tr>
-					<tr>
-						<td class="last_row">Average</td>
-						<td class="last_row text-center">+4%</td>
-						<td class="last_row text-center">+2%</td>
-						<td class="last_row text-center">23%</td>
-					</tr>
-				</tbody>
-				
-			</table>
-			<table class="table table-striped additional_table">
-				<thead>
-					<tr>
-						<th>Archivematica Projects</th>
-						<th class="text-center">Budget</th>
-						<th class="text-center">Schedule</th>
-						<th class="text-center">Overhead</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td><a href="" target="_blank">SFU enhancements</a></td>
-						<td class="text-center">+4%</td>
-						<td class="text-center">+2%</td>
-						<td class="text-center">23%</td>
-					</tr>
-					<tr>
-						<td><a href="" target="_blank">SFU enhancements</a></td>
-						<td class="text-center">+4%</td>
-						<td class="text-center">+2%</td>
-						<td class="text-center">23%</td>
-					</tr>
-					<tr>
-						<td><a href="" target="_blank">SFU enhancements</a></td>
-						<td class="text-center">+4%</td>
-						<td class="text-center">+2%</td>
-						<td class="text-center">23%</td>
-					</tr>
-					<tr>
-						<td class="last_row">Average</td>
-						<td class="last_row text-center">+4%</td>
-						<td class="last_row text-center">+2%</td>
-						<td class="last_row text-center">23%</td>
-					</tr>
-
-				</tbody>
-				
-			</table>
-
-		</div>
-	</div>
-
-	<div class="year_wrapper final_year_wrapper">
-		<div>
-			<span class="year_header">2015</span>
-			<i class="fa fa-circle-o" aria-hidden="true"></i>
-			<span class="year_desc">24 projects completed</span>
-		</div>
-		<div class="year_data_wrapper final_year_border">
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th>AtoM Projects</th>
-						<th class="text-center">Budget</th>
-						<th class="text-center">Schedule</th>
-						<th class="text-center">Overhead</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td><a href="" target="_blank">SFU enhancements</a></td>
-						<td class="text-center">+4%</td>
-						<td class="text-center">+2%</td>
-						<td class="text-center">23%</td>
-					</tr>
-					<tr>
-						<td><a href="" target="_blank">SFU enhancements</a></td>
-						<td class="text-center">+4%</td>
-						<td class="text-center">+2%</td>
-						<td class="text-center">23%</td>
-					</tr>
-					<tr>
-						<td><a href="" target="_blank">SFU enhancements</a></td>
-						<td class="text-center">+4%</td>
-						<td class="text-center">+2%</td>
-						<td class="text-center">23%</td>
-					</tr>
-					<tr>
-						<td class="last_row">Average</td>
-						<td class="last_row text-center">+4%</td>
-						<td class="last_row text-center">+2%</td>
-						<td class="last_row text-center">23%</td>
-					</tr>
-				</tbody>
-				
-			</table>
-			<table class="table table-striped additional_table">
-				<thead>
-					<tr>
-						<th>Archivematica Projects</th>
-						<th class="text-center">Budget</th>
-						<th class="text-center">Schedule</th>
-						<th class="text-center">Overhead</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td><a href="" target="_blank">SFU enhancements</a></td>
-						<td class="text-center">+4%</td>
-						<td class="text-center">+2%</td>
-						<td class="text-center">23%</td>
-					</tr>
-					<tr>
-						<td><a href="" target="_blank">SFU enhancements</a></td>
-						<td class="text-center">+4%</td>
-						<td class="text-center">+2%</td>
-						<td class="text-center">23%</td>
-					</tr>
-					<tr>
-						<td><a href="" target="_blank">SFU enhancements</a></td>
-						<td class="text-center">+4%</td>
-						<td class="text-center">+2%</td>
-						<td class="text-center">23%</td>
-					</tr>
-					<tr>
-						<td class="last_row">Average</td>
-						<td class="last_row text-center">+4%</td>
-						<td class="last_row text-center">+2%</td>
-						<td class="last_row text-center">23%</td>
-					</tr>
-
-				</tbody>
-				
-			</table>
-
-		</div>
-	</div>
-
+	{% endfor %}
 </div>
+
+
+<!-- JS CHART STUFF -->
+<script>
+var ctx = document.getElementById("budget_chart");
+var ctx2 = document.getElementById("schedule_chart");
+var ctx3 = document.getElementById("overhead_chart");
+
+var budget_data = {
+    {{year_data_str|safe}},
+    datasets: [
+        {
+            label: "Overall average (%)",
+            fill: false,
+            borderColor: "#31b0d5",
+            pointBorderColor: "#31b0d5",
+            pointBackgroundColor: "#31b0d5",
+            pointBorderWidth: 5,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: [{{chart_overall_budget_data_str|safe}}],
+            spanGaps: false,
+        },
+        {
+            label: "Small projects (%)",
+            // label: [["22"], ["23"], ["24"], ["25"]],
+            fill: false,
+            borderColor: "rgba(223,105,26,0.25)",
+            pointBorderColor: "rgba(223,105,26,0.25)",
+            pointBackgroundColor: "rgba(223,105,26,0.25)",
+            pointBorderWidth: 5,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(223,105,26,1)",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: [{{chart_small_project_budget_overage_avg_str|safe}}],
+            spanGaps: false,
+        },        
+        {
+            label: "Medium projects (%)",
+            fill: false,
+            borderColor: "rgba(240,173,78,0.25)",
+            pointBorderColor: "rgba(240,173,78,0.25)",
+            pointBackgroundColor: "rgba(240,173,78,0.25)",
+            pointBorderWidth: 5,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(240,173,78,1)",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: [{{chart_medium_project_budget_overage_avg_str|safe}}],
+            spanGaps: false,
+        },
+        {
+            label: "Large projects (%)",
+            fill: false,
+            borderColor: "rgba(92,184,92,0.25)",
+            pointBorderColor: "rgba(92,184,92,0.25)",
+            pointBackgroundColor: "rgba(92,184,92,0.25)",
+            pointBorderWidth: 5,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(92,184,92,1)",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: [{{chart_large_project_budget_overage_avg_str|safe}}],
+            spanGaps: false,
+        }
+    ]
+};
+
+var schedule_data = {
+    {{year_data_str|safe}},
+    datasets: [
+        {
+            label: "Overall average",
+            fill: false,
+            borderColor: "#31b0d5",
+            pointBorderColor: "#31b0d5",
+            pointBackgroundColor: "#31b0d5",
+            pointBorderWidth: 5,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: [{{chart_overall_schedule_data_str|safe}}],
+            spanGaps: false,
+        },
+        {
+            label: "Small projects",
+            fill: false,
+            borderColor: "rgba(223,105,26,0.25)",
+            pointBorderColor: "rgba(223,105,26,0.25)",
+            pointBackgroundColor: "rgba(223,105,26,0.25)",
+            pointBorderWidth: 5,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(223,105,26,1)",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: [{{chart_project_schedule_overage_avg_str.small|safe}}],
+            spanGaps: false,
+        },        
+        {
+            label: "Medium projects",
+            fill: false,
+            borderColor: "rgba(240,173,78,0.25)",
+            pointBorderColor: "rgba(240,173,78,0.25)",
+            pointBackgroundColor: "rgba(240,173,78,0.25)",
+            pointBorderWidth: 5,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(240,173,78,1)",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: [{{chart_project_schedule_overage_avg_str.medium|safe}}],
+            spanGaps: false,
+        },
+        {
+            label: "Large projects",
+            fill: false,
+            borderColor: "rgba(92,184,92,0.25)",
+            pointBorderColor: "rgba(92,184,92,0.25)",
+            pointBackgroundColor: "rgba(92,184,92,0.25)",
+            pointBorderWidth: 5,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(92,184,92,1)",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: [{{chart_project_schedule_overage_avg_str.large|safe}}],
+            spanGaps: false,
+        }
+    ]
+};
+var overhead_data = {
+    {{year_data_str|safe}},
+    datasets: [
+        {
+            label: "Overall average",
+            fill: false,
+            borderColor: "#31b0d5",
+            pointBorderColor: "#31b0d5",
+            pointBackgroundColor: "#31b0d5",
+            pointBorderWidth: 5,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: [{{chart_overall_overhead_data_str|safe}}],
+            spanGaps: false,
+        },
+        {
+            label: "Small projects",
+            fill: false,
+            borderColor: "rgba(223,105,26,0.25)",
+            pointBorderColor: "rgba(223,105,26,0.25)",
+            pointBackgroundColor: "rgba(223,105,26,0.25)",
+            pointBorderWidth: 5,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(223,105,26,1)",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: [{{chart_project_overhead_avg_str.small|safe}}],
+            spanGaps: false,
+        },        
+        {
+            label: "Medium projects",
+            fill: false,
+            borderColor: "rgba(240,173,78,0.25)",
+            pointBorderColor: "rgba(240,173,78,0.25)",
+            pointBackgroundColor: "rgba(240,173,78,0.25)",
+            pointBorderWidth: 5,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(240,173,78,1)",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: [{{chart_project_overhead_avg_str.medium|safe}}],
+            spanGaps: false,
+        },
+        {
+            label: "Large projects",
+            fill: false,
+            borderColor: "rgba(92,184,92,0.25)",
+            pointBorderColor: "rgba(92,184,92,0.25)",
+            pointBackgroundColor: "rgba(92,184,92,0.25)",
+            pointBorderWidth: 5,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(92,184,92,1)",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: [{{chart_project_overhead_avg_str.large|safe}}],
+            spanGaps: false,
+        }
+    ]
+};
+var budget_chart = new Chart(ctx, {
+    type: 'line',
+    data: budget_data,
+    options: budget_options,
+});
+
+var schedule_chart = new Chart(ctx2, {
+    type: 'line',
+    data: schedule_data,
+    options: schedule_options
+});
+
+var overhead_chart = new Chart(ctx3, {
+    type: 'line',
+    data: overhead_data,
+    options: overhead_options
+});
+
+
+</script>
 
 {% endblock %}

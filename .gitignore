@@ -8,3 +8,4 @@ db.sqlite3
 settings.py
 /pm/management/commands/time_import_log
 /projectmatica-env
+db.sqlite3 copy

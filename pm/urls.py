@@ -7,4 +7,6 @@ urlpatterns = [
 	url(r'^project/(?P<pid>\d+)/edit/$', views.project_edit, name='project_edit'),
 	url(r'^project/(?P<pid>\d+)/details/$', views.project_details, name='project_details'),
 	url(r'^post/new/$', views.post_new, name='post_new'),
+	url(r'^scorecard/$', views.scorecard, name='scorecard'),
+	url(r'^scorecard/csv/$', views.scorecard_csv, name='scorecard_csv'),
 ]

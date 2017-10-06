@@ -1,0 +1,5 @@
+<p>client_name, made_lost, budget_overage_pct, overhead_pct, schedule_overage, year, product, project_size, redmine_project_url</p>
+
+{% for entry in csv_export %}
+	{{entry.client_name}}, {{entry.made_lost_unformatted}}, {{entry.budget_overage_pct}}, {{entry.overhead_pct}}, {{entry.schedule_overage}}, {{entry.year}}, {{entry.product}}, {{entry.project_size}}, <a href="http://projects.artefactual.com/projects/{{entry.redmine_project_url}}" target="_blank">http://projects.artefactual.com/projects/{{entry.redmine_project_url}}</a></br>
+{% endfor %}

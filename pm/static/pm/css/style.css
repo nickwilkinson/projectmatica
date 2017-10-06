@@ -202,6 +202,7 @@ h2.timeline_month_year:first-of-type {padding:0; margin:0; margin-top: 20px;}
 .timeline_log_entry a {text-decoration: underline;}
 
 /************* PROJECTS SCORECARD *************/
+#banner .scorecard_csv_export {position:relative; display:inline; float:right;}
 #timeline_charts .chart {height:250px; margin-top:5px;}
 #timeline_charts .chart_legend {height:40px; margin-top:40px; text-align: center;}
 #timeline_charts .chart_legend p {position:relative; display: inline; margin: 0 20px;}
@@ -214,16 +215,19 @@ h2.timeline_month_year:first-of-type {padding:0; margin:0; margin-top: 20px;}
 .projects_by_year {margin-top:50px;}
 .year_wrapper {position: relative; display:block; width: 100%; height: auto; margin:0 auto; clear: both;}
 .final_year_wrapper {top: -12px;}
-.year_header {display:inline-block; width: 150px; height: auto; font-size: 3em; /*border-right:3px solid white;*/}
-.fa-circle-o {position:relative; font-size: 2em; margin-right: 20px; left: -14px; top:-5px; background-color: #2b3e50; padding: 5px 0; z-index: 1000;}
+.year_header {display:inline-block; width: 150px; height: auto; font-size: 3em;}
+.milestone_marker {position:relative; font-size: 2em; margin-right: 20px; left: -14px; top:-5px; background-color: #2b3e50; padding: 5px 0; z-index: 1000;}
 .year_desc {position:relative; font-size: 1.5em; top:-7px;}
 .year_data_wrapper {position:relative; display:block; float:right; width:990px; padding-left:60px; margin-top:-65px; border-left:3px solid white; }
 .final_year_border {border: none;}
 
-.year_wrapper .table {font-size: 1em; margin-top: 60px;}
-.year_wrapper .additional_table {margin-top: 30px;}
-.year_wrapper .table thead tr th {height:25px;}
-.year_wrapper .table tbody tr td {height:25px;}
+.year_wrapper .table {font-size: 1em; margin-top: 60px; margin-bottom: 40px;}
+/*.year_wrapper .additional_table {margin-top: 30px;}*/
+.year_wrapper .table tr {height: 40px;}
+.year_wrapper .table thead tr th {height:25px; vertical-align: middle;}
+.year_wrapper .table thead tr th.data-column {width: 13%;}
+.year_wrapper .table tbody tr td {height:25px; vertical-align: middle;}
+.year_wrapper .table tbody tr td a {text-decoration: none;}
+.year_wrapper .table tbody tr td a:hover {text-decoration: underline;}
 .year_wrapper .fa-info-circle {margin-left:10px; cursor: pointer;}
 .year_wrapper .table tbody tr td.last_row {border-top: 1px solid white;}
-

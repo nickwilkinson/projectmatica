@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from django.conf import settings
+from collections import defaultdict
 
 # 'Redmine' is a dependency --> pip install python-redmine
 from redmine import Redmine
@@ -306,6 +307,7 @@ def project_list(request):
 
 	context = {
 		"show_menu" : True,
+		"project_list": True,
 		"sorted_all_projects_details": sorted_all_projects_details,
 		"displayed_inactive_projects": sorted_displayed_inactive_projects,
 		"displayed_non_billable_projects": sorted_displayed_non_billable_projects,
@@ -485,3 +487,642 @@ def project_details(request, pid):
 		"project_logs_formatted": project_logs_formatted
 	}
 	return render(request, 'pm/project_details.html', context)
+
+def currency_formatter(amount):
+    if amount >= 0:
+        return '${:,.0f}'.format(amount)
+    else:
+        return '-${:,.0f}'.format(-amount)
+
+def avg_colour_coding(numbers, field_type):
+	if field_type == 'made_lost':
+		if numbers <= -1000:
+			return 'text-danger'
+		elif numbers >= 1000:
+			return 'text-success'
+	elif field_type == 'budget':
+		if numbers < 5:
+			return 'text-success'
+		elif numbers >= 10:
+			return 'text-danger'
+	elif field_type == 'schedule':
+		if numbers >= 1.5:
+			return 'text-danger'
+		elif numbers <= 1:
+			return 'text-success'
+	elif field_type == 'overhead':
+		if numbers > 10:
+			return 'text-danger'
+
+
+@login_required
+def scorecard(request):
+	# fake rate applied to all projects. use only until model has been updated to account for actual project rates
+	chargeout_rate = 150
+	
+	# get a list of all billable projects with a completion date
+	completed_projects = Project.objects.filter(category__category_name__in = ['Billable'], completed_on__isnull=False).values()
+
+	# count of all projects
+	completed_projects_count = len(completed_projects)
+
+	# calculate stats for all completed projects
+	completed_projects_details = []
+	# counter = 0
+	schedule_counter = 0
+	budget_overage_total = 0
+	made_lost_total = 0
+	overhead_pct_total = 0
+	schedule_overage_total = 0
+	for entry in completed_projects:
+		# get year from completed_on field
+		year = entry['completed_on'].strftime('%Y')
+		product = entry['product_id']
+		# need to calculate made/lost, budget overage pct, schedule overage pct, overhead pct
+		# counter += 1
+
+		###### made/lost calc --> (budget - total_hours_spent) * rate
+		made_lost_unformatted = (entry['budget'] - entry['total_hours_spent']) * chargeout_rate
+		made_lost_total += made_lost_unformatted
+		made_lost = currency_formatter(made_lost_unformatted)
+
+		made_lost_indicator = ''
+		if made_lost_unformatted >= 1000:
+			made_lost_indicator = 'text-success'
+		if made_lost_unformatted <= -1000:
+			made_lost_indicator = 'text-danger'
+
+
+		###### budget overage pct calc --> ((total_hours_spent / budget) - 1) * 100
+		budget_overage_indicator = ''
+		if entry['budget'] != 0:
+			budget_overage_pct = round((((entry['total_hours_spent'] / entry['budget']) - 1) * 100),0)
+			budget_overage_total += budget_overage_pct
+			if budget_overage_pct < 5:
+				budget_overage_indicator = 'text-success'
+			elif budget_overage_pct >= 10:
+				budget_overage_indicator = 'text-danger'
+		else:
+			budget_overage_pct = '---'
+
+		###### schedule overage pct calc --> ((days between actual start and end) / (days between planned start and end) - 1) * 100
+		actual_start_date = entry['start_date']
+		deadline = entry['deadline']
+		actual_end_date = entry['completed_on']
+
+		schedule_overage_indicator = ''
+		if actual_start_date:
+			if deadline:
+				schedule_counter += 1
+				planned_days = (deadline - actual_start_date).days
+				actual_days = (actual_end_date - actual_start_date).days
+				if planned_days > 0:
+					schedule_overage = round((actual_days / planned_days),1)
+				else:
+					schedule_overage = 0
+				if schedule_overage >= 1.5:
+					schedule_overage_indicator = 'text-danger'
+				elif schedule_overage <= 1:
+					schedule_overage_indicator = 'text-success'
+				schedule_overage_total += schedule_overage
+			else:
+				schedule_overage = '---'
+		else:
+			schedule_overage = '---'
+
+
+		###### overhead pct calc --> (total_admin_hours_spent / budget) * 100
+		if entry['total_hours_spent'] > 0:
+			overhead_pct = round(((entry['total_admin_hours_spent'] / entry['total_hours_spent']) * 100),0)
+			overhead_pct_total += overhead_pct
+		else:
+			overhead_pct = 0
+
+		overhead_indicator = ''
+		if overhead_pct > 10:
+			overhead_indicator = 'text-danger'
+
+		if entry['budget'] <= 25:
+			project_size = 'small'
+		elif entry['budget'] > 25 and entry['budget'] <= 150:
+			project_size = 'medium'
+		elif entry['budget'] > 150:
+			project_size = 'large'
+
+
+		completed_project_details_list = {
+			"redmine_project_url": entry['redmine_project_url'],
+			"client_name": entry['client_name'],
+			"project_desc": entry['project_desc'],
+			"made_lost_unformatted": made_lost_unformatted,
+			"made_lost": made_lost,
+			"made_lost_indicator": made_lost_indicator,
+			"budget_overage_pct": budget_overage_pct,
+			"budget_overage_indicator": budget_overage_indicator,
+			"overhead_pct": overhead_pct,
+			"overhead_indicator": overhead_indicator,
+			"schedule_overage": schedule_overage,
+			"schedule_overage_indicator": schedule_overage_indicator,
+			"year": year,
+			"product": product,
+			"project_size": project_size
+		}
+		completed_projects_details.append(completed_project_details_list)
+
+
+	# get a list of every unique year of project completion
+	years = []
+	for entry in completed_projects_details:
+		temp_date = entry['year']
+		if temp_date not in years:
+			years.append(temp_date)
+	
+	# sort years in reverse order
+	years.sort(reverse=True)
+	# get earliest and most recent years
+	first_year = years[-1]
+	most_recent_year = years[0]
+
+	# make a list of all product types
+	# AtoM == 1 | Archivematica == 2 | Binder == 3 | None == 4 | Combo == 5
+	product_list = [1,2,5,3]
+
+	# set completion year and total count of projects per year
+	year_details = []
+	year_counter = dict()
+	product_count = dict()
+	budget_overage_sum = dict()
+	budget_overage_pct = dict()
+	budget_avg_indicator = dict()
+	made_lost_sum = dict()
+	made_lost_avg = dict()
+	made_lost_avg_indicator = dict()
+	schedule_overage_sum = dict()
+	schedule_overage_avg = dict()
+	schedule_avg_indicator = dict()
+	overhead_sum = dict()
+	overhead_avg = dict()
+	for year in years:
+		year_counter = 0
+		product_count = {'AtoM': 0, 'Archivematica': 0, 'Binder': 0, 'Combo': 0}
+		budget_overage_sum = {'AtoM': 0, 'Archivematica': 0, 'Binder': 0, 'Combo': 0}
+		made_lost_sum = {'AtoM': 0, 'Archivematica': 0, 'Binder': 0, 'Combo': 0}
+		made_lost_avg = {'AtoM': 0, 'Archivematica': 0, 'Binder': 0, 'Combo': 0}
+		made_lost_avg_unformatted = {'AtoM': 0, 'Archivematica': 0, 'Binder': 0, 'Combo': 0}
+		made_lost_avg_indicator = {'AtoM': '', 'Archivematica': '', 'Binder': '', 'Combo': ''}
+		schedule_overage_sum = {'AtoM': 0, 'Archivematica': 0, 'Binder': 0, 'Combo': 0}
+		schedule_overage_avg = {'AtoM': 0, 'Archivematica': 0, 'Binder': 0, 'Combo': 0}
+		schedule_avg_indicator = {'AtoM': '', 'Archivematica': '', 'Binder': '', 'Combo': ''}
+		overhead_sum = {'AtoM': 0, 'Archivematica': 0, 'Binder': 0, 'Combo': 0}
+		overhead_avg = {'AtoM': 0, 'Archivematica': 0, 'Binder': 0, 'Combo': 0}
+		overhead_avg_indicator = {'AtoM': '', 'Archivematica': '', 'Binder': '', 'Combo': ''}
+		budget_overage_pcts = []
+		schedule_overages = []
+		overhead_pcts = []
+		budget_avg_indicator = {'AtoM': '', 'Archivematica': '', 'Binder': '', 'Combo': ''}
+		budget_overage_pct['AtoM'] = 0
+		# if year not in year_counter:
+		# 	year_counter[year] = 0
+		for project_detail in completed_projects_details:
+			if project_detail['year'] == year:
+				year_counter += 1
+				
+				# count products in this year
+				if project_detail['product'] == 1:
+					product_count['AtoM'] += 1
+					if project_detail['made_lost'] != '---':
+						made_lost_sum['AtoM'] += project_detail['made_lost_unformatted']
+					if project_detail['budget_overage_pct'] != '---':
+						budget_overage_sum['AtoM'] += project_detail['budget_overage_pct']
+					if project_detail['schedule_overage'] != '---':
+						schedule_overage_sum['AtoM'] += project_detail['schedule_overage']
+					if project_detail['overhead_pct'] != '---':
+						overhead_sum['AtoM'] += project_detail['overhead_pct']
+				elif project_detail['product'] == 2:
+					product_count['Archivematica'] += 1
+					if project_detail['made_lost'] != '---':
+						made_lost_sum['Archivematica'] += project_detail['made_lost_unformatted']
+					if project_detail['budget_overage_pct'] != '---':
+						budget_overage_sum['Archivematica'] += project_detail['budget_overage_pct']
+					if project_detail['schedule_overage'] != '---':
+						schedule_overage_sum['Archivematica'] += project_detail['schedule_overage']
+					if project_detail['overhead_pct'] != '---':
+						overhead_sum['Archivematica'] += project_detail['overhead_pct']
+				elif project_detail['product'] == 3:
+					product_count['Binder'] += 1
+					if project_detail['made_lost'] != '---':
+						made_lost_sum['Binder'] += project_detail['made_lost_unformatted']					
+					if project_detail['budget_overage_pct'] != '---':
+						budget_overage_sum['Binder'] += project_detail['budget_overage_pct']
+					if project_detail['schedule_overage'] != '---':
+						schedule_overage_sum['Binder'] += project_detail['schedule_overage']
+					if project_detail['overhead_pct'] != '---':
+						overhead_sum['Binder'] += project_detail['overhead_pct']				
+				elif project_detail['product'] == 5:
+					product_count['Combo'] += 1
+					if project_detail['made_lost'] != '---':
+						made_lost_sum['Combo'] += project_detail['made_lost_unformatted']
+					if project_detail['budget_overage_pct'] != '---':
+						budget_overage_sum['Combo'] += project_detail['budget_overage_pct']
+					if project_detail['schedule_overage'] != '---':
+						schedule_overage_sum['Combo'] += project_detail['schedule_overage']
+					if project_detail['overhead_pct'] != '---':
+						overhead_sum['Combo'] += project_detail['overhead_pct']
+
+
+				# sum budget overages for the given year
+				if project_detail['budget_overage_pct'] != '---':
+					budget_overage_pcts.append(project_detail['budget_overage_pct'])
+
+				# sum schedule overages for the given year
+				if project_detail['schedule_overage'] != '---':
+					schedule_overages.append(project_detail['schedule_overage'])
+
+				# sum overheads for the given year
+				if project_detail['overhead_pct'] != '---':
+					overhead_pcts.append(project_detail['overhead_pct'])
+
+		# calculate averages per product
+		if product_count['AtoM'] > 0:
+			made_lost_avg['AtoM'] = currency_formatter(round((made_lost_sum['AtoM'] / product_count['AtoM']),0))
+			made_lost_avg_unformatted['AtoM'] = round((made_lost_sum['AtoM'] / product_count['AtoM']),0)
+			budget_overage_pct['AtoM'] = round((budget_overage_sum['AtoM'] / product_count['AtoM']),0)
+			schedule_overage_avg['AtoM'] = round((schedule_overage_sum['AtoM'] / product_count['AtoM']),1)
+			overhead_avg['AtoM'] = round((overhead_sum['AtoM'] / product_count['AtoM']),1)
+		else: 
+			budget_overage_pct['AtoM'] = 0
+		if product_count['Archivematica'] > 0:
+			made_lost_avg['Archivematica'] = currency_formatter(round((made_lost_sum['Archivematica'] / product_count['Archivematica']),0))
+			made_lost_avg_unformatted['Archivematica'] = round((made_lost_sum['Archivematica'] / product_count['Archivematica']),0)
+			budget_overage_pct['Archivematica'] = round((budget_overage_sum['Archivematica'] / product_count['Archivematica']),0)
+			schedule_overage_avg['Archivematica'] = round((schedule_overage_sum['Archivematica'] / product_count['Archivematica']),1)
+			overhead_avg['Archivematica'] = round((overhead_sum['Archivematica'] / product_count['Archivematica']),1)
+		else:
+			budget_overage_pct['Archivematica'] = 0
+		if product_count['Binder'] > 0:
+			made_lost_avg['Binder'] = currency_formatter(round((made_lost_sum['Binder'] / product_count['Binder']),0))
+			made_lost_avg_unformatted['Binder'] = round((made_lost_sum['Binder'] / product_count['Binder']),0)
+			budget_overage_pct['Binder'] = round((budget_overage_sum['Binder'] / product_count['Binder']),0)
+			schedule_overage_avg['Binder'] = round((schedule_overage_sum['Binder'] / product_count['Binder']),1)
+			overhead_avg['Binder'] = round((overhead_sum['Binder'] / product_count['Binder']),1)
+		else:
+			budget_overage_pct['Binder'] = 0
+		if product_count['Combo'] > 0:
+			made_lost_avg['Combo'] = currency_formatter(round((made_lost_sum['Combo'] / product_count['Combo']),0))
+			made_lost_avg_unformatted['Combo'] = round((made_lost_sum['Combo'] / product_count['Combo']),0)
+			budget_overage_pct['Combo'] = round((budget_overage_sum['Combo'] / product_count['Combo']),0)
+			schedule_overage_avg['Combo'] = round((schedule_overage_sum['Combo'] / product_count['Combo']),1)
+			overhead_avg['Combo'] = round((overhead_sum['Combo'] / product_count['Combo']),1)
+		else:
+			budget_overage_pct['Combo'] = 0
+
+
+		# calculate overall budget overage average for the given year
+		overall_budget_overage_avg = round((sum(budget_overage_pcts) / len(budget_overage_pcts)),0)
+		# set colour indicator
+		if overall_budget_overage_avg > 10:
+			overall_budget_overage_avg_indicator = 'text-danger'
+		elif overall_budget_overage_avg <= 10:
+			overall_budget_overage_avg_indicator = 'text-success'
+
+		if overall_budget_overage_avg < 0:
+			overall_budget_overage_avg_status = str(overall_budget_overage_avg) + '% under budget!'
+		elif overall_budget_overage_avg > 0:
+			overall_budget_overage_avg_status = str(overall_budget_overage_avg) + '% over budget'
+		elif overall_budget_overage_avg == 0:
+			overall_budget_overage_avg_status = str(overall_budget_overage_avg) + '% over budget!'
+
+
+		# calculate overall schedule overage average for the given year
+		overall_schedule_overage_avg = round((sum(schedule_overages) / len(schedule_overages)),1)
+
+		# calculate overall overhead average for the given year
+		overall_overhead_avg = round((sum(overhead_pcts) / len(overhead_pcts)),0)
+
+
+		# set colour indicators for product averages
+		made_lost_avg_indicator['AtoM'] = avg_colour_coding(made_lost_avg_unformatted['AtoM'], 'made_lost')
+		made_lost_avg_indicator['Archivematica'] = avg_colour_coding(made_lost_avg_unformatted['Archivematica'], 'made_lost')
+		made_lost_avg_indicator['Binder'] = avg_colour_coding(made_lost_avg_unformatted['Binder'], 'made_lost')
+		made_lost_avg_indicator['Combo'] = avg_colour_coding(made_lost_avg_unformatted['Combo'], 'made_lost')
+
+		budget_avg_indicator['AtoM'] = avg_colour_coding(budget_overage_pct['AtoM'], 'budget')
+		budget_avg_indicator['Archivematica'] = avg_colour_coding(budget_overage_pct['Archivematica'], 'budget')
+		budget_avg_indicator['Binder'] = avg_colour_coding(budget_overage_pct['Binder'], 'budget')
+		budget_avg_indicator['Combo'] = avg_colour_coding(budget_overage_pct['Combo'], 'budget')
+
+		schedule_avg_indicator['AtoM'] = avg_colour_coding(schedule_overage_avg['AtoM'], 'schedule')
+		schedule_avg_indicator['Archivematica'] = avg_colour_coding(schedule_overage_avg['Archivematica'], 'schedule')
+		schedule_avg_indicator['Binder'] = avg_colour_coding(schedule_overage_avg['Binder'], 'schedule')
+		schedule_avg_indicator['Combo'] = avg_colour_coding(schedule_overage_avg['Combo'], 'schedule')
+
+		overhead_avg_indicator['AtoM'] = avg_colour_coding(overhead_avg['AtoM'], 'overhead')
+		overhead_avg_indicator['Archivematica'] = avg_colour_coding(overhead_avg['Archivematica'], 'overhead')
+		overhead_avg_indicator['Binder'] = avg_colour_coding(overhead_avg['Binder'], 'overhead')
+		overhead_avg_indicator['Combo'] = avg_colour_coding(overhead_avg['Combo'], 'overhead')
+
+		year_details_list = {
+			"completion_year": year,
+			"projects_per_year": year_counter,
+			"atom_projects": product_count['AtoM'],
+			"am_projects": product_count['Archivematica'],
+			"binder_projects": product_count['Binder'],
+			"combo_projects": product_count['Combo'],
+			"overall_budget_overage_avg": overall_budget_overage_avg,
+			"overall_budget_overage_avg_indicator": overall_budget_overage_avg_indicator,
+			"overall_budget_overage_avg_status": overall_budget_overage_avg_status,
+			"atom_budget_overage": budget_overage_pct['AtoM'],
+			"am_budget_overage": budget_overage_pct['Archivematica'],
+			"binder_budget_overage": budget_overage_pct['Binder'],
+			"combo_budget_overage": budget_overage_pct['Combo'],
+			"atom_made_lost_avg": made_lost_avg['AtoM'],
+			"am_made_lost_avg": made_lost_avg['Archivematica'],
+			"binder_made_lost_avg": made_lost_avg['Binder'],
+			"combo_made_lost_avg": made_lost_avg['Combo'],
+			"overall_schedule_overage_avg": overall_schedule_overage_avg,
+			"atom_schedule_overage_avg": schedule_overage_avg['AtoM'],
+			"am_schedule_overage_avg": schedule_overage_avg['Archivematica'],
+			"binder_schedule_overage_avg": schedule_overage_avg['Binder'],
+			"combo_schedule_overage_avg": schedule_overage_avg['Combo'],
+			"overall_overhead_avg": overall_overhead_avg,
+			"atom_overhead_avg": overhead_avg['AtoM'],
+			"am_overhead_avg": overhead_avg['Archivematica'],
+			"binder_overhead_avg": overhead_avg['Binder'],
+			"combo_overhead_avg": overhead_avg['Combo'],
+			"made_lost_avg_indicator": made_lost_avg_indicator,
+			"budget_avg_indicator": budget_avg_indicator,
+			"schedule_avg_indicator": schedule_avg_indicator,
+			"overhead_avg_indicator": overhead_avg_indicator
+		}
+		year_details.append(year_details_list)
+
+
+	# for each year and product, calculate: avg made/lost, avg budget overage, avg schedule overage, avg overhead
+	counter = dict()
+	made_lost_total = dict()
+	budget_overage_total = dict()
+	overhead_pct_total = dict()
+	schedule_overage_total = dict()
+	year_product_key_list = [] 
+	# add value totals
+	for project_detail in completed_projects_details:
+		year_product_key = project_detail['year'] + '-'+ str(project_detail['product'])
+		year_product_key_list.append(project_detail['year'] + '-'+ str(project_detail['product']))
+		if year_product_key not in counter:
+			counter[year_product_key] = 0
+			made_lost_total[year_product_key] = 0
+			budget_overage_total[year_product_key] = 0
+			overhead_pct_total[year_product_key] = 0
+			schedule_overage_total[year_product_key] = 0
+
+		made_lost_total[year_product_key] += project_detail['made_lost_unformatted']
+		
+		if project_detail['budget_overage_pct'] != '---':
+			budget_overage_total[year_product_key] += project_detail['budget_overage_pct']
+		
+		overhead_pct_total[year_product_key] += project_detail['overhead_pct']
+		
+		if project_detail['schedule_overage'] != '---':
+			schedule_overage_total[year_product_key] += project_detail['schedule_overage']
+		
+		# AVERAGES WILL BE WRONG SINCE VALUES SHOULD HAVE DIFFERENT COUNTERS
+		counter[year_product_key] += 1
+
+	# calculate value averages
+	made_lost_avg = dict()
+	budget_overage_avg = dict()
+	overhead_pct_avg = dict()
+	schedule_overage_avg = dict()
+	for year_product_key in year_product_key_list:
+		made_lost_avg_unformatted = made_lost_total[year_product_key] / counter[year_product_key]
+		made_lost_avg[year_product_key] = currency_formatter(made_lost_avg_unformatted)
+		budget_overage_avg[year_product_key] = round((budget_overage_total[year_product_key] / counter[year_product_key]), 0)
+		overhead_pct_avg[year_product_key] = round((overhead_pct_total[year_product_key] / counter[year_product_key]), 0)
+		schedule_overage_avg[year_product_key] = round((schedule_overage_total[year_product_key] / counter[year_product_key]), 1)
+
+	##### JS chart stuff #####
+	reversed_years = []
+	reversed_years = sorted(years)
+	year_data = ', '.join('"{0}"'.format(y) for y in reversed_years)
+	year_data_str = 'labels: ['+year_data+']'
+
+	# overall average budget
+	chart_budget_data = []
+	chart_schedule_data = []
+	chart_overhead_data = []
+	for year in reversed_years:
+		for year_entry in year_details:
+			if year_entry['completion_year'] == year:
+				# budget chart data -- overall average
+				chart_budget_data.append(str(year_entry['overall_budget_overage_avg']))
+				chart_schedule_data.append(str(year_entry['overall_schedule_overage_avg']))
+				chart_overhead_data.append(str(year_entry['overall_overhead_avg']))
+
+	chart_overall_budget_data_str = ', '.join(chart_budget_data)
+	chart_overall_schedule_data_str = ', '.join(chart_schedule_data)
+	chart_overall_overhead_data_str = ', '.join(chart_overhead_data)
+
+	# average budget performance -- small projects <= 25 hours
+	# for every project with a budget <= 25 hours, add up (((spent / budget) - 1) * 100) / count
+	# get project counts for all completed small, medium, and large projects
+	overall_project_counts = {'small':0, 'medium':0, 'large':0}
+	small_project_budget_overage_avg = []
+	medium_project_budget_overage_avg = []
+	large_project_budget_overage_avg = []
+	small_project_schedule_overage_avg = []
+	medium_project_schedule_overage_avg = []
+	large_project_schedule_overage_avg = []
+	small_project_overhead_avg = []
+	medium_project_overhead_avg = []
+	large_project_overhead_avg = []
+	project_size_schedule_overage_avg = dict()
+	all_small_project_count = dict()
+	all_medium_project_count = dict()
+	all_large_project_count = dict()
+	chart_project_schedule_overage_avg_str = {'small':0, 'medium':0, 'large':0}
+	chart_project_overhead_avg_str = {'small':0, 'medium':0, 'large':0}
+	for year in reversed_years:
+		small_project_count = 0
+		medium_project_count = 0
+		large_project_count = 0
+		small_project_budget_overage_pct = 0
+		medium_project_budget_overage_pct = 0
+		large_project_budget_overage_pct = 0
+		project_size_schedule_overage_sums = {'small':0, 'medium':0, 'large':0}
+		project_size_overhead_sums = {'small':0, 'medium':0, 'large':0}
+		for entry in completed_projects_details:
+			if entry['year'] == year:
+				if entry['project_size'] == 'small':
+					small_project_count += 1
+					overall_project_counts['small'] += 1
+					if entry['budget_overage_pct'] != '---':
+						small_project_budget_overage_pct += entry['budget_overage_pct']
+					if entry['schedule_overage'] != '---':
+						project_size_schedule_overage_sums['small'] += entry['schedule_overage']
+					if entry['overhead_pct'] != '---':
+						project_size_overhead_sums['small'] += entry['overhead_pct']
+				elif entry['project_size'] == 'medium':
+					medium_project_count += 1
+					overall_project_counts['medium'] += 1
+					if entry['budget_overage_pct'] != '---':
+						medium_project_budget_overage_pct += entry['budget_overage_pct']
+					if entry['schedule_overage'] != '---':
+						project_size_schedule_overage_sums['medium'] += entry['schedule_overage']
+					if entry['overhead_pct'] != '---':
+						project_size_overhead_sums['medium'] += entry['overhead_pct']
+				elif entry['project_size'] == 'large':
+					large_project_count += 1
+					overall_project_counts['large'] += 1
+					if entry['budget_overage_pct'] != '---':
+						large_project_budget_overage_pct += entry['budget_overage_pct']
+					if entry['schedule_overage'] != '---':
+						project_size_schedule_overage_sums['large'] += entry['schedule_overage']
+					if entry['overhead_pct'] != '---':
+						project_size_overhead_sums['large'] += entry['overhead_pct']
+
+		small_project_budget_overage_avg.append(str(round((small_project_budget_overage_pct / small_project_count),0)))
+		medium_project_budget_overage_avg.append(str(round((medium_project_budget_overage_pct / medium_project_count),0)))
+		large_project_budget_overage_avg.append(str(round((large_project_budget_overage_pct / large_project_count),0)))
+
+		small_project_schedule_overage_avg.append(str(round((project_size_schedule_overage_sums['small'] / small_project_count),1)))
+		medium_project_schedule_overage_avg.append(str(round((project_size_schedule_overage_sums['medium'] / medium_project_count),1)))
+		large_project_schedule_overage_avg.append(str(round((project_size_schedule_overage_sums['large'] / large_project_count),1)))
+
+		small_project_overhead_avg.append(str(round((project_size_overhead_sums['small'] / small_project_count),0)))
+		medium_project_overhead_avg.append(str(round((project_size_overhead_sums['medium'] / medium_project_count),0)))
+		large_project_overhead_avg.append(str(round((project_size_overhead_sums['large'] / large_project_count),0)))
+
+		# all_small_project_count[year] = small_project_count
+		# all_medium_project_count[year] = medium_project_count
+		# all_large_project_count[year] = large_project_count
+
+	chart_small_project_budget_overage_avg_str = ', '.join(small_project_budget_overage_avg)
+	chart_medium_project_budget_overage_avg_str = ', '.join(medium_project_budget_overage_avg)
+	chart_large_project_budget_overage_avg_str = ', '.join(large_project_budget_overage_avg)
+
+	chart_project_schedule_overage_avg_str['small'] = ', '.join(small_project_schedule_overage_avg)
+	chart_project_schedule_overage_avg_str['medium'] = ', '.join(medium_project_schedule_overage_avg)
+	chart_project_schedule_overage_avg_str['large'] = ', '.join(large_project_schedule_overage_avg)
+
+	chart_project_overhead_avg_str['small'] = ', '.join(small_project_overhead_avg)
+	chart_project_overhead_avg_str['medium'] = ', '.join(medium_project_overhead_avg)
+	chart_project_overhead_avg_str['large'] = ', '.join(large_project_overhead_avg)
+
+
+	context = {
+		"scorecard" : True,
+		"show_menu": True,
+		"completed_projects_count": completed_projects_count,
+		"completed_projects_details": completed_projects_details,
+		"budget_overage_avg": budget_overage_avg,
+		"made_lost_avg": made_lost_avg,
+		"overhead_pct_avg": overhead_pct_avg,
+		"schedule_overage_avg": schedule_overage_avg,
+		"years": years,
+		"product_list": product_list,
+		"first_year": first_year,
+		"year_details": year_details,
+		"year_data_str": year_data_str,
+		"chart_overall_budget_data_str": chart_overall_budget_data_str,
+		"chart_overall_schedule_data_str": chart_overall_schedule_data_str,
+		"chart_overall_overhead_data_str": chart_overall_overhead_data_str,
+		"chart_small_project_budget_overage_avg_str": chart_small_project_budget_overage_avg_str,
+		"chart_medium_project_budget_overage_avg_str": chart_medium_project_budget_overage_avg_str,
+		"chart_large_project_budget_overage_avg_str": chart_large_project_budget_overage_avg_str,
+		"overall_project_counts": overall_project_counts,
+		"chart_project_schedule_overage_avg_str": chart_project_schedule_overage_avg_str,
+		"chart_project_overhead_avg_str": chart_project_overhead_avg_str
+	}
+
+	return render(request, 'pm/scorecard.html', context)
+
+@login_required
+def scorecard_csv(request):
+	# fake rate applied to all projects. use only until model has been updated to account for actual project rates
+	chargeout_rate = 150
+	# get a list of all billable projects with a completion date
+	completed_projects = Project.objects.filter(category__category_name__in = ['Billable'], completed_on__isnull=False).values()
+
+	# count of all projects
+	completed_projects_count = len(completed_projects)
+
+	# calculate stats for all completed projects
+	csv_export = []
+	schedule_counter = 0
+	budget_overage_total = 0
+	made_lost_total = 0
+	overhead_pct_total = 0
+	schedule_overage_total = 0
+	for entry in completed_projects:
+		# get year from completed_on field
+		year = entry['completed_on'].strftime('%Y')
+		product = entry['product_id']
+		# need to calculate made/lost, budget overage pct, schedule overage pct, overhead pct
+
+		###### made/lost calc --> (budget - total_hours_spent) * rate
+		made_lost_unformatted = (entry['budget'] - entry['total_hours_spent']) * chargeout_rate
+		made_lost_total += made_lost_unformatted
+		made_lost = currency_formatter(made_lost_unformatted)
+
+		###### budget overage pct calc --> ((total_hours_spent / budget) - 1) * 100
+		budget_overage_indicator = ''
+		if entry['budget'] != 0:
+			budget_overage_pct = round((((entry['total_hours_spent'] / entry['budget']) - 1) * 100),0)
+			budget_overage_total += budget_overage_pct
+		else:
+			budget_overage_pct = '---'
+
+		###### schedule overage pct calc --> ((days between actual start and end) / (days between planned start and end) - 1) * 100
+		actual_start_date = entry['start_date']
+		deadline = entry['deadline']
+		actual_end_date = entry['completed_on']
+
+		if actual_start_date:
+			if deadline:
+				schedule_counter += 1
+				planned_days = (deadline - actual_start_date).days
+				actual_days = (actual_end_date - actual_start_date).days
+				if planned_days > 0:
+					schedule_overage = round((actual_days / planned_days),1)
+				else:
+					schedule_overage = 0
+				schedule_overage_total += schedule_overage
+			else:
+				schedule_overage = '---'
+		else:
+			schedule_overage = '---'
+
+
+		###### overhead pct calc --> (total_admin_hours_spent / budget) * 100
+		if entry['total_hours_spent'] > 0:
+			overhead_pct = round(((entry['total_admin_hours_spent'] / entry['total_hours_spent']) * 100),0)
+			overhead_pct_total += overhead_pct
+		else:
+			overhead_pct = 0
+
+		if entry['budget'] <= 25:
+			project_size = 'small'
+		elif entry['budget'] > 25 and entry['budget'] <= 150:
+			project_size = 'medium'
+		elif entry['budget'] > 150:
+			project_size = 'large'
+
+
+		csv_project_details_list = {
+			"redmine_project_url": entry['redmine_project_url'],
+			"client_name": entry['client_name'],
+			"project_desc": entry['project_desc'],
+			"made_lost_unformatted": made_lost_unformatted,
+			"budget_overage_pct": budget_overage_pct,
+			"overhead_pct": overhead_pct,
+			"schedule_overage": schedule_overage,
+			"year": year,
+			"product": product,
+			"project_size": project_size
+		}
+		csv_export.append(csv_project_details_list)
+
+	context = { "csv_export": csv_export }
+
+	return render(request, 'pm/scorecard_csv.html', context)	
+

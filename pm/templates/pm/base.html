@@ -31,6 +31,12 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    {% if scorecard %}
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+      <script src="{% static 'pm/js/scorecard_chart.js' %}"></script>
+    {% endif %}
+
   </head>
   <body>
 
@@ -44,7 +50,16 @@
 				<ul class="nav navbar-nav navbar-right nav-pills">
 
           {% if show_menu %}
-            <li><a href="{% url 'project_list' %}" class="current_page">Projects</a></li>
+            {% if project_list %}
+              <li><a href="{% url 'project_list' %}" class="current_page">Projects</a></li>
+            {% else %}
+              <li><a href="{% url 'project_list' %}">Projects</a></li>
+            {% endif %}
+            {% if scorecard %}
+              <li><a href="{% url 'scorecard' %}" class="current_page">Scorecard</a></li>
+            {% else %}
+              <li><a href="{% url 'scorecard' %}">Scorecard</a></li>
+            {% endif %}
             {% if user.is_superuser %}
               <li><a href="/admin/pm/project/" target="_blank">Admin</a></li>
             {% endif %}
@@ -93,12 +108,6 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-    {% if scorecard %}
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-      <script src="{% static 'pm/js/scorecard_chart.js' %}"></script>
-    {% endif %}
 
 
     {% if autocomplete %}
