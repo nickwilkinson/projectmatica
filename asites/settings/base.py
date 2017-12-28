@@ -31,7 +31,6 @@ path.append(DJANGO_ROOT)
 
 
 ########## SITE CONFIGURATION
-# SECRET_KEY = '4m-z^&eglub_uix0t@ayy2h7fld#h6ay)q^*m&hl#l(o!@m0(e'
 SECRET_KEY = env('DJANGO_SECRET_KEY')
 DEBUG = env('DEBUG') # False if not in os.environ
 # ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]']
