@@ -45,9 +45,9 @@ INSTALLED_APPS = [
 ########## BACKUP CONFIGURATION
 DBBACKUP_STORAGE = env('DBBACKUP_STORAGE')
 DBBACKUP_STORAGE_OPTIONS = {
-    'access_key': env('DB_ACCESS_KEY'),
-    'secret_key': env('DB_SECRET_KEY'),
-    'bucket_name': env('DB_BUCKET_NAME')
+    'access_key': env('DBBACKUP_ACCESS_KEY'),
+    'secret_key': env('DBBACKUP_SECRET_KEY'),
+    'bucket_name': env('DBBACKUP_BUCKET_NAME')
 }
 ########## END BACKUP CONFIGURATION
 
@@ -58,10 +58,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'projectmatica',
-	'USER': env('DB_USER'),
-	'PASSWORD': env('DB_PASSWORD'),
-	'HOST': env('DB_HOST'),
-	'PORT': '',
+		'USER': env('DB_USER'),
+		'PASSWORD': env('DB_PASSWORD'),
+		'HOST': env('DB_HOST'),
+		'PORT': ''
     }
 }
 ########## END DATABASE CONFIGURATION
