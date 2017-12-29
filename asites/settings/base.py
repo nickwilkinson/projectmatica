@@ -3,6 +3,7 @@ Common settings and globals (local and production).
 Environment vars are defined in a .env file stored in the settings directory.
 django-environ is a dependency. install instructions: http://django-environ.readthedocs.io/en/latest/index.html
 see env variable config instructions at http://django-environ.readthedocs.io/en/latest/
+.env variable assignment syntax --> FOO='BAR' (no spaces allowed around the '=')
 """
 
 import os

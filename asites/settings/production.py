@@ -55,14 +55,14 @@ DBBACKUP_STORAGE_OPTIONS = {
 ########## DATABASE CONFIGURATION
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'projectmatica',
+	'default': {
+		'ENGINE': 'django.db.backends.postgresql_psycopg2',
+		'NAME': 'projectmatica',
 		'USER': env('DB_USER'),
 		'PASSWORD': env('DB_PASSWORD'),
 		'HOST': env('DB_HOST'),
 		'PORT': ''
-    }
+	}
 }
 ########## END DATABASE CONFIGURATION
 
