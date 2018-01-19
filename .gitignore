@@ -5,7 +5,8 @@ myvenv
 db.sqlite3
 /static
 .DS_Store
-settings.py
+settings0.py
 /pm/management/commands/time_import_log
 /projectmatica-env
 db.sqlite3 copy
+/asites/settings/.env
