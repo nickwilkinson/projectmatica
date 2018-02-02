@@ -796,7 +796,10 @@ def scorecard(request):
 
 
 		# calculate overall schedule overage average for the given year
-		overall_schedule_overage_avg = round((sum(schedule_overages) / len(schedule_overages)),1)
+		if len(schedule_overages) != 0:
+			overall_schedule_overage_avg = round((sum(schedule_overages) / len(schedule_overages)),1)
+		else:
+			overall_schedule_overage_avg = 0
 
 		# calculate overall overhead average for the given year
 		overall_overhead_avg = round((sum(overhead_pcts) / len(overhead_pcts)),0)
@@ -982,17 +985,32 @@ def scorecard(request):
 					if entry['overhead_pct'] != '---':
 						project_size_overhead_sums['large'] += entry['overhead_pct']
 
-		small_project_budget_overage_avg.append(str(round((small_project_budget_overage_pct / small_project_count),0)))
-		medium_project_budget_overage_avg.append(str(round((medium_project_budget_overage_pct / medium_project_count),0)))
-		large_project_budget_overage_avg.append(str(round((large_project_budget_overage_pct / large_project_count),0)))
+		if small_project_count != 0:
+			small_project_budget_overage_avg.append(str(round((small_project_budget_overage_pct / small_project_count),0)))
+			small_project_schedule_overage_avg.append(str(round((project_size_schedule_overage_sums['small'] / small_project_count),1)))
+			small_project_overhead_avg.append(str(round((project_size_overhead_sums['small'] / small_project_count),0)))
+		else:
+			small_project_budget_overage_avg.append(str(0))
+			small_project_schedule_overage_avg.append(str(0))
+			small_project_overhead_avg.append(str(0))
 
-		small_project_schedule_overage_avg.append(str(round((project_size_schedule_overage_sums['small'] / small_project_count),1)))
-		medium_project_schedule_overage_avg.append(str(round((project_size_schedule_overage_sums['medium'] / medium_project_count),1)))
-		large_project_schedule_overage_avg.append(str(round((project_size_schedule_overage_sums['large'] / large_project_count),1)))
+		if medium_project_count != 0:
+			medium_project_budget_overage_avg.append(str(round((medium_project_budget_overage_pct / medium_project_count),0)))
+			medium_project_schedule_overage_avg.append(str(round((project_size_schedule_overage_sums['medium'] / medium_project_count),1)))
+			medium_project_overhead_avg.append(str(round((project_size_overhead_sums['medium'] / medium_project_count),0)))
+		else:
+			medium_project_budget_overage_avg.append(str(0))
+			medium_project_schedule_overage_avg.append(str(0))
+			medium_project_overhead_avg.append(str(0))
 
-		small_project_overhead_avg.append(str(round((project_size_overhead_sums['small'] / small_project_count),0)))
-		medium_project_overhead_avg.append(str(round((project_size_overhead_sums['medium'] / medium_project_count),0)))
-		large_project_overhead_avg.append(str(round((project_size_overhead_sums['large'] / large_project_count),0)))
+		if large_project_count != 0:
+			large_project_budget_overage_avg.append(str(round((large_project_budget_overage_pct / large_project_count),0)))
+			large_project_schedule_overage_avg.append(str(round((project_size_schedule_overage_sums['large'] / large_project_count),1)))
+			large_project_overhead_avg.append(str(round((project_size_overhead_sums['large'] / large_project_count),0)))
+		else:
+			large_project_budget_overage_avg.append(str(0))
+			large_project_schedule_overage_avg.append(str(0))
+			large_project_overhead_avg.append(str(0))
 
 		# all_small_project_count[year] = small_project_count
 		# all_medium_project_count[year] = medium_project_count
